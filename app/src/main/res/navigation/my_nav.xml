@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.suitupdaily.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/closetFragment"
+        android:name="com.example.suitupdaily.ClosetFragment"
+        android:label="fragment_closet"
+        tools:layout="@layout/fragment_closet" />
+    <fragment
+        android:id="@+id/codiFragment"
+        android:name="com.example.suitupdaily.CodiFragment"
+        android:label="fragment_codi"
+        tools:layout="@layout/fragment_codi" />
+    <fragment
+        android:id="@+id/snsFragment"
+        android:name="com.example.suitupdaily.SnsFragment"
+        android:label="fragment_sns"
+        tools:layout="@layout/fragment_sns" />
+</navigation>

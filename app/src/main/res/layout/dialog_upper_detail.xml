@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/btn_upper_cancel"
+        android:layout_width="29dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView20"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_cancel_24" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:text="상의"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_cancel_category"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_short_tee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="반팔티셔츠"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView29"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView29"
+        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+    <TextView
+        android:id="@+id/tv_long_tee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="긴팔티셔츠"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_short_tee"
+        app:layout_constraintStart_toStartOf="@+id/tv_short_tee"
+        app:layout_constraintTop_toBottomOf="@+id/tv_short_tee" />
+
+    <TextView
+        android:id="@+id/tv_man_to_man"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="맨투맨"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_long_tee"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_long_tee"
+        app:layout_constraintTop_toBottomOf="@+id/tv_long_tee" />
+
+    <TextView
+        android:id="@+id/tv_hood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="후드티"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_cardigan"
+        app:layout_constraintStart_toStartOf="@+id/tv_cardigan"
+        app:layout_constraintTop_toBottomOf="@+id/tv_cardigan" />
+
+    <TextView
+        android:id="@+id/tv_shirt_short"
+        android:layout_width="86dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:text="반팔 셔츠"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_man_to_man"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_man_to_man"
+        app:layout_constraintTop_toBottomOf="@+id/tv_man_to_man" />
+
+    <TextView
+        android:id="@+id/tv_shirt_long"
+        android:layout_width="86dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:text="긴팔 셔츠"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_man_to_man"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_man_to_man"
+        app:layout_constraintTop_toBottomOf="@+id/tv_shirt_short" />
+
+    <TextView
+        android:id="@+id/tv_neat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="니트"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_shirt_short"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_shirt_short"
+        app:layout_constraintTop_toBottomOf="@+id/tv_shirt_long" />
+
+    <TextView
+        android:id="@+id/tv_cardigan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="가디건"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_neat"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_neat"
+        app:layout_constraintTop_toBottomOf="@+id/tv_neat" />
+</androidx.constraintlayout.widget.ConstraintLayout>

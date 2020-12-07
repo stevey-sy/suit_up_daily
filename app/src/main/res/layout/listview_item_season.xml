@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="TEXT"
+            android:id="@+id/text_item_season"
+            android:textSize="20sp"
+            android:gravity="center" />
+
+        <CheckBox
+            android:layout_alignEnd="@id/text_item_season"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/check_box_season"
+            android:focusable="false"
+            android:clickable="false" />
+
+    </RelativeLayout>
+
+
+
+
+
+</androidx.cardview.widget.CardView>

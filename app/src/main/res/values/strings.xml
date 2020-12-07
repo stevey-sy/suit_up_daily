@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Suit Up Daily</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="season_multiple_choice">
+        <item>모든 시즌</item>
+        <item>봄</item>
+        <item>여름</item>
+        <item>가을</item>
+        <item>겨울</item>
+    </string-array>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:text="하의"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_cancel_category2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_pants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="면바지"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView36"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView36"
+        app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
+    <TextView
+        android:id="@+id/text_slex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="슬렉스"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_pants"
+        app:layout_constraintStart_toStartOf="@+id/text_pants"
+        app:layout_constraintTop_toBottomOf="@+id/text_pants" />
+
+    <TextView
+        android:id="@+id/text_jean"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="청바지"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_slex"
+        app:layout_constraintStart_toStartOf="@+id/text_slex"
+        app:layout_constraintTop_toBottomOf="@+id/text_slex" />
+
+    <TextView
+        android:id="@+id/text_training_pants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="트레이닝바지"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_jean"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_jean"
+        app:layout_constraintTop_toBottomOf="@+id/text_jean" />
+
+    <TextView
+        android:id="@+id/text_short_pants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="반바지"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_training_pants"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_training_pants"
+        app:layout_constraintTop_toBottomOf="@+id/text_training_pants" />
+
+    <ImageView
+        android:id="@+id/btn_cancel_category2"
+        android:layout_width="29dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView20"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_cancel_24" />
+</androidx.constraintlayout.widget.ConstraintLayout>

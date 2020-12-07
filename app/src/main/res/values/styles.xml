@@ -1,0 +1,33 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:itemBackground">@android:color/black</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextAppearance</item>
+
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <!-- for appcompat-->
+        <item name="actionMenuTextColor">#FFFFFF</item>
+
+
+    </style>
+
+    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="popupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@android:color/black</item>
+    </style>
+
+</resources>

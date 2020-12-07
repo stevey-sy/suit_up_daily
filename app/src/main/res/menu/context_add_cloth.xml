@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/img_camera"
+        android:title="카메라에서 직접 촬영" />
+    <item
+        android:id="@+id/img_gallery"
+        android:title="겔러리에서 이미지 가져오기" />
+
+
+</menu>
