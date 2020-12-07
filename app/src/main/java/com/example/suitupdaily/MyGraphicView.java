@@ -258,13 +258,13 @@ public class MyGraphicView extends View {
 //            canvas.drawColor(Color.WHITE);
 //            canvas.drawBitmap(outer.getImage(), null, outer.getRect(), null);
 //        }
-
+        canvas.drawColor(Color.WHITE);
         if(!pics.isEmpty()) {
             for (int i = 0; i < pics.size(); i++) {
                 canvas.drawBitmap(pics.get(i).getPicture(), pics.get(i).getPicX(), pics.get(i).getPicY(), pics.get(i).getPaint());
 //                canvas.drawBitmap(MU.get(i).getImage(), null,  MU.get(i).getRect(), null);
             }
-            canvas.drawColor(Color.WHITE);
+
             canvas.translate(mPosX, mPosY);
             canvas.scale(mScaleFactor, mScaleFactor);
         }

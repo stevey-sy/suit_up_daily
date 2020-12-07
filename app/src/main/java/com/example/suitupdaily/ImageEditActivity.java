@@ -65,7 +65,6 @@ import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerView;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
-
 import org.opencv.android.Utils;
 import org.opencv.core.CvException;
 import org.opencv.core.Mat;
@@ -171,7 +170,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
         status = extras.getInt("code");
 //        byte[] byteArray = getIntent().getByteArrayExtra("Image");
 
-
         toolbar = findViewById(R.id.toolbar_add_cloth);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -194,7 +192,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 
         text_date = (EditText) findViewById(R.id.text_date);
         text_fit = (EditText) findViewById(R.id.text_cloth_size);
-
 
         text_season = (EditText) findViewById(R.id.text_season);
         text_guide = (TextView) findViewById(R.id.msg_choose);
