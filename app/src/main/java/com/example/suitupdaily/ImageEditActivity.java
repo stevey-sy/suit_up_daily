@@ -133,8 +133,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 
     final String[] season_list = new String[] {"모두", "봄", "여름", "가을", "겨울"};
 
-
-
     final int CODE_GALLERY_REQUEST = 999;
     private String name = "";
     int IMG_REQUEST = 21;
