@@ -122,6 +122,7 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
     Context context;
 
     private int status = 0;
+    private int say = 1;
     private Mat img;
 
     private Dialog dialog;
