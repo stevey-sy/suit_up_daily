@@ -582,9 +582,27 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
 //                uploadCodi();
                 break;
 
+            // 저장 버튼을 눌렀을 때의 이벤트
             case R.id.btn_save_codi:
-                uploadCodi();
-                mg.reset();
+
+//                uploadCodi();
+//                mg.reset();
+
+                // 편집된 이미지를 byteArray 로 바꾸어 intent 에 담아, 다음 액티비티로 넘기는 코드
+                Intent intent = new Intent(getApplicationContext(), CodiInfo.class);
+
+                View MyView = mg.getView();
+                bitmap = getBitmapFromView(MyView);
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+                intent.putExtra("edited_image", byteArray);
+                intent.putExtra("code", 888);
+                intent.putExtra("userID", user_id);
+                startActivity(intent);
+
         }
     }
 

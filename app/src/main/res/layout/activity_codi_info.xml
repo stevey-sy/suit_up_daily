@@ -28,8 +28,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="800dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/image_view_codi"
                 android:layout_width="210dp"
                 android:layout_height="266dp"
                 android:layout_marginTop="20dp"
@@ -58,18 +58,17 @@
                 android:ems="10"
                 android:hint="선택해주세요 (필수)"
                 android:inputType="textPersonName"
-                android:text="Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView22"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/image_view_codi" />
 
             <EditText
                 android:id="@+id/editTextTextPersonName2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="어디서 입을 옷인가요?"
                 android:inputType="textPersonName"
-                android:text="선택해주세요 (필수)"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView22"
                 app:layout_constraintTop_toTopOf="@+id/textView37" />
@@ -81,7 +80,6 @@
                 android:ems="10"
                 android:hint="해쉬태그를 남겨보세요."
                 android:inputType="textPersonName"
-                android:text="Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView22"
                 app:layout_constraintTop_toTopOf="@+id/textView38" />
@@ -93,7 +91,6 @@
                 android:ems="10"
                 android:hint="메모를 남겨보세요."
                 android:inputType="textPersonName"
-                android:text="Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView22"
                 app:layout_constraintTop_toTopOf="@+id/textView39" />
