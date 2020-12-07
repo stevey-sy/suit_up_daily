@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SelfCodi">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_add_codi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="코디 하기"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/closet_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:umanoDragView="@id/my_drawer"
+            app:umanoPanelHeight="50dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginTop="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.example.suitupdaily.MyGraphicView
+                    android:id="@+id/my_graphic_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    app:layout_constraintBottom_toTopOf="@+id/second_linear"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <LinearLayout
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/second_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/black_de"
+                    android:layout_alignParentBottom="true">
+
+                    <Button
+                        android:id="@+id/btn_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="초기화"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_save_codi"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <Button
+                        android:id="@+id/btn_save_codi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="103dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="저장"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btn_reset" />
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/btn_my_drawer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/black_de"
+                    android:text="내 옷장 열기"
+                    android:textColor="@color/white" />
+
+                <ScrollView
+                    android:layout_below="@id/btn_my_drawer"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_upper_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#686868"
+                            android:gravity="center"
+                            android:text="계절 선택"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <RadioGroup
+                            android:id="@+id/codi_season_rg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_upper_title"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radio_all_season_codi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="모두" />
+
+                            <RadioButton
+                                android:id="@+id/radio_spring_codi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="봄" />
+
+                            <RadioButton
+                                android:id="@+id/radio_summer_codi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="여름" />
+
+                            <RadioButton
+                                android:id="@+id/radio_fall_codi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="가을" />
+
+                            <RadioButton
+                                android:id="@+id/radio_winter_codi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="겨울" />
+
+                        </RadioGroup>
+
+                        <TextView
+                            android:id="@+id/tv_item_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/codi_season_rg"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#686868"
+                            android:gravity="center"
+                            android:text="Item List"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_item_upper"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_title"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:text="상의"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tv_no_upper"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_below="@id/tv_item_upper"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#bdbebd"
+                            android:gravity="center"
+                            android:text="가져올 데이터가 없습니다.."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_upper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_upper"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#686868"
+                            android:scrollbars="horizontal" />
+
+                        <TextView
+                            android:id="@+id/tv_item_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_upper"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="150dp"
+                            android:text="하의"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tv_no_bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_below="@id/tv_item_bottom"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#bdbebd"
+                            android:gravity="center"
+                            android:text="가져올 데이터가 없습니다.."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_bottom"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#686868"
+                            android:scrollbars="horizontal" />
+
+                        <TextView
+                            android:id="@+id/tv_item_outer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_bottom"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="150dp"
+                            android:text="아우터"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tv_no_outer"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_below="@id/tv_item_outer"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#bdbebd"
+                            android:gravity="center"
+                            android:text="가져올 데이터가 없습니다.."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_outer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_outer"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#686868"
+                            android:scrollbars="horizontal" />
+
+                    </RelativeLayout>
+
+                </ScrollView>
+
+
+            </RelativeLayout>
+
+
+
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

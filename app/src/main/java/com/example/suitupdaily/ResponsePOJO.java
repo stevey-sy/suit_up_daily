@@ -1,0 +1,138 @@
+package com.example.suitupdaily;
+
+import com.google.gson.annotations.SerializedName;
+
+public class ResponsePOJO {
+
+    private boolean status;
+    private String remarks;
+
+    @SerializedName("result")
+    private String result;
+
+    @SerializedName("message")
+    private String message;
+
+    @SerializedName("idx")
+    private String idx;
+
+    @SerializedName("user_id")
+    private String id;
+
+    @SerializedName("category")
+    private String category;
+
+    @SerializedName("img_location")
+    private String picture;
+
+    @SerializedName("date")
+    private String date;
+
+    @SerializedName("color")
+    private String color;
+
+    @SerializedName("season")
+    private String season;
+
+    @SerializedName("cloth_type")
+    private String type;
+
+    @SerializedName("fit")
+    private String fit;
+
+    public String getFit() {
+        return fit;
+    }
+
+    public void setFit(String fit) {
+        this.fit = fit;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isStatus () {
+        return status;
+    }
+
+    public String getRemarks () {
+        return remarks;
+    }
+
+    public String getIdx() {
+        return idx;
+    }
+
+    public void setIdx(String idx) {
+        this.idx = idx;
+    }
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+}

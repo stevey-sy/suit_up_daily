@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyClosetActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_home"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="@color/black_de"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="100sp"
+
+            android:text="옷장"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="89dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/drawer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity= "top"
+        android:background= "#00FFFFFF"
+        app:umanoDragView="@id/linear_test"
+        app:umanoPanelHeight="50dp"
+        app:umanoOverlay="false"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_home">
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="30sp"-->
+<!--            android:text="CONTENTS" />-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="460dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_outer"
+                android:background="#d3d3d3"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_closet_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="TextView"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/recycler_view" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_add_floating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="56dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.881"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_baseline_add_24" />
+
+            <Button
+                android:id="@+id/btn_upper"
+                android:layout_width="60dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="10dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="상의"
+                app:layout_constraintEnd_toStartOf="@+id/btn_bottom"
+                app:layout_constraintStart_toStartOf="@+id/recycler_view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_bottom"
+                android:layout_width="60dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="6dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="하의"
+                app:layout_constraintEnd_toStartOf="@+id/btn_outer"
+                app:layout_constraintStart_toEndOf="@+id/btn_upper"
+                app:layout_constraintTop_toTopOf="@+id/btn_upper" />
+
+            <Button
+                android:id="@+id/btn_outer"
+                android:layout_width="60dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="4dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="아우터"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/btn_shoes"
+                app:layout_constraintStart_toEndOf="@+id/btn_bottom"
+                app:layout_constraintTop_toTopOf="@+id/btn_upper" />
+
+            <Button
+                android:id="@+id/btn_shoes"
+                android:layout_width="60dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="5dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="신발"
+                app:layout_constraintEnd_toStartOf="@+id/btn_accessory"
+                app:layout_constraintStart_toEndOf="@+id/btn_outer"
+                app:layout_constraintTop_toTopOf="@+id/btn_upper" />
+
+            <Button
+                android:id="@+id/btn_accessory"
+                android:layout_width="60dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="7dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="악세서리"
+                app:layout_constraintEnd_toEndOf="@+id/recycler_view"
+                app:layout_constraintStart_toEndOf="@+id/btn_shoes"
+                app:layout_constraintTop_toTopOf="@+id/btn_upper" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/linear_test"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            >
+            <TextView
+                android:id="@+id/tv_title_season"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingStart="50dp"
+                android:text="계절"
+                android:textColor="@color/black_de"
+                android:background="#a9a9a9"
+                android:textSize="24sp"
+                tools:ignore="RtlSymmetry" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:id="@+id/season_radio_group"
+                android:layout_below="@id/tv_title_season">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="모두"
+                    android:id="@+id/radio_all_season"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="봄"
+                    android:id="@+id/radio_spring" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="여름"
+                    android:id="@+id/radio_summer" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="가을"
+                    android:id="@+id/radio_fall" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="겨울"
+                    android:id="@+id/radio_winter" />
+
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_below="@id/season_radio_group"
+                android:id="@+id/tv_title_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingStart="50dp"
+                android:text="컬러"
+                android:textColor="@color/black_de"
+                android:background="#a9a9a9"
+                android:textSize="24sp"
+                tools:ignore="RtlSymmetry" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@id/tv_title_season"
+                android:id="@+id/recyclerview_season"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="multipleChoice"
+                tools:listitem="@layout/season_item"/>
+
+            <Button
+                android:id="@+id/btn_filter_downward"
+                android:layout_width="match_parent"
+                android:drawablePadding="6dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#000000"
+                android:textColor="#FFFFFF"
+                android:text="Filter"
+                android:layout_alignParentBottom="true" />
+
+
+
+        </RelativeLayout>
+
+
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="HOME" />
+
+    <item
+        android:id="@+id/closetFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_hanger"
+        android:title="옷장" />
+
+    <item
+        android:id="@+id/codiFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_accessibility_24"
+        android:title="코디하기" />
+
+    <item
+        android:id="@+id/snsFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_people_alt_24"
+        android:title="SNS" />
+
+</menu>

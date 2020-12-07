@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "610915202344",
+    "firebase_url": "https://suitupdaily-a2f93.firebaseio.com",
+    "project_id": "suitupdaily-a2f93",
+    "storage_bucket": "suitupdaily-a2f93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610915202344:android:fb0a8ba24e69ebe80c0c1d",
+        "android_client_info": {
+          "package_name": "com.example.suitupdaily"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610915202344-i8p50i4ggbf4b0j55v75ms5v9lo1gkda.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.suitupdaily",
+            "certificate_hash": "cd58a843fc01ee1c59e4f45f4f7438f7433bde92"
+          }
+        },
+        {
+          "client_id": "610915202344-2jj19qqvm7tra6pag6qbnu4jlcg0bd31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHUUwM0rDq5RW2cZv_zZCXpZmJpHubuTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610915202344-2jj19qqvm7tra6pag6qbnu4jlcg0bd31.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="400dp">
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:text="계절 선택 (필수 사항)"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="204dp"
+        android:layout_height="182dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView31"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView31">
+
+        <RadioButton
+            android:id="@+id/rb_all_season"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="모두" />
+
+        <RadioButton
+            android:id="@+id/rb_spring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="봄" />
+
+        <RadioButton
+            android:id="@+id/rb_summer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="여름" />
+
+        <RadioButton
+            android:id="@+id/rb_fall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="가을" />
+
+        <RadioButton
+            android:id="@+id/rb_winter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="겨울" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_season_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="확인"
+        app:layout_constraintEnd_toEndOf="@+id/textView31"
+        app:layout_constraintHorizontal_bias="0.853"
+        app:layout_constraintStart_toStartOf="@+id/textView31"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group" />
+</androidx.constraintlayout.widget.ConstraintLayout>
