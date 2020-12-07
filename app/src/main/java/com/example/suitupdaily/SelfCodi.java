@@ -274,7 +274,7 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                         .into(new CustomTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                mg.addBottom(resource);
+                                mg.addImage(resource);
                             }
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {
@@ -304,7 +304,7 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                         .into(new CustomTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                mg.addOuter(resource);
+                                mg.addImage(resource);
                             }
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {
