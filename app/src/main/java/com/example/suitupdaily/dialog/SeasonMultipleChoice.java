@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +44,7 @@ public class SeasonMultipleChoice {
     public SeasonMultipleChoice (Context context) {
         this.context = context;
     }
-    public void callFunction(final EditText text_season) {
+    public void callFunction(final TextView text_season) {
 
         final Dialog dialog = new Dialog(context);
 
@@ -163,17 +164,17 @@ public class SeasonMultipleChoice {
 //                if(cb_fall.isChecked() == true) result += cb_fall.getText().toString();
 //                if(cb_winter.isChecked() == true) result += cb_winter.getText().toString();
 
-                if(cb_spring.isChecked() == true) result += cb_spring.getText().toString() + "/";
-                if(cb_summer.isChecked() == true) result += cb_summer.getText().toString() + "/";
-                if(cb_fall.isChecked() == true) result += cb_fall.getText().toString() + "/";
-                if(cb_winter.isChecked() == true) result += cb_winter.getText().toString() + "/";
+                if(cb_spring.isChecked() == true) result += cb_spring.getText().toString() + ", ";
+                if(cb_summer.isChecked() == true) result += cb_summer.getText().toString() + ", ";
+                if(cb_fall.isChecked() == true) result += cb_fall.getText().toString() + ", ";
+                if(cb_winter.isChecked() == true) result += cb_winter.getText().toString() + ", ";
 
 
                 if(!cb_spring.isChecked() && !cb_summer.isChecked() && !cb_fall.isChecked() && !cb_winter.isChecked()) {
                     Toast.makeText(context, "적어도 하나 이상은 선택해주세요." , Toast.LENGTH_SHORT).show();
                 } else {
 
-                    String noLast = result.substring(0, result.length()-1);
+                    String noLast = result.substring(0, result.length()-2);
 
                     text_season.setText(noLast);
                     dialog.dismiss();
