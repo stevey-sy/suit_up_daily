@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CodiInfo"></activity>
+        <activity android:name=".CodiInfo" android:windowSoftInputMode="adjustResize">
+        </activity>
         <activity android:name=".ShowRoom" />
         <activity android:name=".SelfCodi" />
         <activity android:name=".DoNotShowAgain" />
