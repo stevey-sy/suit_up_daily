@@ -294,7 +294,7 @@
                 app:layout_constraintTop_toTopOf="@+id/color_square" />
 
             <View
-                android:id="@+id/underline_color"
+                android:id="@+id/underline_season"
                 android:layout_width="220dp"
                 android:layout_height="1dp"
                 android:layout_centerInParent="true"
