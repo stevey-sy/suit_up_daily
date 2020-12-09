@@ -1,29 +1,21 @@
 package com.example.suitupdaily;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
@@ -34,12 +26,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,14 +40,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.suitupdaily.color.ColorUtils;
 import com.example.suitupdaily.dialog.DialogColorGuide;
 import com.example.suitupdaily.dialog.SeasonMultipleChoice;
 import com.example.suitupdaily.grid.ColorGridAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.skydoves.colorpickerview.AlphaTileView;
 import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerView;
@@ -72,7 +58,6 @@ import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,7 +65,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import petrov.kristiyan.colorpicker.ColorPicker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -179,7 +163,7 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
         colorPickerView = (ColorPickerView) findViewById(R.id.img_cloth);
         tv_color = (TextView) findViewById(R.id.tv_color_title);
         color_square = (AlphaTileView) findViewById(R.id.color_square);
-        underline_color = (View) findViewById(R.id.underline_color);
+        underline_color = (View) findViewById(R.id.underline_season);
 
 //        btn_upload = (Button) findViewById(R.id.btn_save);
 
