@@ -203,7 +203,7 @@
 
             <TextView
                 android:id="@+id/text_view_hash_tag"
-                android:layout_width="wrap_content"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="TextView"
