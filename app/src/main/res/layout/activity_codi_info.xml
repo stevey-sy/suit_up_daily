@@ -138,11 +138,11 @@
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:text="계절"
                 app:layout_constraintEnd_toStartOf="@+id/text_view_codi_season"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_view_codi" />
+                app:layout_constraintTop_toBottomOf="@+id/text_view_hash_tag" />
 
             <TextView
                 android:id="@+id/textView37"
