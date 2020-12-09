@@ -1,8 +1,11 @@
 package com.example.suitupdaily;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,10 +13,12 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.suitupdaily.dialog.DialogCodi;
 import com.example.suitupdaily.dialog.DialogCodiPlace;
 import com.example.suitupdaily.dialog.SeasonMultipleChoice;
 
@@ -64,7 +69,27 @@ public class CodiInfo extends AppCompatActivity {
         text_view_codi_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogCodiPlace dialogCodiPlace = new DialogCodiPlace(CodiInfo.this);
+                final ConstraintLayout layout = (ConstraintLayout) View.inflate(CodiInfo.this, R.layout.dialog_codi_place, null);
+                new AlertDialog.Builder(CodiInfo.this)
+                        .setView(layout)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText hash = (EditText) layout.findViewById(R.id.text_input_hash);
+                                String value = hash.getText().toString();
+
+                                text_view_codi_place.setText(value);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+
             }
         });
 
@@ -126,4 +151,5 @@ public class CodiInfo extends AppCompatActivity {
         }
         return spans;
     }
+
 }
