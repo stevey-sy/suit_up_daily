@@ -138,8 +138,11 @@ public class CodiInfo extends AppCompatActivity {
         button_tag_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTagLists.remove(mTagLists.size() -1);
-                setContent();
+
+                if (mTagLists.size() > 0) {
+                    mTagLists.remove(mTagLists.size() -1);
+                    setContent();
+                }
             }
         });
 
