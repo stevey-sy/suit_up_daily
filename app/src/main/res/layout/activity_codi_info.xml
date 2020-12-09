@@ -104,16 +104,20 @@
                 android:background="#000000"
                 app:layout_constraintEnd_toEndOf="@+id/text_view_codi_season"
                 app:layout_constraintStart_toStartOf="@+id/text_view_codi_season"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_codi_memo" />
+                app:layout_constraintTop_toBottomOf="@+id/text_view_codi_tag" />
 
-            <TextView
-                android:id="@+id/text_view_codi_memo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/text_view_codi_tag"
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:background="@drawable/memo_border"
                 android:ems="10"
-                android:hint="해쉬태그를 남겨보세요."
-                android:inputType="textPersonName"
+                android:gravity="top"
+                android:hint="해쉬태그를 남겨보세요.                  ex) 출근룩, 데이트룩, 코디 좀 봐줘"
+                android:inputType="textMultiLine"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.545"
                 app:layout_constraintStart_toEndOf="@+id/textView22"
                 app:layout_constraintTop_toTopOf="@+id/textView38" />
 
@@ -121,13 +125,12 @@
                 android:id="@+id/memo_area"
                 android:layout_width="180dp"
                 android:layout_height="100dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="36dp"
                 android:background="@drawable/memo_border"
                 android:ems="10"
                 android:gravity="top"
                 android:hint="메모를 남겨보세요."
                 android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView22"
                 app:layout_constraintTop_toTopOf="@+id/textView39" />
@@ -136,7 +139,7 @@
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="40dp"
                 android:text="계절"
                 app:layout_constraintEnd_toStartOf="@+id/text_view_codi_season"
                 app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +171,7 @@
                 android:id="@+id/textView39"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="64dp"
                 android:text="메모"
                 app:layout_constraintEnd_toStartOf="@+id/text_view_codi_season"
                 app:layout_constraintHorizontal_bias="0.51"
@@ -206,11 +209,32 @@
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="TextView"
                 app:layout_constraintEnd_toEndOf="@+id/image_view_codi"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/image_view_codi"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_codi" />
+
+            <Button
+                android:id="@+id/button_tag_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="태그 적용"
+                app:layout_constraintEnd_toEndOf="@+id/text_view_codi_tag"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/text_view_codi_tag"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_codi_tag" />
+
+            <Button
+                android:id="@+id/button_tag_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="지우기"
+                app:layout_constraintEnd_toStartOf="@+id/button_tag_test"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/text_view_codi_tag"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_codi_tag" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
