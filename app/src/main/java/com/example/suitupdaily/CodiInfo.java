@@ -23,8 +23,12 @@ import com.example.suitupdaily.dialog.DialogCodiPlace;
 import com.example.suitupdaily.dialog.SeasonMultipleChoice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.text.TextUtils.isEmpty;
 
 // 사용자가 코디 이미지를 선택 후, 코디에 대한 정보를 입력 할 수 있는 액티비티
 public class CodiInfo extends AppCompatActivity {
@@ -32,6 +36,9 @@ public class CodiInfo extends AppCompatActivity {
     private ImageView image_view_codi;
     private Bitmap bitmap;
     private TextView text_view_codi_season, text_view_codi_place;
+    private EditText text_input_tag;
+    private String string_hash_tag;
+    private Button button_tag_test, button_tag_remove;
 
     private ArrayList<String> mTagLists;
 
@@ -42,7 +49,14 @@ public class CodiInfo extends AppCompatActivity {
 
         image_view_codi = (ImageView) findViewById(R.id.image_view_codi);
         text_view_codi_season = (TextView) findViewById(R.id.text_view_codi_season);
+        text_input_tag = (EditText) findViewById(R.id.text_view_codi_tag);
+        button_tag_test = (Button) findViewById(R.id.button_tag_test);
+        button_tag_remove = (Button) findViewById(R.id.button_tag_remove);
         text_view_codi_place = (TextView) findViewById(R.id.text_view_codi_place);
+        // 해쉬 태그가 표시될 텍스트 뷰
+
+        // 해쉬 태그 문자열을 넣을 array list
+        mTagLists = new ArrayList<String> ();
 
         // SelfCodi 클래스에서 사용자가 편집한 이미지를 받아오는 intent
         Intent getDataFromSelfCodi = getIntent();
@@ -76,9 +90,19 @@ public class CodiInfo extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText hash = (EditText) layout.findViewById(R.id.text_input_hash);
-                                String value = hash.getText().toString();
 
-                                text_view_codi_place.setText(value);
+                                string_hash_tag = hash.getText().toString();
+                                text_view_codi_place.setText(string_hash_tag);
+
+                                String [] toColumnNm = string_hash_tag.split(",");
+                                for(int i=0; i< toColumnNm.length; i++) {
+                                    mTagLists.add(toColumnNm[i]);
+                                }
+
+                                if(!isEmpty(string_hash_tag)) {
+                                    setContent();
+                                }
+
                                 dialog.dismiss();
                             }
                         })
@@ -90,15 +114,35 @@ public class CodiInfo extends AppCompatActivity {
                         })
                         .show();
 
+
             }
         });
 
-        mTagLists = new ArrayList<String> ();
-        mTagLists.add("홍길동");
-        mTagLists.add("고길동");
-        mTagLists.add("둘리");
+        button_tag_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                string_hash_tag = text_input_tag.getText().toString();
 
-        setContent();
+                String [] toColumnNm = string_hash_tag.split(", ");
+                for(int i=0; i< toColumnNm.length; i++) {
+                    mTagLists.add(toColumnNm[i]);
+                }
+
+                if(!isEmpty(string_hash_tag)) {
+                    setContent();
+                    text_input_tag.setText(null);
+                }
+            }
+        });
+
+        button_tag_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTagLists.remove(mTagLists.size() -1);
+                setContent();
+            }
+        });
+
     }
 
     private void setContent() {
@@ -129,10 +173,12 @@ public class CodiInfo extends AppCompatActivity {
         }
 
         TextView tags_view = (TextView)findViewById(R.id.text_view_hash_tag);
+//        tags_view.setVisibility(View.INVISIBLE);
 
         if(tags_view != null) {
             tags_view.setMovementMethod(LinkMovementMethod.getInstance());
             tags_view.setText(tagsContent);
+            tags_view.setVisibility(View.VISIBLE);
         }
     }
 
