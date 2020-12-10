@@ -102,7 +102,6 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
 
         SharedPreferences sf = getSharedPreferences("codi",MODE_PRIVATE);
         check_show = sf.getBoolean("codi_checker", false);
-
         check_show = sf.getBoolean("checker", false);
 
         if (!check_show) {
@@ -519,48 +518,48 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
             }
         });
     }
-
-    private void uploadCodi() {
-
-        View MyView = mg.getView();
-        bitmap = getBitmapFromView(MyView);
-
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("코디 데이터 추가 중...");
-        progressDialog.show();
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
-
-        byte[] imageInByte = byteArrayOutputStream.toByteArray();
-
-        // 서버에 보낼 데이터 정의
-        String encodedImage = Base64.encodeToString(imageInByte, Base64.DEFAULT);
-        String id = user_id;
-
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage);
-        call.enqueue(new Callback<ResponsePOJO>() {
-            @Override
-            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
-                progressDialog.dismiss();
-                Toast.makeText(SelfCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(),MyClosetActivity.class);
-//                intent.putExtra("userID", user_id);
-//                startActivity(intent);//액티비티 띄우기
-
-                if(response.body().isStatus()) {
-
-                } else {
-
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
-                Toast.makeText(SelfCodi.this, "Network Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-//        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
-    }
+    // 코디 정보 서버로 업로드 하는 메소드
+//    private void uploadCodi() {
+//
+//        View MyView = mg.getView();
+//        bitmap = getBitmapFromView(MyView);
+//
+//        final ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("코디 데이터 추가 중...");
+//        progressDialog.show();
+//
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
+//
+//        byte[] imageInByte = byteArrayOutputStream.toByteArray();
+//
+//        // 서버에 보낼 데이터 정의
+//        String encodedImage = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+//        String id = user_id;
+//
+//        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage);
+//        call.enqueue(new Callback<ResponsePOJO>() {
+//            @Override
+//            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+//                progressDialog.dismiss();
+//                Toast.makeText(SelfCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+////                Intent intent = new Intent(getApplicationContext(),MyClosetActivity.class);
+////                intent.putExtra("userID", user_id);
+////                startActivity(intent);//액티비티 띄우기
+//
+//                if(response.body().isStatus()) {
+//
+//                } else {
+//
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+//                Toast.makeText(SelfCodi.this, "Network Failed", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+////        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
+//    }
 
     @Override
     protected void onResume() {
