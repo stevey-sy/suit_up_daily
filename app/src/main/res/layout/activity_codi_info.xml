@@ -175,6 +175,7 @@
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:textColor="#1e90ff"
                 app:layout_constraintEnd_toEndOf="@+id/image_view_codi"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/image_view_codi"
