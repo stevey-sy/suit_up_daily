@@ -165,7 +165,6 @@ public class CodiInfo extends AppCompatActivity {
                 if (mTagLists.size() > 0) {
                     mTagLists.remove(mTagLists.size() -1);
                     setContent();
-
                 }
             }
         });
@@ -190,7 +189,6 @@ public class CodiInfo extends AppCompatActivity {
         }
 
         ArrayList<int[]> hashtagSpans = getSpans(tag, '#');
-
         SpannableString tagsContent = new SpannableString(tag);
 
         for (i=0; i<hashtagSpans.size(); i++) {
@@ -202,14 +200,10 @@ public class CodiInfo extends AppCompatActivity {
             hashTag.setOnClickEventListener(new HashTag.ClickEventListener() {
                 @Override
                 public void onClickEvent(String data) {
-
                 }
             });
-
             tagsContent.setSpan(hashTag, hashTagStart, hashTagEnd, 0);
         }
-
-//        tags_view.setVisibility(View.INVISIBLE);
 
         if(tags_view != null) {
             tags_view.setMovementMethod(LinkMovementMethod.getInstance());
@@ -255,21 +249,20 @@ public class CodiInfo extends AppCompatActivity {
         String hash_tag = tags_view.getText().toString();
         String tags_no_hash = removeHash(hash_tag);
         String memo = memo_area.getText().toString();
+        String season = text_view_codi_season.getText().toString();
 
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage, hash_tag, memo);
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage, season, hash_tag, memo);
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
                 progressDialog.dismiss();
                 Toast.makeText(CodiInfo.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(),MyClosetActivity.class);
-//                intent.putExtra("userID", user_id);
-//                startActivity(intent);//액티비티 띄우기
+                Intent intent = new Intent(getApplicationContext(), ShowRoom.class);
+                intent.putExtra("userID", user_id);
+                startActivity(intent);//액티비티 띄우기
 
                 if(response.body().isStatus()) {
-
                 } else {
-
                 }
             }
             @Override
@@ -300,5 +293,4 @@ public class CodiInfo extends AppCompatActivity {
 //        }
         return no_hash;
     }
-
 }
