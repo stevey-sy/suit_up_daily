@@ -55,6 +55,17 @@ public class ShowRoom extends AppCompatActivity {
             @Override
             public void onRowClick(View view, int position) {
 
+                Toast.makeText(getApplicationContext(), "Test 중입니다." , Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ShowRoom.this, CodiDetail.class);
+                intent.putExtra("userID", user_id);
+                intent.putExtra("idx", clothList.get(position).getIdx());
+                intent.putExtra("picture", clothList.get(position).getPicture());
+                intent.putExtra("season", clothList.get(position).getSeason());
+                intent.putExtra("tags", clothList.get(position).getTags());
+                intent.putExtra("memo", clothList.get(position).getMemo());
+
+                startActivity(intent);
+
             }
         };
     }
