@@ -105,7 +105,7 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.codi_info_container:
+                case R.id.codi_show_view:
                     mListener.onRowClick(mRowContainer, getAdapterPosition());
                     break;
             }
