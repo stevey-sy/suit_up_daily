@@ -48,6 +48,9 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
 //        holder.idx.setText(clothList.get(position).getPicture());
         Log.d("코디 이미지: ", clothList.get(position).getPicture());
 
+        holder.date.setText(clothList.get(position).getDate());
+        holder.hash_tags.setText(clothList.get(position).getTags());
+        holder.memo.setText(clothList.get(position).getMemo());
 
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
@@ -61,7 +64,6 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
                 .load(clothList.get(position).getPicture())
                 .apply(requestOptions)
                 .into(holder.mPicture);
-
     }
 
 
@@ -77,7 +79,7 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
     public static class ShowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ShowViewClickListener mListener = null;
-        private TextView mCategory, mDate, mColor, mSeason, idx, mType, mFit;
+        private TextView mCategory, mDate, mColor, mSeason, idx, mType, mFit, hash_tags, memo, date;
         private ImageView mPicture;
         private LinearLayout mRowContainer;
 
@@ -88,6 +90,11 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
             // idx
             idx = itemView.findViewById(R.id.tv_codi_idx);
             idx.setVisibility(View.GONE);
+
+            hash_tags = itemView.findViewById(R.id.text_view_show_tags);
+            memo = itemView.findViewById(R.id.text_view_show_memo);
+            memo.setVisibility(View.GONE);
+            date = itemView.findViewById(R.id.text_view_codi_date);
 
             mRowContainer = itemView.findViewById(R.id.codi_show_view);
             mListener = listener;
