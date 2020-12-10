@@ -40,6 +40,28 @@ public class ResponsePOJO {
     @SerializedName("fit")
     private String fit;
 
+    @SerializedName("hash_tag")
+    private String tags;
+
+    @SerializedName("memo")
+    private String memo;
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
     public String getFit() {
         return fit;
     }
