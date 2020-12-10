@@ -7,7 +7,7 @@
     tools:context=".CodiDetail">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar4"
+        android:id="@+id/toolbar_codi_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -29,11 +29,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar4"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_codi_detail"
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,12 +44,14 @@
             <ImageView
                 android:id="@+id/image_view_codi_detail"
                 android:layout_width="264dp"
-                android:layout_height="343dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
 
+                app:layout_constraintBottom_toTopOf="@+id/text_view_tag_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
 
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_clothes_hanger" />
 
@@ -56,10 +59,11 @@
                 android:id="@+id/text_view_tag_list"
                 android:layout_width="264dp"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:text="TextView"
                 android:textColor="#1e90ff"
                 app:layout_constraintEnd_toEndOf="@+id/image_view_codi_detail"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/image_view_codi_detail"
                 app:layout_constraintTop_toBottomOf="@+id/image_view_codi_detail" />
 
@@ -67,23 +71,42 @@
                 android:id="@+id/textView37"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:text="메모"
+                android:textColor="@color/black_de"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/text_view_memo_detail"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/text_view_memo_detail"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_tag_list" />
+                app:layout_constraintTop_toBottomOf="@+id/text_view_date_detail" />
 
             <TextView
                 android:id="@+id/text_view_memo_detail"
                 android:layout_width="262dp"
                 android:layout_height="127dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
                 android:background="#f5f5dc"
                 android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/image_view_codi_detail"
                 app:layout_constraintStart_toStartOf="@+id/image_view_codi_detail"
                 app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+            <TextView
+                android:id="@+id/text_view_date_detail"
+                android:layout_width="264dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="10sp"
+                android:gravity="right"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="@+id/image_view_codi_detail"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/image_view_codi_detail"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_tag_list" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
