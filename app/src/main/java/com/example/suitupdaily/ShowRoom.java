@@ -54,8 +54,7 @@ public class ShowRoom extends AppCompatActivity {
         listener = new ShowRoomAdapter.ShowViewClickListener() {
             @Override
             public void onRowClick(View view, int position) {
-
-                Toast.makeText(getApplicationContext(), "Test 중입니다." , Toast.LENGTH_SHORT).show();
+                // 다음 액티비티에 필요한 데이터를 intent에 담는다.
                 Intent intent = new Intent(ShowRoom.this, CodiDetail.class);
                 intent.putExtra("userID", user_id);
                 intent.putExtra("idx", clothList.get(position).getIdx());
@@ -64,16 +63,12 @@ public class ShowRoom extends AppCompatActivity {
                 intent.putExtra("tags", clothList.get(position).getTags());
                 intent.putExtra("memo", clothList.get(position).getMemo());
                 intent.putExtra("date", clothList.get(position).getDate());
-
-
                 startActivity(intent);
-
             }
         };
     }
 
     public void getCodi() {
-
         String id = user_id;
 //        String type = load_type;
 //        String season = selected_season;
