@@ -17,10 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CodiDetail"></activity>
+        <activity android:name=".CodiModify"></activity>
+        <activity android:name=".CodiDetail" />
         <activity
             android:name=".CodiInfo"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ShowRoom" />
         <activity android:name=".SelfCodi" />
         <activity android:name=".DoNotShowAgain" />
