@@ -19,7 +19,9 @@ public interface Api {
     @POST("closet/codi_upload.php")
     Call<ResponsePOJO> uploadCodi(
             @Field("id") String id,
-            @Field("EN_IMAGE") String encodedImage
+            @Field("EN_IMAGE") String encodedImage,
+            @Field("hash_tag") String tags_no_hash,
+            @Field("memo") String memo
     );
 
     @FormUrlEncoded
