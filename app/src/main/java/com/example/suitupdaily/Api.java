@@ -25,6 +25,13 @@ public interface Api {
     );
 
     @FormUrlEncoded
+    @POST("closet/codi_delete.php")
+    Call<ResponsePOJO> deleteCodi(
+            @Field("key") String key,
+            @Field("picture") String picture
+    );
+
+    @FormUrlEncoded
     @POST("codi/codi_read.php")
     Call<List<ResponsePOJO>> getCodi(
             @Field("id") String id
