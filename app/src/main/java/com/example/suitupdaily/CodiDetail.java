@@ -109,6 +109,18 @@ public class CodiDetail extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.modify:
                 // 다음 액티비티로 데이터 넘기기
+                // 다음 액티비티에 필요한 데이터를 intent에 담는다.
+                Intent intent = new Intent(CodiDetail.this, CodiModify.class);
+                intent.putExtra("userID", user_id);
+                intent.putExtra("idx", idx);
+                intent.putExtra("picture", picture);
+                intent.putExtra("season", season);
+                intent.putExtra("tags", tags);
+                intent.putExtra("memo", memo);
+                intent.putExtra("date", date);
+                startActivity(intent);
+                return true;
+
             case R.id.delete:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(CodiDetail.this);
                 dialog.setMessage("코디를 삭제하시겠습니까?");
