@@ -20,6 +20,7 @@ public interface Api {
     Call<ResponsePOJO> uploadCodi(
             @Field("id") String id,
             @Field("EN_IMAGE") String encodedImage,
+            @Field("season") String season,
             @Field("hash_tag") String tags_no_hash,
             @Field("memo") String memo
     );
@@ -29,6 +30,16 @@ public interface Api {
     Call<ResponsePOJO> deleteCodi(
             @Field("key") String key,
             @Field("picture") String picture
+    );
+
+    @FormUrlEncoded
+    @POST("closet/codi_modify.php")
+    Call<ResponsePOJO> modifyCodi(
+            @Field("key") String key,
+            @Field("id") String id,
+            @Field("season") String season,
+            @Field("hash_tag") String hash_tag,
+            @Field("memo") String memo
     );
 
     @FormUrlEncoded
