@@ -63,6 +63,8 @@ public class ShowRoom extends AppCompatActivity {
                 intent.putExtra("season", clothList.get(position).getSeason());
                 intent.putExtra("tags", clothList.get(position).getTags());
                 intent.putExtra("memo", clothList.get(position).getMemo());
+                intent.putExtra("date", clothList.get(position).getDate());
+
 
                 startActivity(intent);
 
