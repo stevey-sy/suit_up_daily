@@ -62,17 +62,6 @@
                 app:layout_constraintStart_toEndOf="@+id/textView22"
                 app:layout_constraintTop_toTopOf="@+id/textView22" />
 
-            <TextView
-                android:id="@+id/text_view_codi_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="언제 입을 옷인가요?"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView22"
-                app:layout_constraintTop_toTopOf="@+id/textView37" />
-
             <View
                 android:id="@+id/underline_season"
                 android:layout_width="180dp"
@@ -83,17 +72,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/text_view_codi_season"
                 app:layout_constraintStart_toStartOf="@+id/text_view_codi_season"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_codi_season" />
-
-            <View
-                android:id="@+id/underline_place"
-                android:layout_width="180dp"
-                android:layout_height="1dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="5dp"
-                android:background="#000000"
-                app:layout_constraintEnd_toEndOf="@+id/text_view_codi_season"
-                app:layout_constraintStart_toStartOf="@+id/text_view_codi_season"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_codi_place" />
 
             <View
                 android:id="@+id/underline_tag"
@@ -145,26 +123,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_view_hash_tag" />
 
             <TextView
-                android:id="@+id/textView37"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="언제"
-                app:layout_constraintEnd_toStartOf="@+id/text_view_codi_season"
-                app:layout_constraintHorizontal_bias="0.504"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_codi_season" />
-
-            <TextView
                 android:id="@+id/textView38"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:text="태그"
                 app:layout_constraintEnd_toStartOf="@+id/text_view_codi_season"
                 app:layout_constraintHorizontal_bias="0.51"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/underline_place" />
+                app:layout_constraintTop_toBottomOf="@+id/underline_season" />
 
             <TextView
                 android:id="@+id/textView39"

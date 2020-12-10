@@ -19,31 +19,17 @@ import com.example.suitupdaily.R;
 
 import java.util.ArrayList;
 
-public class DialogCodiPlace extends Dialog{
+public class DialogCodiPlace {
 
     private Context context;
     private CustomDialogClickListener customDialogClickListener;
 
     private TextView text_view_near_home;
-
-    private ArrayList<String> mTagLists;
-
+    private EditText edit_text_hash_tag;
 
     public DialogCodiPlace (@NonNull Context context) {
-        super(context);
         this.context = context;
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_codi_place);
-
-
-    }
-
-
-
 
 //    public void callFunction (final TextView codi_place) {
 //
@@ -68,35 +54,18 @@ public class DialogCodiPlace extends Dialog{
 //        dialog.show();
 //
 //        // xml 요소와 연결
-//        final TextView text_view_near_home = (TextView) dialog.findViewById(R.id.text_view_near_home);
-//        final TextView text_view_company_style = (TextView) dialog.findViewById(R.id.text_view_company_style);
-//        final TextView text_view_chill_out = (TextView) dialog.findViewById(R.id.text_view_chill_out);
-//        final EditText edit_text_self_input = (EditText) dialog.findViewById(R.id.edit_text_self_input);
+////        final TextView text_view_near_home = (TextView) dialog.findViewById(R.id.text_view_near_home);
+////        final TextView text_view_company_style = (TextView) dialog.findViewById(R.id.text_view_company_style);
+////        final TextView text_view_chill_out = (TextView) dialog.findViewById(R.id.text_view_chill_out);
+//        final EditText edit_text_self_input = (EditText) dialog.findViewById(R.id.text_input_hash);
 //        final Button button_codi_confirm = (Button) dialog.findViewById(R.id.button_codi_confirm);
 //
 //        String self_input = edit_text_self_input.getText().toString();
-//        final String a = "1";
 //
 //        text_view_near_home.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                codi_place.setText("집 근처 룩");
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        text_view_company_style.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                codi_place.setText("출근 룩");
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        text_view_chill_out.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                codi_place.setText("친구들 약속 룩");
 //                dialog.dismiss();
 //            }
 //        });

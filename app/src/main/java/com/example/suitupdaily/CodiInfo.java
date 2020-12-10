@@ -52,7 +52,7 @@ public class CodiInfo extends AppCompatActivity {
         text_input_tag = (EditText) findViewById(R.id.text_view_codi_tag);
         button_tag_test = (Button) findViewById(R.id.button_tag_test);
         button_tag_remove = (Button) findViewById(R.id.button_tag_remove);
-        text_view_codi_place = (TextView) findViewById(R.id.text_view_codi_place);
+//        text_view_codi_place = (TextView) findViewById(R.id.text_view_codi_place);
         // 해쉬 태그가 표시될 텍스트 뷰
 
         // 해쉬 태그 문자열을 넣을 array list
@@ -79,49 +79,47 @@ public class CodiInfo extends AppCompatActivity {
         });
 
         // 장소 선택 버튼 눌렀을 때의 이벤트
-        text_view_codi_place.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // layout 을 새로 생성하여 만들어놓은 dialog xml 파일을 연결
-                final ConstraintLayout layout = (ConstraintLayout) View.inflate(CodiInfo.this, R.layout.dialog_codi_place, null);
-                new AlertDialog.Builder(CodiInfo.this)
-                        .setView(layout)
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // dialog에서 사용자의 입력을 받은 EditText 선언
-                                EditText hash = (EditText) layout.findViewById(R.id.text_input_hash);
-                                // EditText에 담긴 내용을 string으로 변환
-                                string_hash_tag = hash.getText().toString();
-                                // 액티비티에 있는 EditText로 String을 담는다. (사용자에게 보여주기 위해서)
-                                text_view_codi_place.setText(string_hash_tag);
-
-                                // 사용자가 입력한 string에서 ","을 기준으로 나누어, array list 에 담는다.
-                                String [] toColumnNm = string_hash_tag.split(",");
-                                for(int i=0; i< toColumnNm.length; i++) {
-                                    mTagLists.add(toColumnNm[i]);
-                                }
-
-                                //
-                                if(!isEmpty(string_hash_tag)) {
-                                    // string을 hastag 처럼 보이도록 하는 메서드
-                                    setContent();
-                                }
-
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-
-
-            }
-        });
+//        text_view_codi_place.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // layout 을 새로 생성하여 만들어놓은 dialog xml 파일을 연결
+//                final ConstraintLayout layout = (ConstraintLayout) View.inflate(CodiInfo.this, R.layout.dialog_codi_place, null);
+//                new AlertDialog.Builder(CodiInfo.this)
+//                        .setView(layout)
+//                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // dialog에서 사용자의 입력을 받은 EditText 선언
+//                                EditText hash = (EditText) layout.findViewById(R.id.text_input_hash);
+//                                // EditText에 담긴 내용을 string으로 변환
+//                                string_hash_tag = hash.getText().toString();
+//                                // 액티비티에 있는 EditText로 String을 담는다. (사용자에게 보여주기 위해서)
+//                                text_view_codi_place.setText(string_hash_tag);
+//
+//                                // 사용자가 입력한 string에서 ","을 기준으로 나누어, array list 에 담는다.
+//                                String [] toColumnNm = string_hash_tag.split(",");
+//                                for(int i=0; i< toColumnNm.length; i++) {
+//                                    mTagLists.add(toColumnNm[i]);
+//                                }
+//
+//                                //
+//                                if(!isEmpty(string_hash_tag)) {
+//                                    // string을 hastag 처럼 보이도록 하는 메서드
+//                                    setContent();
+//                                }
+//
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .show();
+//            }
+//        });
 
         // 태그 적용 버튼을 눌렀을 때의 이벤트
         button_tag_test.setOnClickListener(new View.OnClickListener() {
