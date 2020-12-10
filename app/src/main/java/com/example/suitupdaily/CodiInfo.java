@@ -256,7 +256,7 @@ public class CodiInfo extends AppCompatActivity {
         String tags_no_hash = removeHash(hash_tag);
         String memo = memo_area.getText().toString();
 
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage, tags_no_hash, memo);
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage, hash_tag, memo);
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
