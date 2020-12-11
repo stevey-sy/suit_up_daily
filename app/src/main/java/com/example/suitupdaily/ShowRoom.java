@@ -1,12 +1,20 @@
 package com.example.suitupdaily;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,22 +31,30 @@ public class ShowRoom extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private ShowRoomAdapter adapter;
     ShowRoomAdapter.ShowViewClickListener listener;
-
+    private Menu action;
     private TextView tv_no_codi;
-
     private String user_id;
-
     private List<ResponsePOJO> clothList;
+    private Toolbar toolbar;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_room);
 
+        //사용자 아이디를 받는 intent
         Intent intent_id = getIntent();
-                user_id = intent_id.getStringExtra("userID");
+        user_id = intent_id.getStringExtra("userID");
 
+        // 툴바 설정
+        toolbar = findViewById(R.id.toolbar_show_room);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
 
+        // xml 연결
         recyclerView = findViewById(R.id.recycler_show_room);
         tv_no_codi = (TextView) findViewById(R.id.tv_no_codi);
 
@@ -65,6 +81,7 @@ public class ShowRoom extends AppCompatActivity {
         };
     }
 
+    // 서버에서 내 코디 정보 가져오는 메서드
     public void getCodi() {
         String id = user_id;
 //        String type = load_type;
@@ -87,8 +104,6 @@ public class ShowRoom extends AppCompatActivity {
                     adapter = new ShowRoomAdapter(clothList, ShowRoom.this, listener);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
-
                 } else if (response.body() == null) {
                     recyclerView.setVisibility(View.GONE);
                     tv_no_codi.setVisibility(View.VISIBLE);
@@ -119,4 +134,27 @@ public class ShowRoom extends AppCompatActivity {
         startActivity(intent);//액티비티 띄우기
     }
 
+    // 툴바 메뉴 불러오기
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_show_room, menu);
+        action = menu;
+        return true;
+    }
+
+    // 툴바 메뉴 클릭 시 이벤트 (코디 추가)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_codi:
+                // 다음 액티비티로 데이터 넘기기
+                // 다음 액티비티에 필요한 데이터를 intent에 담는다.
+                Intent intent = new Intent(ShowRoom.this, SelfCodi.class);
+                intent.putExtra("userID", user_id);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
