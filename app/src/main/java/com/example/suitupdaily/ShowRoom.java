@@ -11,11 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.suitupdaily.recycler.ShowRoomAdapter;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,6 +109,14 @@ public class ShowRoom extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getCodi();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), Home.class);
+        intent.putExtra("userID", user_id);
+        startActivity(intent);//액티비티 띄우기
     }
 
 }
