@@ -53,7 +53,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Custo
         holder.mType.setText(clothList.get(position).getType());
         holder.mFit.setText(clothList.get(position).getType());
 
-
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.skipMemoryCache(true);
@@ -110,7 +109,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Custo
 
             mListener = listener;
             mRowContainer.setOnClickListener(this);
-
         }
 
         @Override
@@ -120,7 +118,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.Custo
                     mListener.onRowClick(mRowContainer, getAdapterPosition());
                     break;
             }
-
         }
     }
 

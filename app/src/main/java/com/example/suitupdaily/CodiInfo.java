@@ -232,7 +232,6 @@ public class CodiInfo extends AppCompatActivity {
 
     // 서버 업로드 메소드
     private void uploadCodi() {
-
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("코디 데이터 추가 중...");
         progressDialog.show();

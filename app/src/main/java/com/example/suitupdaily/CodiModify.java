@@ -173,7 +173,6 @@ public class CodiModify extends AppCompatActivity {
         }
 
         ArrayList<int[]> hashtagSpans = getSpans(tag, '#');
-
         SpannableString tagsContent = new SpannableString(tag);
 
         for (i=0; i<hashtagSpans.size(); i++) {
