@@ -113,7 +113,6 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         shared_editor.putBoolean("checker", true);
         shared_editor.commit();
 
-
         // 툴바 연결
         toolbar = findViewById(R.id.toolbar_add_codi);
         setSupportActionBar(toolbar);
@@ -121,27 +120,33 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
+        //xml 연결
         mg = (MyGraphicView) findViewById(R.id.my_graphic_view);
         btn_reset = (Button) findViewById(R.id.btn_reset);
         btn_reset.setOnClickListener(this);
-
         btn_save_codi = (Button) findViewById(R.id.btn_save_codi);
         btn_save_codi.setOnClickListener(this);
-
         btn_my_drawer = (Button) findViewById(R.id.btn_my_drawer);
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_upper);
         bottom_recycler = (RecyclerView) findViewById(R.id.recycler_bottom);
         outer_recycler = (RecyclerView) findViewById(R.id.recycler_outer);
-
         tv_no_upper = (TextView) findViewById(R.id.tv_no_upper);
         tv_no_upper.setVisibility(View.GONE);
-
         tv_no_bottom = (TextView) findViewById(R.id.tv_no_bottom);
         tv_no_bottom.setVisibility(View.GONE);
-
         tv_no_outer = (TextView) findViewById(R.id.tv_no_outer);
         tv_no_outer.setVisibility(View.GONE);
+
+        // 옷 보기 액티비티에서 사용자가 코디버튼을 눌렀을 때의 이벤트
+        int request_code = 0;
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        request_code = extras.getInt("code");
+        if (request_code == 800) {
+            byte[] arr = getIntent().getByteArrayExtra("image_cloth");
+            Bitmap bitmap_cloth = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+            mg.addImage(bitmap_cloth);
+        }
 
         season_radio_group = (RadioGroup) findViewById(R.id.codi_season_rg);
 
