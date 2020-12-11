@@ -322,8 +322,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
                 shared_editor.putBoolean("checker", false);
                 shared_editor.commit();
             }
-
-
 //            ClothCategoryDialog clothCategoryDialog = new ClothCategoryDialog(ImageEditActivity.this);
 //            clothCategoryDialog.callFunction(cloth_type, text_main_category);
 
