@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
@@ -56,7 +57,7 @@ public class ItemInfo extends AppCompatActivity implements DatePickerDialog.OnDa
     private String user_id ,category, picture, idx, date, season, color, fit, cloth_type;
     private Toolbar toolbar;
     private ActionBar actionBar;
-    private FloatingActionButton btn_change_pic;
+    private FloatingActionButton btn_change_pic, button_codi;
     private Menu action;
     private Bitmap bitmap;
     private Api apiInterface;
@@ -92,6 +93,7 @@ public class ItemInfo extends AppCompatActivity implements DatePickerDialog.OnDa
         img_cloth = (ImageView)findViewById(R.id.image_cloth);
         main_category = (EditText)findViewById(R.id.text_main_category);
         btn_change_pic = findViewById(R.id.btn_change_pic);
+        button_codi = findViewById(R.id.button_do_codi);
         text_modify_color = (EditText)findViewById(R.id.text_modify_color);
         text_modify_date = (EditText)findViewById(R.id.text_modify_date);
         text_modify_season = (EditText)findViewById(R.id.text_modify_season);
@@ -120,7 +122,27 @@ public class ItemInfo extends AppCompatActivity implements DatePickerDialog.OnDa
                 chooseFile();
             }
         });
+        // 코디 버튼 눌렀을 때의 이벤트
+        button_codi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BitmapDrawable drawable = (BitmapDrawable) img_cloth.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
 
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream);
+                byte[] byteArray = stream.toByteArray();
+                // 이미지 뷰에 담긴 이미지를 bitmap -> byte array 로 변환
+                // 액티비티 넘긴다.
+                // 특정 intent 받으면, canvas로 자동 출력하기
+                // 다음 액티비티에 필요한 데이터를 intent에 담는다.
+                Intent intent = new Intent(ItemInfo.this, SelfCodi.class);
+                intent.putExtra("code", 800);
+                intent.putExtra("userID", user_id);
+                intent.putExtra("image_cloth", byteArray);
+                startActivity(intent);
+            }
+        });
     }
 
     // 툴바 메뉴 불러오기
@@ -150,7 +172,6 @@ public class ItemInfo extends AppCompatActivity implements DatePickerDialog.OnDa
                 action.findItem(R.id.delete).setVisible(false);
                 action.findItem(R.id.modify_cancel).setVisible(true);
                 action.findItem(R.id.confirm).setVisible(true);
-
 
                 Toast.makeText(getApplicationContext(), "데이터를 수정할 수 있습니다.", Toast.LENGTH_SHORT).show();
                 return true;
@@ -210,7 +231,6 @@ public class ItemInfo extends AppCompatActivity implements DatePickerDialog.OnDa
                 modify_fit.setFocusableInTouchMode(false);
 
                 readMode();
-
                 return true;
         }
 
