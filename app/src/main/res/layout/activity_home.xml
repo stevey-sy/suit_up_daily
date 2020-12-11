@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="Suit Up Daily"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
     </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
