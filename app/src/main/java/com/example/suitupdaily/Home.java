@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class Home extends AppCompatActivity {
 
-    private Button btn_closet, btn_weather, btn_show_room;
+    private Button btn_closet, btn_my_codi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +17,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         btn_closet = findViewById(R.id.btn_closet);
-        btn_weather = findViewById(R.id.btn_weather);
-        btn_show_room = findViewById(R.id.btn_show_room);
+        btn_my_codi = findViewById(R.id.btn_my_codi);
 
         Intent intent_get_id = getIntent();
         final String userID = intent_get_id.getStringExtra("userID");
@@ -32,16 +31,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        btn_weather.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home.this, SelfCodi.class);
-                intent.putExtra("userID", userID);
-                startActivity(intent);
-            }
-        });
-
-        btn_show_room.setOnClickListener(new View.OnClickListener() {
+        btn_my_codi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Home.this, ShowRoom.class);
@@ -49,6 +39,5 @@ public class Home extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

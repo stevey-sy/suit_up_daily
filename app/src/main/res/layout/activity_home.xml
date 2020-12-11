@@ -8,70 +8,49 @@
 
     <Button
         android:id="@+id/btn_closet"
-        android:layout_width="128dp"
+        android:layout_width="130dp"
         android:layout_height="125dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="272dp"
+        android:layout_marginTop="40dp"
         android:background="#000000"
         android:text="옷장"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_weather"
+        app:layout_constraintEnd_toStartOf="@+id/btn_my_codi"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_home" />
 
     <Button
-        android:id="@+id/btn_weather"
-        android:layout_width="118dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="272dp"
-        android:layout_marginEnd="10dp"
-        android:background="#000000"
-        android:text="코디 하기"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_closet"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_show_room"
+        android:id="@+id/btn_my_codi"
         android:layout_width="130dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:background="#000000"
         android:text="내 코디"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_closet"
-        app:layout_constraintStart_toStartOf="@+id/btn_closet"
-        app:layout_constraintTop_toBottomOf="@+id/btn_closet" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_closet"
+        app:layout_constraintTop_toTopOf="@+id/btn_closet" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_home"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/my_closet_menu">
+        app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="SUIT-UP"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="89dp" />
-
+            android:text="Suit Up Daily"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
