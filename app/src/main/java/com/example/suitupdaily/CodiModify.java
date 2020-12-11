@@ -40,7 +40,7 @@ public class CodiModify extends AppCompatActivity {
 
     private String user_id, picture, season, tags, memo, date, idx;
     private ImageView image_view_codi;
-    private TextView text_view_hash_tag, text_view_codi_season, memo_area;
+    private TextView text_view_hash_tag, text_view_codi_season, memo_area, title_codi_info;
     private EditText tag_area;
     private Button button_tag_remove, button_add_tag, button_codi_upload;
     private ArrayList<String> mTagLists;
@@ -51,6 +51,8 @@ public class CodiModify extends AppCompatActivity {
         setContentView(R.layout.activity_codi_info);
 
         // xml 연결
+        title_codi_info = (TextView)findViewById(R.id.title_codi_info);
+        title_codi_info.setText("코디 수정");
         image_view_codi = (ImageView)findViewById(R.id.image_view_codi);
         text_view_hash_tag = (TextView)findViewById(R.id.text_view_hash_tag);
         text_view_codi_season = (TextView)findViewById(R.id.text_view_codi_season);
@@ -58,6 +60,7 @@ public class CodiModify extends AppCompatActivity {
         button_tag_remove = (Button)findViewById(R.id.button_tag_remove);
         button_add_tag = (Button)findViewById(R.id.button_tag_test);
         button_codi_upload = (Button)findViewById(R.id.button_codi_upload);
+        button_codi_upload.setText("수정");
         tag_area = (EditText)findViewById(R.id.text_view_codi_tag);
 
         // CodiDetail 클래스에서 받은 intent 데이터
@@ -281,6 +284,5 @@ public class CodiModify extends AppCompatActivity {
             }
         });
     }
-
 
 }
