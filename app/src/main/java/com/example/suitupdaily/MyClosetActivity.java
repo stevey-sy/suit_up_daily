@@ -46,6 +46,8 @@ import com.example.suitupdaily.listview.FilterSeasonAdapter;
 import com.example.suitupdaily.recycler.RecyclerAdapter;
 import com.example.suitupdaily.viewpager.SeasonPageAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -87,11 +89,18 @@ public class MyClosetActivity extends AppCompatActivity {
     private RadioGroup season_radio_group;
     private String selected_season = "all";
 
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_closet);
+
+        //Firebase 로그인한 사용자 정보
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = mAuth.getCurrentUser();
+        Log.d("구글 닉네임: ", user.getUid());
 
         Intent intent_id = getIntent();
         user_id = intent_id.getStringExtra("userID");
