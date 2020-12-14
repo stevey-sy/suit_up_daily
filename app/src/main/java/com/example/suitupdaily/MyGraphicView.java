@@ -300,6 +300,7 @@ public class MyGraphicView extends View {
 //        MU.clear();
 //        bottom.clear();
 //        outer.clear();
+        pics.clear();
         invalidate(); // 화면을 갱신함 -> onDraw()를 호출
     }
 
@@ -332,10 +333,6 @@ public class MyGraphicView extends View {
 ////        outer = new MovingUnit(picture);
 //        invalidate();
 //    }
-
-
-
-
 
     public int findPicOn(){
 //        if(!MU.isEmpty()){
