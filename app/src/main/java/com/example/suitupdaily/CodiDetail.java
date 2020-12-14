@@ -5,13 +5,20 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +33,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.w3c.dom.Text;
+
+import java.io.ByteArrayOutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,10 +58,12 @@ public class CodiDetail extends AppCompatActivity {
 
         // 툴바 설정
         toolbar = findViewById(R.id.toolbar_codi_detail);
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+        toolbar.setOverflowIcon(drawable);
 
         // xml 요소 연결
         img_codi = (ImageView) findViewById(R.id.image_view_codi_detail);
@@ -141,6 +152,20 @@ public class CodiDetail extends AppCompatActivity {
                 });
                 dialog.show();
                 return true;
+
+            // 공유버튼 클릭했을 때의 이벤트
+            case R.id.share:
+                // 이미지 뷰에서 bitmap을 추출
+                BitmapDrawable drawable = (BitmapDrawable) img_codi.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                // 추출한 bitmap 에서 uri 를 얻는 메소드 사용.
+                Uri uri = getImageUri(this, bitmap);
+                // 공유하는 intent 선언
+                Intent sharingIntent = new Intent (Intent.ACTION_SEND);
+                sharingIntent.setType("image/png");
+                // getImageUri 메소드로 얻어낸 uri 를 intent 에 담는다.
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(sharingIntent, "Share image using"));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -176,5 +201,12 @@ public class CodiDetail extends AppCompatActivity {
                 Toast.makeText(CodiDetail.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    // 비트맵에서 uri를 추출하는 메소드
+    private Uri getImageUri(Context context, Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
     }
 }
