@@ -44,20 +44,23 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     public void onBindViewHolder(@NonNull CodiShareAdapter.ShareViewHolder holder, int position) {
 
         holder.idx.setText(clothList.get(position).getIdx());
-        // 날짜 데이터
-//        holder.date.setText(clothList.get(position).getDate());
+        // 서버에서 받아온 날짜 데이터 예시
         // 2020-12-10 00:00:00
-        // 여기서 -, :, " " 을 제거하면
+        // 여기서 -, :, " " 같은 불순물을 제거하면
         // 20201210000000
+        // 이것을 timeConverter 클래스를 사용하여
+        // ex) 4시간 전  이런 식으로 바꿔줌
 
+        // 서버에서 받아온 date
         String date_from_server = clothList.get(position).getDate();
         // 불순물 제거
         String replace_dash = date_from_server.replace("-","");
         String replace_time = replace_dash.replace(":", "");
         String pure_date = replace_time.replace(" ", "");
-
+        // timeConverter 클래스를 선언, 메소드 사용.
         timeConverter = new TimeConverter();
         String converted_date = TimeConverter.CreateDataWithCheck(pure_date);
+        // 변환된 date 를 holder 에 담는다.
         holder.date.setText(converted_date);
 
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
