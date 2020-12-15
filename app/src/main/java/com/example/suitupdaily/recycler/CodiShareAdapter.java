@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.suitupdaily.R;
 import com.example.suitupdaily.ResponsePOJO;
+import com.example.suitupdaily.TimeConverter;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     List<ResponsePOJO> clothList;
     private Context context;
     private CodiShareAdapter.ShareViewClickListener mListener;
+    private TimeConverter timeConverter;
 
     public CodiShareAdapter(List<ResponsePOJO> list, Context context, CodiShareAdapter.ShareViewClickListener listener) {
         this.clothList = list;
@@ -42,7 +44,22 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     public void onBindViewHolder(@NonNull CodiShareAdapter.ShareViewHolder holder, int position) {
 
         holder.idx.setText(clothList.get(position).getIdx());
-        holder.date.setText(clothList.get(position).getDate());
+        // 날짜 데이터
+//        holder.date.setText(clothList.get(position).getDate());
+        // 2020-12-10 00:00:00
+        // 여기서 -, :, " " 을 제거하면
+        // 20201210000000
+
+        String date_from_server = clothList.get(position).getDate();
+        // 불순물 제거
+        String replace_dash = date_from_server.replace("-","");
+        String replace_time = replace_dash.replace(":", "");
+        String pure_date = replace_time.replace(" ", "");
+
+        timeConverter = new TimeConverter();
+        String converted_date = TimeConverter.CreateDataWithCheck(pure_date);
+        holder.date.setText(converted_date);
+
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
 
