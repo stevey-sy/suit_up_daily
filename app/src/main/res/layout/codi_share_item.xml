@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:text="해쉬태그 리스트"
                 android:textColor="#1e90ff"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:layout_marginBottom="5dp"/>
 
             <LinearLayout
