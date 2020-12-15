@@ -91,7 +91,6 @@ public class MyClosetActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +99,7 @@ public class MyClosetActivity extends AppCompatActivity {
         //Firebase 로그인한 사용자 정보
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
-        Log.d("구글 닉네임: ", user.getUid());
+        Log.d("구글 닉네임: ", user.getDisplayName());
 
         Intent intent_id = getIntent();
         user_id = intent_id.getStringExtra("userID");
