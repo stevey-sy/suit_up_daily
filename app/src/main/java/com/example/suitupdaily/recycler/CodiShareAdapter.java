@@ -42,9 +42,6 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     public void onBindViewHolder(@NonNull CodiShareAdapter.ShareViewHolder holder, int position) {
 
         holder.idx.setText(clothList.get(position).getIdx());
-//        holder.idx.setText(clothList.get(position).getPicture());
-        Log.d("코디 이미지: ", clothList.get(position).getPicture());
-
         holder.date.setText(clothList.get(position).getDate());
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
@@ -61,7 +58,6 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
                 .load(clothList.get(position).getPicture())
                 .apply(requestOptions)
                 .into(holder.image_codi);
-
     }
 
     // 리사이클러 뷰 안에 들어갈 아이템 개수를 불러오는 메서드
@@ -96,6 +92,7 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             text_view_hash_tags = (TextView) itemView.findViewById(R.id.text_view_hash_tags);
             text_view_like = (TextView) itemView.findViewById(R.id.text_view_like_num);
             text_view_comment = (TextView) itemView.findViewById(R.id.text_view_comment_num);
+            date = (TextView) itemView.findViewById(R.id.text_written_date);
             idx = (TextView) itemView.findViewById(R.id.share_idx);
             idx.setVisibility(View.GONE);
             memo = (TextView) itemView.findViewById(R.id.share_memo);
