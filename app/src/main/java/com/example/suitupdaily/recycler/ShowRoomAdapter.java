@@ -66,7 +66,6 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
                 .into(holder.mPicture);
     }
 
-
     @Override
     public int getItemCount() {
         return clothList.size();
@@ -79,7 +78,7 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
     public static class ShowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ShowViewClickListener mListener = null;
-        private TextView mCategory, mDate, mColor, mSeason, idx, mType, mFit, hash_tags, memo, date;
+        private TextView idx, hash_tags, memo, date;
         private ImageView mPicture;
         private LinearLayout mRowContainer;
 
