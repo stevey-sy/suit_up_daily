@@ -21,6 +21,21 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_home" />
 
     <Button
+        android:id="@+id/btn_share_codi"
+        android:layout_width="130dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:background="#000000"
+        android:text="코디 공유"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_my_codi"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_closet" />
+
+    <Button
         android:id="@+id/btn_my_codi"
         android:layout_width="130dp"
         android:layout_height="125dp"

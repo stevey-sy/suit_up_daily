@@ -383,8 +383,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-
-
         // 컬러 버튼 눌렀을 때의 이벤트
         text_color.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -392,9 +390,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 //                openColorPicker();
 //                showAlertDialog();
 //                openDialog();
-
-
-
             }
         });
         // 구매일 버튼 눌렀을 때의 이벤트
