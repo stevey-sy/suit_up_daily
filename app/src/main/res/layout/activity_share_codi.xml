@@ -96,4 +96,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/filter_sex"
         app:layout_constraintTop_toBottomOf="@+id/button8" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_codi_view"
+        android:layout_width="match_parent"
+        android:layout_height="481dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_recently"
+        android:background="#a0a0a0"/>
+
+    <TextView
+        android:id="@+id/notify_no_codi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="불러올 코디가 없습니다."
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_codi_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
