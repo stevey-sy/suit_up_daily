@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -88,6 +89,10 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
 
     public interface ShareViewClickListener {
         void onRowClick(View view, int position);
+        void onLikeClick(View view, int position);
+    }
+
+    public interface LikeClickListener {
     }
 
     public static class ShareViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -97,12 +102,11 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         private TextView text_view_user_name, text_view_hash_tags, text_view_like, text_view_comment, text_view_date;
         private TextView idx, hash_tags, memo, date;
         private LinearLayout mRowContainer;
+        private Button btn_like;
 
         // 리사이클러 뷰 아이템에 무엇을 담을 건지 선언
         public ShareViewHolder(@NonNull View itemView, ShareViewClickListener listener) {
             super(itemView);
-            // 클릭 리스너
-            mListener = listener;
             // xml 연결
             mRowContainer = (LinearLayout) itemView.findViewById(R.id.share_item_view);
             image_codi = (ImageView) itemView.findViewById(R.id.img_view_codi_share);
@@ -117,14 +121,21 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             idx.setVisibility(View.GONE);
             memo = (TextView) itemView.findViewById(R.id.share_memo);
             memo.setVisibility(View.GONE);
+            // 클릭 리스너
+            mListener = listener;
+            image_codi.setOnClickListener(this);
+            image_like.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.share_item_view:
-                    mListener.onRowClick(mRowContainer, getAdapterPosition());
+                case R.id.img_view_codi_share:
+                    mListener.onRowClick(image_codi, getAdapterPosition());
                     break;
+                case R.id.img_like:
+                    mListener.onLikeClick(image_like, getAdapterPosition());
             }
         }
     }

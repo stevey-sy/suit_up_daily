@@ -71,6 +71,7 @@ public class ShareCodi extends AppCompatActivity {
         listener = new CodiShareAdapter.ShareViewClickListener() {
             @Override
             public void onRowClick(View view, int position) {
+                Toast.makeText(getApplicationContext(), "view 클릭." , Toast.LENGTH_SHORT).show();
                 // 다음 액티비티에 필요한 데이터를 intent에 담는다.
 //                Intent intent = new Intent(ShareCodi.this, CodiDetail.class);
 //                intent.putExtra("userID", user_id);
@@ -81,6 +82,11 @@ public class ShareCodi extends AppCompatActivity {
 //                intent.putExtra("memo", clothList.get(position).getMemo());
 //                intent.putExtra("date", clothList.get(position).getDate());
 //                startActivity(intent);
+            }
+
+            @Override
+            public void onLikeClick(View view, int position) {
+                Toast.makeText(getApplicationContext(), "좋아요 버튼 클릭." , Toast.LENGTH_SHORT).show();
             }
         };
 
