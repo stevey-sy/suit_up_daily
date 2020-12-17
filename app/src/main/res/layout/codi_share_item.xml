@@ -62,11 +62,12 @@
                 android:layout_marginStart="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/img_like"
+                <CheckBox
+                    android:id="@+id/check_like"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:srcCompat="@drawable/ic_like_gray" />
+                    android:button="@null"
+                    android:background="@drawable/custom_checkbox"/>
 
                 <TextView
                     android:id="@+id/text_view_like_num"
