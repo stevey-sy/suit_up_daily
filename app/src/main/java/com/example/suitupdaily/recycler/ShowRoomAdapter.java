@@ -98,7 +98,6 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
             mRowContainer = itemView.findViewById(R.id.codi_show_view);
             mListener = listener;
             mRowContainer.setOnClickListener(this);
-
         }
 
         @Override
