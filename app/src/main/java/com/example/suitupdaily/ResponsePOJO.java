@@ -46,6 +46,17 @@ public class ResponsePOJO {
     @SerializedName("memo")
     private String memo;
 
+    @SerializedName("like_num")
+    private int like;
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
+
     public String getTags() {
         return tags;
     }
