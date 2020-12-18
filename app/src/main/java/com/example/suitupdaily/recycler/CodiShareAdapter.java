@@ -1,6 +1,10 @@
 package com.example.suitupdaily.recycler;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,19 +23,35 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.suitupdaily.ImageEditActivity;
+import com.example.suitupdaily.MyClosetActivity;
 import com.example.suitupdaily.R;
 import com.example.suitupdaily.ResponsePOJO;
+import com.example.suitupdaily.RetrofitClient;
+import com.example.suitupdaily.ShowRoom;
 import com.example.suitupdaily.TimeConverter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.ShareViewHolder> {
 
     List<ResponsePOJO> clothList;
+    List<ResponsePOJO> likedList;
     private Context context;
     private CodiShareAdapter.ShareViewClickListener mListener;
     private TimeConverter timeConverter;
+    private String clicked_idx, response_likes;
+
+    private FirebaseAuth mAuth;
+    private boolean checked;
 
     public CodiShareAdapter(List<ResponsePOJO> list, Context context, CodiShareAdapter.ShareViewClickListener listener) {
         this.clothList = list;
@@ -45,9 +66,10 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CodiShareAdapter.ShareViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CodiShareAdapter.ShareViewHolder holder, final int position) {
 
         holder.idx.setText(clothList.get(position).getIdx());
+        clicked_idx = clothList.get(position).getIdx();
         // 서버에서 받아온 날짜 데이터 예시
         // 2020-12-10 00:00:00
         // 여기서 -, :, " " 같은 불순물을 제거하면
@@ -62,16 +84,39 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         String replace_time = replace_dash.replace(":", "");
         String pure_date = replace_time.replace(" ", "");
         // timeConverter 클래스를 선언, 메소드 사용.
+        // 현재 시간 기준으로 얼마나 지난 포스트인지 date 를 변환함.
         timeConverter = new TimeConverter();
         String converted_date = TimeConverter.CreateDataWithCheck(pure_date);
-        // 변환된 date 를 holder 에 담는다.
+        // 변환된 date 를 view 에 담는다.
         holder.date.setText(converted_date);
-
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
-
-        // int를 String 으로
+        // 좋아요 부분
+        // 좋아요를 이미 눌렀던 글인지 확인하는 메소드 필요.
+        getLikedList();
+        // likedList 를 idx 와 비교하여 중복되는지 아닌지 체크.
+        // if 중복된다면,
+        // holder.check_like.setChecked(true);
+        // if 중복되지 않는다면
+        // holder.check_like.setChecked(false);
         holder.text_view_like_num.setText(String.valueOf(clothList.get(position).getLike()));
+        holder.check_like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // 좋아요 버튼 눌렸을 때
+                if (isChecked) {
+                    // uploadLike 메소드 사용.
+                    // 업로드 된 like 의 개수를 뷰에 넣는다.
+                    addLike();
+//                    holder.text_view_like_num.setText(clothList.get(position).getLike());
+
+                } else {
+                    // uploadLike 메소드 사용.
+                    // 업로드 된 like 의 개수를 뷰에 넣는다.
+
+                }
+            }
+        });
 
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
@@ -97,6 +142,71 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         void onRowClick(View view, int position);
         void onLikeClick(View view, int position);
     }
+    // 서버에서 내가 좋아요 누른 글들의 index를 조회를 해서
+    // 이미 좋아요 누른 index의 글들은 색을 바꾸어 놓는다.
+
+    public void getLikedList() {
+        //Firebase 로그인한 사용자 정보
+//            mAuth = FirebaseAuth.getInstance();
+//            final FirebaseUser user = mAuth.getCurrentUser();
+//            Log.d("구글 닉네임: ", user.getDisplayName());
+
+        String id = "sinsy8989@gmail.com";
+
+//        String id = user.getDisplayName();
+//        String type = load_type;
+//        String season = selected_season;
+
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().readLikedList(id);
+        call.enqueue(new Callback<List<ResponsePOJO>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
+                // 사용자가 좋아요 누른 글 번호 리스트를 가져와.
+                likedList = response.body();
+
+                String content = "";
+
+                // 가져오는데 성공했으면,
+                if(response.body() != null) {
+                    Log.d("리스트: ", String.valueOf(likedList));
+                    Log.d("서버 응답 확인22: ", response.body().toString());
+                } else if (response.body() == null) {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void addLike() {
+
+        // 서버에 보낼 데이터 정의
+        String idx = clicked_idx;
+        String id = "sinsy8989@gmail.com";
+
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadLike(id, idx);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+                Toast.makeText(context, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+//                response_likes = String.valueOf(response.body().getRemarks());
+                response_likes = "10";
+                Log.d("리스트22: ", response_likes);
+                if(response.body().isStatus()) {
+
+                } else {
+
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(context, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public static class ShareViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -110,7 +220,10 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         private Thread thread;
         private Boolean isThread;
         private int like_count;
-//        private ArrayList<ResponsePOJO> clothList;
+
+        List<ResponsePOJO> clothList;
+        private FirebaseAuth mAuth;
+        private boolean checked;
 
         // 리사이클러 뷰 아이템에 무엇을 담을 건지 선언
         public ShareViewHolder(@NonNull View itemView, ShareViewClickListener listener) {
@@ -133,10 +246,8 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             mListener = listener;
             image_codi.setOnClickListener(this);
 //            check_like.setOnClickListener(this);
-            check_like.setOnCheckedChangeListener(this);
-
-//            clothList = new ArrayList<ResponsePOJO> ();
-
+//            check_like.setOnCheckedChangeListener(this);
+//            getLikedList();
         }
 
         @Override
@@ -155,33 +266,93 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             // 좋아요 버튼 클릭 되면,
             // 일단 현재 클릭된 게시글 번호를 가져와야 함.
 
-            int position = getLayoutPosition();
-
 //            Log.d("좋아요: ", isChecked + "/" + idx_num + "/");
 
             // 좋아요 버튼 눌렸을 때
             if (isChecked) {
-                // 스레드 실행 -> 서버에 보낸다, 사용자 id(게시글 table에 좋아요 누른 사람 이름을 배열에 담는다.), 게시글 번호, 좋아요 카운트 수++
-                // 서버 응답 받으면 좋아요 카운트 수 수정.
+                // shared에 저장된건 56번이야. 서버에서 받아온 번호도 56이야
+                // 그러면 true인데, 버튼 색깔만 바뀐 트루야. ㅇㅋ?
 
-                // 다음에 view 생성 할 때
-                // 게시글 table 에서 좋아요 리스트에 내 id가 들어가 있다면
-                // 아니면 회원 정보 table에 내가 좋아요 누른 게시글의 index 배열이 있다면
-                // 배열의 index 들을 isChecked true 처리한다.
+                // 서버에서 받아온건 47번인데 shared에 겹치는 번호가 없어.
+                // 그러면 false야
+
                 mListener.onLikeClick(check_like, getAdapterPosition());
-                like_count += 1;
-                text_view_like_num.setText(String.valueOf(like_count));
+                String like_string = text_view_like_num.getText().toString();
+                int like_int = Integer.parseInt(like_string);
+                like_int += 1;
+
+                text_view_like_num.setText(String.valueOf(like_int));
+
+                // 쉐어드에 게시글 index 를 저장해놓고
+                // 다음에 틀었을 때에는 이미 체크되어있도록한다?
+
+//               like_count += 1;
+//                text_view_like_num.setText(String.valueOf(like_count));
             } else {
                 // 좋아요 버튼 한번 더 눌렀을 때
                 // 스레드 실행
                 mListener.onLikeClick(check_like, getAdapterPosition());
-                like_count -= 1;
-                text_view_like_num.setText(String.valueOf(like_count));
+
+                String like_string = text_view_like_num.getText().toString();
+                int like_int = Integer.parseInt(like_string);
+                like_int -= 1;
+
+                text_view_like_num.setText(String.valueOf(like_int));
+//                like_count -= 1;
+//                text_view_like_num.setText(String.valueOf(like_count));
             }
         }
-
-
+//        // 서버에서 내가 좋아요 누른 글들의 index를 조회를 해서
+//        // 이미 좋아요 누른 index의 글들은 색을 바꾸어 놓는다.
+//        public void getLikedList() {
+//            //Firebase 로그인한 사용자 정보
+////            mAuth = FirebaseAuth.getInstance();
+////            final FirebaseUser user = mAuth.getCurrentUser();
+////            Log.d("구글 닉네임: ", user.getDisplayName());
+//
+//            String id = "sinsy8989@gmail.com";
+//
+////        String id = user.getDisplayName();
+////        String type = load_type;
+////        String season = selected_season;
+//
+//            Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().readLikedList(id);
+//            call.enqueue(new Callback<List<ResponsePOJO>>() {
+//                @Override
+//                public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
+//                    // 사용자가 좋아요 누른 글 번호 리스트를 가져와.
+//                    clothList = response.body();
+//
+//                    String content = "";
+//
+//                    // 가져오는데 성공했으면,
+//                    if(response.body() != null) {
+//                        Log.d("리스트: ", String.valueOf(clothList));
+//                        Log.d("서버 응답 확인22: ", response.body().toString());
+//
+//                        // shared 리스트랑 비교해서 일치하는 번호가 있는지 없는지 검사해
+//                        // 있으면
+//                        // already_liked 를 true 처리하는데,
+//                        // 이게 true면은
+//                        // +1처리 안하는 true로 가는거야. ㅇㅋ?
+//
+//                        text_view_like_num.setVisibility(View.VISIBLE);
+//
+//                    } else if (response.body() == null) {
+//
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
+//
+//                }
+//            });
+//        }
     }
+
+
 
 
 
