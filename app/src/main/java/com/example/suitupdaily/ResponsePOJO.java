@@ -7,6 +7,28 @@ public class ResponsePOJO {
     private boolean status;
     private String remarks;
 
+    @SerializedName("liked_codi_idx")
+    private String[] likelist;
+
+    public String[] getLikelist() {
+        return likelist;
+    }
+
+    public void setLikelist(String[] likelist) {
+        this.likelist = likelist;
+    }
+
+    @SerializedName("list")
+    private String list;
+
+    public String getList() {
+        return list;
+    }
+
+    public void setList(String list) {
+        this.list = list;
+    }
+
     @SerializedName("result")
     private String result;
 

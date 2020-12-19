@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Base64;
@@ -91,19 +92,26 @@ public class ShareCodi extends AppCompatActivity {
 
             @Override
             public void onLikeClick(View view, int position) {
-//                Toast.makeText(getApplicationContext(), "좋아요 버튼 클릭." , Toast.LENGTH_SHORT).show();
-                if (!click_like) {
-                    Toast.makeText(getApplicationContext(), "좋아요 버튼 클릭." , Toast.LENGTH_SHORT).show();
-                    click_like = true;
-                    // 게시글 번호
+                    // 클릭된 리사이클러뷰의 게시글 index 를 파악하고, 좋아요를 업로드 한다.
                     codi_idx = clothList.get(position).getIdx();
-                    // 좋아요 개수 올라가는 서버통신 메소드
                     uploadLike();
-                } else {
-                    Toast.makeText(getApplicationContext(), "좋아요 취소" , Toast.LENGTH_SHORT).show();
-                    click_like = false;
-                    // 좋아요 취소해서 개수 내려가는 서버통신 메소드
-                }
+//                    // 서버에 좋아요 업로드하고
+//                    // shared reference에 idx를 저장해.
+//                    savePreferences(codi_idx);
+
+//                Toast.makeText(getApplicationContext(), "좋아요 버튼 클릭." , Toast.LENGTH_SHORT).show();
+//                if (!click_like) {
+//                    Toast.makeText(getApplicationContext(), "좋아요 버튼 클릭." , Toast.LENGTH_SHORT).show();
+//                    click_like = true;
+//                    // 게시글 번호
+//                    codi_idx = clothList.get(position).getIdx();
+//                    // 좋아요 개수 올라가는 서버통신 메소드
+//                    uploadLike();
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "좋아요 취소" , Toast.LENGTH_SHORT).show();
+//                    click_like = false;
+//                    // 좋아요 취소해서 개수 내려가는 서버통신 메소드
+//                }
             }
         };
 
@@ -152,7 +160,7 @@ public class ShareCodi extends AppCompatActivity {
 
                 if(response.body() != null) {
                     Log.d("서버 응답 확인: ", response.body().toString());
-                    Toast.makeText(getApplicationContext(), "Test 중입니다. 서버 통신 중" , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
 
                     recyclerView.setVisibility(View.VISIBLE);
                     notify_no_codi.setVisibility(View.GONE);
@@ -180,7 +188,6 @@ public class ShareCodi extends AppCompatActivity {
         String id = user_id;
         String idx = codi_idx;
 
-        //홈페이지에서 더 많은 컨텐츠를 확인하세요,  https://stickode.com/
         Log.d("코디 idx : ", idx);
 
         Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadLike(id, idx);
@@ -204,6 +211,14 @@ public class ShareCodi extends AppCompatActivity {
 
     public void getLikeInfo (String idx) {
 
+    }
+
+    private void savePreferences(String idx) {
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putString("liked", idx);
+        editor.commit();
     }
 
 

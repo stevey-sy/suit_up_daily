@@ -91,32 +91,27 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         holder.date.setText(converted_date);
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
+//        holder.check_like.setChecked(true);
+//        String list = clothList.get(position).getList();
+//        Log.d("list ", list);
+
         // 좋아요 부분
         // 좋아요를 이미 눌렀던 글인지 확인하는 메소드 필요.
         getLikedList();
+
         // likedList 를 idx 와 비교하여 중복되는지 아닌지 체크.
         // if 중복된다면,
         // holder.check_like.setChecked(true);
         // if 중복되지 않는다면
         // holder.check_like.setChecked(false);
         holder.text_view_like_num.setText(String.valueOf(clothList.get(position).getLike()));
-        holder.check_like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // 좋아요 버튼 눌렸을 때
-                if (isChecked) {
-                    // uploadLike 메소드 사용.
-                    // 업로드 된 like 의 개수를 뷰에 넣는다.
-                    addLike();
-//                    holder.text_view_like_num.setText(clothList.get(position).getLike());
-
-                } else {
-                    // uploadLike 메소드 사용.
-                    // 업로드 된 like 의 개수를 뷰에 넣는다.
-
-                }
-            }
-        });
+//        holder.check_like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // 좋아요 버튼 눌렸을 때
+//                uploadLike();
+//            }
+//        });
 
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
@@ -181,32 +176,32 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         });
     }
 
-    private void addLike() {
-
-        // 서버에 보낼 데이터 정의
-        String idx = clicked_idx;
-        String id = "sinsy8989@gmail.com";
-
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadLike(id, idx);
-        call.enqueue(new Callback<ResponsePOJO>() {
-            @Override
-            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
-                Toast.makeText(context, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-//                response_likes = String.valueOf(response.body().getRemarks());
-                response_likes = "10";
-                Log.d("리스트22: ", response_likes);
-                if(response.body().isStatus()) {
-
-                } else {
-
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
-                Toast.makeText(context, "Network Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void uploadLike() {
+//        // 서버에 보낼 데이터 정의
+//        String idx = clicked_idx;
+//        Log.d("글번호: ", clicked_idx);
+//        String id = "sinsy8989@gmail.com";
+//
+//        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadLike(id, idx);
+//        call.enqueue(new Callback<ResponsePOJO>() {
+//            @Override
+//            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+//                Toast.makeText(context, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+////                response_likes = String.valueOf(response.body().getRemarks());
+//                response_likes = "10";
+//                Log.d("리스트22: ", response_likes);
+//                if(response.body().isStatus()) {
+//
+//                } else {
+//
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+//                Toast.makeText(context, "Network Failed", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     public static class ShareViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -245,8 +240,8 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             // 클릭 리스너
             mListener = listener;
             image_codi.setOnClickListener(this);
-//            check_like.setOnClickListener(this);
-//            check_like.setOnCheckedChangeListener(this);
+            check_like.setOnClickListener(this);
+            check_like.setOnCheckedChangeListener(this);
 //            getLikedList();
         }
 
@@ -267,16 +262,10 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             // 일단 현재 클릭된 게시글 번호를 가져와야 함.
 
 //            Log.d("좋아요: ", isChecked + "/" + idx_num + "/");
-
+//            mListener.onLikeClick(check_like, getAdapterPosition());
             // 좋아요 버튼 눌렸을 때
             if (isChecked) {
-                // shared에 저장된건 56번이야. 서버에서 받아온 번호도 56이야
-                // 그러면 true인데, 버튼 색깔만 바뀐 트루야. ㅇㅋ?
 
-                // 서버에서 받아온건 47번인데 shared에 겹치는 번호가 없어.
-                // 그러면 false야
-
-                mListener.onLikeClick(check_like, getAdapterPosition());
                 String like_string = text_view_like_num.getText().toString();
                 int like_int = Integer.parseInt(like_string);
                 like_int += 1;
@@ -291,7 +280,6 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             } else {
                 // 좋아요 버튼 한번 더 눌렀을 때
                 // 스레드 실행
-                mListener.onLikeClick(check_like, getAdapterPosition());
 
                 String like_string = text_view_like_num.getText().toString();
                 int like_int = Integer.parseInt(like_string);
