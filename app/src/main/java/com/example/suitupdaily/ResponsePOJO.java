@@ -6,16 +6,14 @@ public class ResponsePOJO {
 
     private boolean status;
     private String remarks;
+    private String[] myLikeList;
 
-    @SerializedName("liked_codi_idx")
-    private String[] likelist;
-
-    public String[] getLikelist() {
-        return likelist;
+    public String[] getMyLikeList() {
+        return myLikeList;
     }
 
-    public void setLikelist(String[] likelist) {
-        this.likelist = likelist;
+    public void setMyLikeList(String[] myLikeList) {
+        this.myLikeList = myLikeList;
     }
 
     @SerializedName("list")

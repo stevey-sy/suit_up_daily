@@ -17,7 +17,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("closet/read_liked_list.php")
-    Call<List<ResponsePOJO>> readLikedList(
+    Call<ResponsePOJO> readLikedList(
             @Field("id") String id
     );
 
@@ -70,7 +70,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("closet/read.php")
     Call<List<ResponsePOJO>> getCloth(
-            @Field("id") String id,
+                    @Field("id") String id,
             @Field("type") String type,
             @Field("season") String season
     );

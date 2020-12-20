@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,7 +45,7 @@ import retrofit2.Response;
 public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.ShareViewHolder> {
 
     List<ResponsePOJO> clothList;
-    List<ResponsePOJO> likedList;
+    String[] likedList;
     private Context context;
     private CodiShareAdapter.ShareViewClickListener mListener;
     private TimeConverter timeConverter;
@@ -98,6 +99,17 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         // 좋아요 부분
         // 좋아요를 이미 눌렀던 글인지 확인하는 메소드 필요.
         getLikedList();
+        Log.d("getLikedList 실행 ", "실행 성공");
+        String[] liked_list = {"60", "59"};
+        Log.d("리스트55: ", Arrays.toString(liked_list));
+
+        String clicked = clothList.get(position).getIdx();
+        boolean java7 = false;
+
+        if(likedList != null) {
+            java7 = Arrays.asList(likedList).contains(clicked);
+            holder.check_like.setChecked(java7);
+        }
 
         // likedList 를 idx 와 비교하여 중복되는지 아닌지 체크.
         // if 중복된다면,
@@ -140,40 +152,32 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     // 서버에서 내가 좋아요 누른 글들의 index를 조회를 해서
     // 이미 좋아요 누른 index의 글들은 색을 바꾸어 놓는다.
 
-    public void getLikedList() {
-        //Firebase 로그인한 사용자 정보
-//            mAuth = FirebaseAuth.getInstance();
-//            final FirebaseUser user = mAuth.getCurrentUser();
-//            Log.d("구글 닉네임: ", user.getDisplayName());
+    private void getLikedList() {
 
+        // 서버에 보낼 데이터 정의
         String id = "sinsy8989@gmail.com";
 
-//        String id = user.getDisplayName();
-//        String type = load_type;
-//        String season = selected_season;
-
-        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().readLikedList(id);
-        call.enqueue(new Callback<List<ResponsePOJO>>() {
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().readLikedList(id);
+        call.enqueue(new Callback<ResponsePOJO>() {
             @Override
-            public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
-                // 사용자가 좋아요 누른 글 번호 리스트를 가져와.
-                likedList = response.body();
+            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
 
-                String content = "";
+                likedList = response.body().getMyLikeList();
+                Log.d("리스트33: ", String.valueOf(likedList));
+                Log.d("리스트44: ", Arrays.toString(likedList));
 
-                // 가져오는데 성공했으면,
-                if(response.body() != null) {
-                    Log.d("리스트: ", String.valueOf(likedList));
-                    Log.d("서버 응답 확인22: ", response.body().toString());
-                } else if (response.body() == null) {
+
+                if(response.body().isStatus()) {
+
+                } else {
                 }
             }
-
             @Override
-            public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
-
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Log.d("리스트33: ", "통신 실패");
             }
         });
+//        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
     }
 
 //    private void uploadLike() {
