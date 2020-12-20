@@ -97,33 +97,20 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
 //        Log.d("list ", list);
 
         // 좋아요 부분
-        // 좋아요를 이미 눌렀던 글인지 확인하는 메소드 필요.
+        // 사용자가 눌렀던 좋아요 리스트 받아오는 서버통신 메소드
         getLikedList();
-        Log.d("getLikedList 실행 ", "실행 성공");
-        String[] liked_list = {"60", "59"};
-        Log.d("리스트55: ", Arrays.toString(liked_list));
-
-        String clicked = clothList.get(position).getIdx();
-        boolean java7 = false;
-
+        // 게시글의 번호
+        String clicked_idx = clothList.get(position).getIdx();
+        // 좋아요 리스트에 해당 게시글의 번호가 있는지 체크할 boolean 값
+        boolean already_liked = false;
         if(likedList != null) {
-            java7 = Arrays.asList(likedList).contains(clicked);
-            holder.check_like.setChecked(java7);
+            // 서버에서 받아온 좋아요 리스트에서 해당 게시글의 번호가 있는지 조회한다.
+            already_liked = Arrays.asList(likedList).contains(clicked_idx);
+            // 좋아요가 이미 있으면 -> true / 없으면 -> false
+            holder.check_like.setChecked(already_liked);
         }
 
-        // likedList 를 idx 와 비교하여 중복되는지 아닌지 체크.
-        // if 중복된다면,
-        // holder.check_like.setChecked(true);
-        // if 중복되지 않는다면
-        // holder.check_like.setChecked(false);
         holder.text_view_like_num.setText(String.valueOf(clothList.get(position).getLike()));
-//        holder.check_like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                // 좋아요 버튼 눌렸을 때
-//                uploadLike();
-//            }
-//        });
 
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
@@ -153,22 +140,15 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     // 이미 좋아요 누른 index의 글들은 색을 바꾸어 놓는다.
 
     private void getLikedList() {
-
         // 서버에 보낼 데이터 정의
         String id = "sinsy8989@gmail.com";
-
         Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().readLikedList(id);
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
-
                 likedList = response.body().getMyLikeList();
-                Log.d("리스트33: ", String.valueOf(likedList));
-                Log.d("리스트44: ", Arrays.toString(likedList));
-
-
+                Log.d("좋아요 리스트 from 서버: ", Arrays.toString(likedList));
                 if(response.body().isStatus()) {
-
                 } else {
                 }
             }
@@ -179,33 +159,6 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         });
 //        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
     }
-
-//    private void uploadLike() {
-//        // 서버에 보낼 데이터 정의
-//        String idx = clicked_idx;
-//        Log.d("글번호: ", clicked_idx);
-//        String id = "sinsy8989@gmail.com";
-//
-//        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadLike(id, idx);
-//        call.enqueue(new Callback<ResponsePOJO>() {
-//            @Override
-//            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
-//                Toast.makeText(context, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-////                response_likes = String.valueOf(response.body().getRemarks());
-//                response_likes = "10";
-//                Log.d("리스트22: ", response_likes);
-//                if(response.body().isStatus()) {
-//
-//                } else {
-//
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
-//                Toast.makeText(context, "Network Failed", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
     public static class ShareViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
