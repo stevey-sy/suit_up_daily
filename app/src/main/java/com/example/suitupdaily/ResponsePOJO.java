@@ -16,15 +16,14 @@ public class ResponsePOJO {
         this.myLikeList = myLikeList;
     }
 
-    @SerializedName("list")
-    private String list;
+    @SerializedName("who_liked")
+    private String whoLiked;
 
-    public String getList() {
-        return list;
+    public String getWhoLiked() {
+        return whoLiked;
     }
-
-    public void setList(String list) {
-        this.list = list;
+    public void setWhoLiked(String whoLiked) {
+        this.whoLiked = whoLiked;
     }
 
     @SerializedName("result")

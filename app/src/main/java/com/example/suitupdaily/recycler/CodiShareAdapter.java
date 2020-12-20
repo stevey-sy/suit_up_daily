@@ -98,16 +98,29 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
 
         // 좋아요 부분
         // 사용자가 눌렀던 좋아요 리스트 받아오는 서버통신 메소드
-        getLikedList();
-        // 게시글의 번호
-        String clicked_idx = clothList.get(position).getIdx();
-        // 좋아요 리스트에 해당 게시글의 번호가 있는지 체크할 boolean 값
-        boolean already_liked = false;
-        if(likedList != null) {
-            // 서버에서 받아온 좋아요 리스트에서 해당 게시글의 번호가 있는지 조회한다.
-            already_liked = Arrays.asList(likedList).contains(clicked_idx);
-            // 좋아요가 이미 있으면 -> true / 없으면 -> false
-            holder.check_like.setChecked(already_liked);
+//        getLikedList();
+//        // 게시글의 번호
+//        String clicked_idx = clothList.get(position).getIdx();
+//        // 좋아요 리스트에 해당 게시글의 번호가 있는지 체크할 boolean 값
+//        boolean already_liked = false;
+//        if(likedList != null) {
+//            // 서버에서 받아온 좋아요 리스트에서 해당 게시글의 번호가 있는지 조회한다.
+//            already_liked = Arrays.asList(likedList).contains(clicked_idx);
+//            // 좋아요가 이미 있으면 -> true / 없으면 -> false
+//            holder.check_like.setChecked(already_liked);
+//        }
+
+        String user_id = "sinsy8989@gmail.com";
+        // 새로운 좋아요 부분
+        // 서버에서 해당글을 좋아요 누른 사람 리스트를 받는다.
+        String who_liked = clothList.get(position).getWhoLiked();
+         // 서버에서 받아온 리스트 문자열에 사용자 id 가 포함되어 있는지 체크
+        if(who_liked.contains(user_id)) {
+            // 리스트에 이미 id가 존재한다면 좋아요 누른처리
+            holder.check_like.setChecked(true);
+        } else {
+            // 리스트에 id가 존재하지 않는다면 좋아요 버튼 default 처리
+            holder.check_like.setChecked(false);
         }
 
         holder.text_view_like_num.setText(String.valueOf(clothList.get(position).getLike()));

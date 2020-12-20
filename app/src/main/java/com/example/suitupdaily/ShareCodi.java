@@ -95,23 +95,6 @@ public class ShareCodi extends AppCompatActivity {
                     // 클릭된 리사이클러뷰의 게시글 index 를 파악하고, 좋아요를 업로드 한다.
                     codi_idx = clothList.get(position).getIdx();
                     uploadLike();
-//                    // 서버에 좋아요 업로드하고
-//                    // shared reference에 idx를 저장해.
-//                    savePreferences(codi_idx);
-
-//                Toast.makeText(getApplicationContext(), "좋아요 버튼 클릭." , Toast.LENGTH_SHORT).show();
-//                if (!click_like) {
-//                    Toast.makeText(getApplicationContext(), "좋아요 버튼 클릭." , Toast.LENGTH_SHORT).show();
-//                    click_like = true;
-//                    // 게시글 번호
-//                    codi_idx = clothList.get(position).getIdx();
-//                    // 좋아요 개수 올라가는 서버통신 메소드
-//                    uploadLike();
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "좋아요 취소" , Toast.LENGTH_SHORT).show();
-//                    click_like = false;
-//                    // 좋아요 취소해서 개수 내려가는 서버통신 메소드
-//                }
             }
         };
 
@@ -194,16 +177,15 @@ public class ShareCodi extends AppCompatActivity {
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
-                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                 if(response.body().isStatus()) {
-
+                    Toast.makeText(getApplicationContext(), "좋아요 성공" , Toast.LENGTH_SHORT).show();
                 } else {
-
                 }
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
-                Toast.makeText(ShareCodi.this, "Network Failed", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ShareCodi.this, "Network Failed", Toast.LENGTH_SHORT).show();
             }
         });
 //        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();

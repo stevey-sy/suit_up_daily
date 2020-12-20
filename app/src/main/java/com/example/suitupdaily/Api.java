@@ -22,7 +22,7 @@ public interface Api {
     );
 
     @FormUrlEncoded
-    @POST("closet/upload_like.php")
+    @POST("closet/upload_like2.php")
     Call<ResponsePOJO> uploadLike(
             @Field("id") String id,
             @Field("idx") String idx
