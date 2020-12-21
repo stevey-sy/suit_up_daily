@@ -32,6 +32,7 @@ public class Home extends AppCompatActivity {
     private ActionBar actionBar;
     private Context context = this;
     private DrawerLayout drawerLayout;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,9 @@ public class Home extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.my_profile:
                         // 프로필 설정
-
+                        Intent intent = new Intent(Home.this, MyProfile.class);
+                        intent.putExtra("userID", userID);
+                        startActivity(intent);
                         return true;
 
                     // 공유버튼 클릭했을 때의 이벤트
@@ -79,7 +82,7 @@ public class Home extends AppCompatActivity {
         btn_share_codi = findViewById(R.id.btn_share_codi);
         // 사용자 아이디 값 받아오는 intent
         Intent intent_get_id = getIntent();
-        final String userID = intent_get_id.getStringExtra("userID");
+        userID = intent_get_id.getStringExtra("userID");
 
         // 옷장 버튼 클릭 이벤트
         btn_closet.setOnClickListener(new View.OnClickListener() {

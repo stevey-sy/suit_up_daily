@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ShareCodi"></activity>
+        <activity android:name=".MyProfile"></activity>
+        <activity android:name=".ShareCodi" />
         <activity android:name=".CodiModify" />
         <activity android:name=".CodiDetail" />
         <activity
