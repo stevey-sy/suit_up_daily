@@ -7,7 +7,7 @@
     tools:context=".MyProfile">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_profile">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:text="ID : "
-                app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName2"
+                app:layout_constraintEnd_toStartOf="@+id/tv_profile_id"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
@@ -116,7 +116,7 @@
 
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/tv_profile_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -128,27 +128,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:gravity="center"
+                android:id="@+id/tv_profile_nick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="92dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Name"
-                app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName2"
-                app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2"
+                app:layout_constraintEnd_toEndOf="@+id/tv_profile_id"
+                app:layout_constraintStart_toStartOf="@+id/tv_profile_id"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:gravity="center"
+                android:id="@+id/tv_profile_birth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="172dp"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:text="Name"
-                app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName3"
-                app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
+                app:layout_constraintEnd_toEndOf="@+id/tv_profile_nick"
+                app:layout_constraintStart_toStartOf="@+id/tv_profile_nick"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <TextView
@@ -156,27 +157,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName3"
-                app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+                app:layout_constraintEnd_toEndOf="@+id/tv_profile_nick"
+                app:layout_constraintStart_toStartOf="@+id/tv_profile_nick"
+                app:layout_constraintTop_toBottomOf="@+id/tv_profile_nick" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/rg_profile_sex"
                 android:layout_width="209dp"
                 android:layout_height="46dp"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName4"
-                app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName4"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4">
+                app:layout_constraintEnd_toEndOf="@+id/tv_profile_birth"
+                app:layout_constraintStart_toStartOf="@+id/tv_profile_birth"
+                app:layout_constraintTop_toBottomOf="@+id/tv_profile_birth">
 
                 <RadioButton
+                    android:id="@+id/rb_profile_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="남성" />
 
                 <RadioButton
+                    android:id="@+id/rb_profile_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -185,7 +188,7 @@
             </RadioGroup>
 
             <Button
-                android:id="@+id/button9"
+                android:id="@+id/btn_profile_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -193,7 +196,7 @@
                 android:text="수정 완료"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/rg_profile_sex" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
