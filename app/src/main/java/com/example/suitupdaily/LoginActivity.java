@@ -32,16 +32,21 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private EditText id_text, pass_text;
     private Button login_btn, register_btn;
+    private String user_id;
 
     private SignInButton btn_google;
     private FirebaseAuth auth;
     private GoogleApiClient googleApiClient;
     // 구글 로그인 결과 코드
     private static final int REQ_SIGN_GOOGLE = 100;
+    private boolean check_new_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +140,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             }
         });
-
     }
 
     // 구글 로그인 인증을 요청했을 때 결과값을 되돌려 받는 코드
@@ -165,9 +169,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         // 로그인이 성공했으면 코드 진행
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "로그인이 되었습니다.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), Home.class);
-                            intent.putExtra("userID",account.getEmail());
-                            startActivity(intent);
+                            user_id = account.getEmail();
+                            uploadUserList(user_id);
+                            Log.d("resultLogin: ", user_id);
+//                            if(check_new_user) {
+//                                Intent intent = new Intent(LoginActivity.this, UserBasicInfo.class);
+//                                intent.putExtra("userID", user_id);
+//                                startActivity(intent);
+//                            } else {
+//
+//                            }
+                            // 서버에다가 email 조회, 있으면 넘어감
+                            // 없으면 회원 리스트에 추가
+
+//                            Intent intent = new Intent(getApplicationContext(), Home.class);
+//                            intent.putExtra("userID",account.getEmail());
+//                            startActivity(intent);
 
                        } else {
                             Toast.makeText(LoginActivity.this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -176,7 +193,36 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         }
                     }
                 });
+    }
 
+    private void uploadUserList(String id) {
+
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadUserList(id);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, retrofit2.Response<ResponsePOJO> response) {
+//                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+                if(response.body().getRemarks().equals("저장")) {
+                    Toast.makeText(getApplicationContext(), "회원 리스트에 추가되었습니다." , Toast.LENGTH_SHORT).show();
+                    check_new_user = true;
+                    // 기본 정보 입력 필요.
+                    Intent intent = new Intent(LoginActivity.this, UserBasicInfo.class);
+                    intent.putExtra("userID", user_id);
+                    startActivity(intent);
+                } else if (response.body().getRemarks().equals("중복")){
+                    Toast.makeText(getApplicationContext(), "기존 회원입니다." , Toast.LENGTH_SHORT).show();
+                    check_new_user = false;
+                    Intent intent = new Intent(LoginActivity.this, Home.class);
+                    intent.putExtra("userID", user_id);
+                    startActivity(intent);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
     }
 
     @Override

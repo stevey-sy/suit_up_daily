@@ -16,6 +16,12 @@ import retrofit2.http.Part;
 public interface Api {
 
     @FormUrlEncoded
+    @POST("user/upload_user_list.php")
+    Call<ResponsePOJO> uploadUserList(
+            @Field("id") String id
+    );
+
+    @FormUrlEncoded
     @POST("closet/read_liked_list.php")
     Call<ResponsePOJO> readLikedList(
             @Field("id") String id
