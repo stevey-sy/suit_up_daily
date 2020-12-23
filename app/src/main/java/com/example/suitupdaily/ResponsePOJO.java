@@ -8,6 +8,34 @@ public class ResponsePOJO {
     private String remarks;
     private String[] myLikeList;
 
+    private String nick;
+    private String birth;
+    private String sex;
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     public String[] getMyLikeList() {
         return myLikeList;
     }
