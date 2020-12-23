@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".UserBasicInfo">
 
     <androidx.appcompat.widget.Toolbar
@@ -12,27 +13,23 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        android:theme="?attr/actionBarTheme">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="기본정보 입력"
-            android:textSize="24sp"
+            android:text="회원 가입"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            />
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
+        android:id="@+id/scrollView"
+        android:orientation="vertical"
+        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar4">
+        android:layout_height="wrap_content" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -40,14 +37,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar4">
+            app:layout_constraintTop_toBottomOf="@id/scrollView">
 
 
             <TextView
                 android:id="@+id/textView50"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="100dp"
                 android:text="이름 :"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName5"
@@ -79,10 +76,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
             <TextView
+
                 android:id="@+id/textView55"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="272dp"
+                android:layout_marginTop="232dp"
                 android:text="생년월일 :"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/textView50"
@@ -94,8 +92,9 @@
                 android:id="@+id/editTextTextPersonName5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="100dp"
                 android:ems="10"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView50"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -104,8 +103,9 @@
                 android:id="@+id/editTextTextPersonName6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="132dp"
+                android:layout_marginTop="180dp"
                 android:ems="10"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView50"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -114,17 +114,19 @@
                 android:id="@+id/editTextTextPersonName8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="336dp"
+                android:layout_marginTop="356dp"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="ex) 950416"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView50"
+                app:layout_constraintHorizontal_bias="0.336"
+                app:layout_constraintStart_toEndOf="@+id/textView55"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RadioGroup
                 android:layout_width="214dp"
                 android:layout_height="53dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="56dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName6"
@@ -149,26 +151,29 @@
                 android:id="@+id/button10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
                 android:text="입력 완료"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+                app:layout_constraintTop_toBottomOf="@+id/checkBox2"
+                app:layout_constraintVertical_bias="0.0" />
 
             <View
                 android:id="@+id/underline_season"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="40dp"
                 android:background="#000000"
                 app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName8"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="@+id/textView55"
                 app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8" />
 
@@ -177,7 +182,7 @@
                 android:layout_width="1dp"
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:background="#a9a9a9"
                 app:layout_constraintEnd_toStartOf="@+id/textView57"
                 app:layout_constraintStart_toEndOf="@+id/textView56"
@@ -187,24 +192,26 @@
                 android:id="@+id/textView56"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="44dp"
+                android:layout_marginStart="92dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="16dp"
                 android:text="이용약관"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox2"
+                app:layout_constraintEnd_toStartOf="@+id/underline_season2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8"
-                app:layout_constraintVertical_bias="0.04" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8" />
 
             <TextView
                 android:id="@+id/textView57"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
                 android:layout_marginEnd="56dp"
                 android:text="개인정보 보호정책"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/checkBox2"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/underline_season2"
                 app:layout_constraintTop_toTopOf="@+id/textView56"
                 app:layout_constraintVertical_bias="0.0" />
 
@@ -212,16 +219,27 @@
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginTop="20dp"
                 android:text="모든 약관에 동의합니다."
                 app:layout_constraintBottom_toTopOf="@+id/button10"
                 app:layout_constraintEnd_toEndOf="@+id/textView57"
-                app:layout_constraintHorizontal_bias="0.384"
+                app:layout_constraintHorizontal_bias="0.131"
                 app:layout_constraintStart_toStartOf="@+id/textView56"
                 app:layout_constraintTop_toBottomOf="@+id/textView56" />
+
+            <TextView
+                android:id="@+id/textView58"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="기본정보 입력"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.087"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
