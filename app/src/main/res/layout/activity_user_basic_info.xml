@@ -8,7 +8,7 @@
     tools:context=".UserBasicInfo">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar4"
+        android:id="@+id/toolbar_basic_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -47,7 +47,7 @@
                 android:layout_marginTop="100dp"
                 android:text="이름 :"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName5"
+                app:layout_constraintEnd_toStartOf="@+id/text_view_user_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +89,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName5"
+                android:id="@+id/text_view_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
@@ -100,7 +100,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName6"
+                android:id="@+id/text_user_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="180dp"
@@ -111,7 +111,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName8"
+                android:id="@+id/text_user_birth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="356dp"
@@ -124,22 +124,25 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RadioGroup
+                android:id="@+id/radio_group_sex"
                 android:layout_width="214dp"
                 android:layout_height="53dp"
                 android:layout_marginTop="56dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName6"
+                app:layout_constraintEnd_toEndOf="@+id/text_user_nick_name"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName6"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName6">
+                app:layout_constraintStart_toStartOf="@+id/text_user_nick_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_user_nick_name">
 
                 <RadioButton
+                    android:id="@+id/radio_button_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="남성" />
 
                 <RadioButton
+                    android:id="@+id/radio_button_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
@@ -148,7 +151,7 @@
             </RadioGroup>
 
             <Button
-                android:id="@+id/button10"
+                android:id="@+id/btn_basic_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -160,7 +163,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox2"
+                app:layout_constraintTop_toBottomOf="@+id/check_user_agree"
                 app:layout_constraintVertical_bias="0.0" />
 
             <View
@@ -172,10 +175,10 @@
                 android:layout_marginTop="44dp"
                 android:layout_marginEnd="40dp"
                 android:background="#000000"
-                app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName8"
+                app:layout_constraintEnd_toEndOf="@+id/text_user_birth"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="@+id/textView55"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8" />
+                app:layout_constraintTop_toBottomOf="@+id/text_user_birth" />
 
             <View
                 android:id="@+id/underline_season2"
@@ -199,7 +202,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/underline_season2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName8" />
+                app:layout_constraintTop_toBottomOf="@+id/text_user_birth" />
 
             <TextView
                 android:id="@+id/textView57"
@@ -209,21 +212,21 @@
                 android:layout_marginEnd="56dp"
                 android:text="개인정보 보호정책"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox2"
+                app:layout_constraintBottom_toTopOf="@+id/check_user_agree"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/underline_season2"
                 app:layout_constraintTop_toTopOf="@+id/textView56"
                 app:layout_constraintVertical_bias="0.0" />
 
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/check_user_agree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="모든 약관에 동의합니다."
-                app:layout_constraintBottom_toTopOf="@+id/button10"
+                app:layout_constraintBottom_toTopOf="@+id/btn_basic_info"
                 app:layout_constraintEnd_toEndOf="@+id/textView57"
-                app:layout_constraintHorizontal_bias="0.131"
+                app:layout_constraintHorizontal_bias="0.312"
                 app:layout_constraintStart_toStartOf="@+id/textView56"
                 app:layout_constraintTop_toBottomOf="@+id/textView56" />
 
