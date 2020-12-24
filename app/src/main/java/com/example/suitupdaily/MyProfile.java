@@ -1,16 +1,25 @@
 package com.example.suitupdaily;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +32,10 @@ public class MyProfile extends AppCompatActivity {
     private Button btn_save;
     private RadioGroup radio_group_sex;
     private RadioButton radio_button_male, radio_button_female;
+    private FloatingActionButton button_camera;
     private EditText text_nick, text_birth, text_id;
+    private TextView tv_user_id;
+    private Menu action;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +56,7 @@ public class MyProfile extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         // xml 연결
+        tv_user_id = (TextView) findViewById(R.id.text_view_user_id);
         text_id = (EditText) findViewById(R.id.tv_profile_id);
         text_nick = (EditText) findViewById(R.id.tv_profile_nick);
         text_birth = (EditText) findViewById(R.id.tv_profile_birth);
@@ -51,6 +64,7 @@ public class MyProfile extends AppCompatActivity {
         radio_group_sex = (RadioGroup)findViewById(R.id.rg_profile_sex);
         radio_button_male = (RadioButton)findViewById(R.id.rb_profile_male);
         radio_button_female = (RadioButton)findViewById(R.id.rb_profile_female);
+        button_camera = (FloatingActionButton)findViewById(R.id.fb_profile_camera);
         // 성별 체크 버튼 이벤트
         radio_group_sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -65,8 +79,49 @@ public class MyProfile extends AppCompatActivity {
                 }
             }
         });
+        readMode();
     }
-    // 서버에서 기본정보 받아오는 메소드 필요
+
+    // 툴바 메뉴 불러오기
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_cloth_info, menu);
+        action = menu;
+        action.findItem(R.id.confirm).setVisible(false);
+        action.findItem(R.id.modify_cancel).setVisible(false);
+        action.findItem(R.id.delete).setVisible(false);
+        return true;
+    }
+
+    // 툴바 메뉴 클릭시 이벤트 (프로필 수정 버튼)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.modify:
+                // 버튼들 활성화
+                editMode();
+                // 메뉴바에서 수정 버튼 사라지고 수정 취소, 저장 메뉴가 생김
+                action.findItem(R.id.modify).setVisible(false);
+                action.findItem(R.id.modify_cancel).setVisible(true);
+                action.findItem(R.id.confirm).setVisible(true);
+                return true;
+            case R.id.modify_cancel:
+                readMode();
+                action.findItem(R.id.modify).setVisible(true);
+                action.findItem(R.id.modify_cancel).setVisible(false);
+                action.findItem(R.id.confirm).setVisible(false);
+                return true;
+            case R.id.confirm:
+                action.findItem(R.id.modify).setVisible(true);
+                action.findItem(R.id.modify_cancel).setVisible(false);
+                action.findItem(R.id.confirm).setVisible(false);
+                // TODO: 2020-12-24 서버에 수정된 데이터 업로드 메소드 필요
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // 서버에서 기본정보 받아오는 메소드
     public void getProfileInfo () {
 
         String id = user_id;
@@ -81,6 +136,7 @@ public class MyProfile extends AppCompatActivity {
                     String birth = response.body().getBirth();
                     String sex = response.body().getSex();
 
+                    tv_user_id.setText(nick);
                     text_id.setText(user_id);
                     text_nick.setText(nick);
                     text_birth.setText(birth);
@@ -99,7 +155,38 @@ public class MyProfile extends AppCompatActivity {
                 Toast.makeText(MyProfile.this, "Network Failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    // 사용자가 정보를 조회만 할 수 있는 메소드
+    public void readMode() {
+        // 정보기입란 비활성화
+        String color_code = "#000000";
+        text_nick.setTextColor(Color.parseColor(color_code));
+        text_birth.setTextColor(Color.parseColor(color_code));
+        text_id.setClickable(false);
+        text_id.setFocusable(false);
+        text_nick.setClickable(false);
+        text_nick.setFocusable(false);
+        text_birth.setClickable(false);
+        text_birth.setFocusable(false);
+        radio_button_male.setEnabled(false);
+        radio_button_female.setEnabled(false);
+        btn_save.setVisibility(View.GONE);
+        button_camera.setVisibility(View.GONE);
+    }
+
+    // 정보 기입란이 활성화 됨. (수정 버튼 눌렸을 때 사용)
+    public void editMode() {
+        String color_code = "#1e90ff";
+        text_nick.setFocusableInTouchMode(true);
+        text_nick.setTextColor(Color.parseColor(color_code));
+        text_birth.setFocusableInTouchMode(true);
+        text_birth.setTextColor(Color.parseColor(color_code));
+        radio_button_male.setEnabled(true);
+        radio_button_female.setEnabled(true);
+        btn_save.setVisibility(View.VISIBLE);
+        button_camera.setVisibility(View.VISIBLE);
+        Toast.makeText(MyProfile.this, "프로필을 수정할 수 있습니다.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
