@@ -11,6 +11,15 @@ public class ResponsePOJO {
     private String nick;
     private String birth;
     private String sex;
+    private String photoUrl;
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 
     public String getNick() {
         return nick;
