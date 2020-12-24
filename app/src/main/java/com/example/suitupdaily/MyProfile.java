@@ -1,19 +1,25 @@
 package com.example.suitupdaily;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,6 +27,9 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -34,8 +43,11 @@ public class MyProfile extends AppCompatActivity {
     private RadioButton radio_button_male, radio_button_female;
     private FloatingActionButton button_camera;
     private EditText text_nick, text_birth, text_id;
+    private ImageView image_profile;
     private TextView tv_user_id;
     private Menu action;
+    private Uri uri;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +77,9 @@ public class MyProfile extends AppCompatActivity {
         radio_button_male = (RadioButton)findViewById(R.id.rb_profile_male);
         radio_button_female = (RadioButton)findViewById(R.id.rb_profile_female);
         button_camera = (FloatingActionButton)findViewById(R.id.fb_profile_camera);
+        image_profile = (CircleImageView)findViewById(R.id.iv_profile_pic);
+        // 정보 기입란 비활성화 메소드
+        readMode();
         // 성별 체크 버튼 이벤트
         radio_group_sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -79,7 +94,39 @@ public class MyProfile extends AppCompatActivity {
                 }
             }
         });
-        readMode();
+        // 카메라 버튼 이벤트
+        button_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // 고르고 나면, startActivityForResult 로 넘어간다.
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    uri= data.getData();
+                    image_profile.setImageURI(uri);
+//                       mCurrentPhotoPath = createCopyAndReturnRealPath(this, uri);
+//                       Log.d("절대경로 : ", uri.toString() + "|n" + mCurrentPhotoPath);
+                    ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), uri);
+                    bitmap = ImageDecoder.decodeBitmap(source);
+                    //image_edit.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     // 툴바 메뉴 불러오기

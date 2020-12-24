@@ -53,18 +53,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
 
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="161dp"
-                    android:layout_height="181dp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_profile_pic"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.536"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_user" />
+                    android:src="@drawable/ic_user" />
 
                 <TextView
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:id="@+id/text_view_user_id"
                     android:layout_width="wrap_content"
@@ -72,9 +73,9 @@
                     android:text="사용자 닉네임"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView2"
-                    app:layout_constraintStart_toStartOf="@+id/imageView2"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                    app:layout_constraintEnd_toEndOf="@+id/iv_profile_pic"
+                    app:layout_constraintStart_toStartOf="@+id/iv_profile_pic"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_profile_pic" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fb_profile_camera"
@@ -85,7 +86,7 @@
                     android:clickable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/text_view_user_id"
-                    app:layout_constraintTop_toTopOf="@+id/imageView2"
+                    app:layout_constraintTop_toTopOf="@+id/iv_profile_pic"
                     app:srcCompat="@drawable/ic_camera" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
