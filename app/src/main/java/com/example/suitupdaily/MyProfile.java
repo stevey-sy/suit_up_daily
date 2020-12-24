@@ -6,12 +6,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,11 +29,13 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyProfile extends AppCompatActivity {
 
@@ -160,10 +164,13 @@ public class MyProfile extends AppCompatActivity {
                 action.findItem(R.id.confirm).setVisible(false);
                 return true;
             case R.id.confirm:
+                readMode();
+                editProfile();
                 action.findItem(R.id.modify).setVisible(true);
                 action.findItem(R.id.modify_cancel).setVisible(false);
                 action.findItem(R.id.confirm).setVisible(false);
                 // TODO: 2020-12-24 서버에 수정된 데이터 업로드 메소드 필요
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -203,6 +210,44 @@ public class MyProfile extends AppCompatActivity {
             }
         });
     }
+    // 서버에 수정된 데이터 보내는 메소드
+    private void editProfile() {
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("프로필 수정 중...");
+        progressDialog.show();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
+        byte[] imageInByte = byteArrayOutputStream.toByteArray();
+        // 서버에 보낼 데이터 정의
+        String encodedImage = Base64.encodeToString(imageInByte, Base64.DEFAULT);
+        String id = user_id;
+        String nick = text_nick.getText().toString();
+        String birth = text_birth.getText().toString();
+        String sex = user_sex;
+
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().editProfile(id, nick, birth, sex, encodedImage);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+                progressDialog.dismiss();
+                Toast.makeText(MyProfile.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+
+                if(response.body().isStatus()) {
+
+                } else {
+
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(MyProfile.this, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
+    }
+
 
     // 사용자가 정보를 조회만 할 수 있는 메소드
     public void readMode() {
