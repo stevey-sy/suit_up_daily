@@ -22,7 +22,7 @@ public interface Api {
             @Field("nick") String nick,
             @Field("birth") String birth,
             @Field("sex") String sex,
-            @Field("EN_IMAGE") String encodedImage
+            @Field("EN_IMAGE") String picture
     );
 
     @FormUrlEncoded
