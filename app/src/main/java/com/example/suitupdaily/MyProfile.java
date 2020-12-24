@@ -217,6 +217,15 @@ public class MyProfile extends AppCompatActivity {
         progressDialog.setMessage("프로필 수정 중...");
         progressDialog.show();
 
+        String picture = null;
+        if (bitmap == null) {
+            // 사용자가 프로필 이미지는 수정하지 않았을 때 서버에 보낼 코드
+            // 서버에서 111 코드를 받으면, DB 에서 이미지를 제외한 데이터들만 수정한다.
+            picture = "111";
+        } else {
+            picture = getStringImage(bitmap);
+        }
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
         byte[] imageInByte = byteArrayOutputStream.toByteArray();
@@ -227,7 +236,7 @@ public class MyProfile extends AppCompatActivity {
         String birth = text_birth.getText().toString();
         String sex = user_sex;
 
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().editProfile(id, nick, birth, sex, encodedImage);
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().editProfile(id, nick, birth, sex, picture);
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
@@ -279,6 +288,14 @@ public class MyProfile extends AppCompatActivity {
         btn_save.setVisibility(View.VISIBLE);
         button_camera.setVisibility(View.VISIBLE);
         Toast.makeText(MyProfile.this, "프로필을 수정할 수 있습니다.", Toast.LENGTH_SHORT).show();
+    }
+
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 
     @Override
