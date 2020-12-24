@@ -6,7 +6,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -27,6 +29,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
@@ -39,7 +44,7 @@ import retrofit2.Response;
 
 public class MyProfile extends AppCompatActivity {
 
-    private String user_id, user_sex;
+    private String user_id, user_sex, photo_url;
     private Toolbar toolbar;
     private ActionBar actionBar;
     private Button btn_save;
@@ -52,6 +57,7 @@ public class MyProfile extends AppCompatActivity {
     private Menu action;
     private Uri uri;
     private Bitmap bitmap;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,20 +115,31 @@ public class MyProfile extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+        // 수정 완료 버튼 눌렀을 때의 이벤트
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 서버에 데이터 수정 요청 메소드
+                editProfile();
+                // 툴바 메뉴 상태 변경 (수정 버튼 다시 나오도록)
+                action.findItem(R.id.modify).setVisible(true);
+                action.findItem(R.id.modify_cancel).setVisible(false);
+                action.findItem(R.id.confirm).setVisible(false);
+                // 정보 기입란 비활성화 메소드
+                readMode();
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // 겔러리에서 선택된 이미지를 view 에 뿌려준다.
         if (requestCode == 1) {
-
             if (resultCode == RESULT_OK) {
                 try {
                     uri= data.getData();
                     image_profile.setImageURI(uri);
-//                       mCurrentPhotoPath = createCopyAndReturnRealPath(this, uri);
-//                       Log.d("절대경로 : ", uri.toString() + "|n" + mCurrentPhotoPath);
                     ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), uri);
                     bitmap = ImageDecoder.decodeBitmap(source);
                     //image_edit.setImageBitmap(bitmap);
@@ -164,13 +181,14 @@ public class MyProfile extends AppCompatActivity {
                 action.findItem(R.id.confirm).setVisible(false);
                 return true;
             case R.id.confirm:
-                readMode();
+                // 서버에 데이터 수정 요청 메소드
                 editProfile();
+                // 툴바 메뉴 상태 변경 (수정 버튼 다시 나오도록)
                 action.findItem(R.id.modify).setVisible(true);
                 action.findItem(R.id.modify_cancel).setVisible(false);
                 action.findItem(R.id.confirm).setVisible(false);
-                // TODO: 2020-12-24 서버에 수정된 데이터 업로드 메소드 필요
-
+                // 정보 기입란 비활성화 메소드
+                readMode();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -182,6 +200,7 @@ public class MyProfile extends AppCompatActivity {
 
         Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().getProfile(id);
         call.enqueue(new Callback<ResponsePOJO>() {
+            @SuppressLint("CheckResult")
             @Override
             public void onResponse(Call<ResponsePOJO> call, retrofit2.Response<ResponsePOJO> response) {
 //                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
@@ -189,7 +208,17 @@ public class MyProfile extends AppCompatActivity {
                     String nick = response.body().getNick();
                     String birth = response.body().getBirth();
                     String sex = response.body().getSex();
+                    String photo_url = response.body().getPhotoUrl();
 
+                    // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.skipMemoryCache(true);
+                    requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+                    requestOptions.placeholder(R.drawable.ic_clothes_hanger);
+                    requestOptions.error(R.drawable.ic_baseline_accessibility_24);
+
+                    // 서버에서 받아온 데이터를 view 에 뿌려줌
+                    Glide.with(MyProfile.this).load(photo_url).apply(requestOptions).circleCrop().into(image_profile);
                     tv_user_id.setText(nick);
                     text_id.setText(user_id);
                     text_nick.setText(nick);
@@ -199,7 +228,6 @@ public class MyProfile extends AppCompatActivity {
                     } else if (sex.equals("여")) {
                         radio_button_female.setChecked(true);
                     }
-
                 } else {
 
                 }
@@ -226,13 +254,9 @@ public class MyProfile extends AppCompatActivity {
             picture = getStringImage(bitmap);
         }
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
-        byte[] imageInByte = byteArrayOutputStream.toByteArray();
-        // 서버에 보낼 데이터 정의
-        String encodedImage = Base64.encodeToString(imageInByte, Base64.DEFAULT);
         String id = user_id;
         String nick = text_nick.getText().toString();
+        tv_user_id.setText(nick);
         String birth = text_birth.getText().toString();
         String sex = user_sex;
 
@@ -242,12 +266,6 @@ public class MyProfile extends AppCompatActivity {
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
                 progressDialog.dismiss();
                 Toast.makeText(MyProfile.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
-
-                if(response.body().isStatus()) {
-
-                } else {
-
-                }
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
@@ -256,7 +274,6 @@ public class MyProfile extends AppCompatActivity {
         });
 //        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
     }
-
 
     // 사용자가 정보를 조회만 할 수 있는 메소드
     public void readMode() {
@@ -292,7 +309,7 @@ public class MyProfile extends AppCompatActivity {
 
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 30, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
@@ -303,5 +320,6 @@ public class MyProfile extends AppCompatActivity {
         super.onResume();
         // 서버에서 정보 받아오는 메소드
         getProfileInfo ();
+//        Glide.with(this).load(photo_url).apply(requestOptions).circleCrop().into(image_profile);
     }
 }
