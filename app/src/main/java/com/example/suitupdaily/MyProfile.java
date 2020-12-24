@@ -162,7 +162,7 @@ public class MyProfile extends AppCompatActivity {
         return true;
     }
 
-    // 툴바 메뉴 클릭시 이벤트 (프로필 수정 버튼)
+    // 툴바 메뉴 클릭시 이벤트 (프로필 수정 버튼, 홈 버튼)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -189,6 +189,10 @@ public class MyProfile extends AppCompatActivity {
                 action.findItem(R.id.confirm).setVisible(false);
                 // 정보 기입란 비활성화 메소드
                 readMode();
+            // 툴바 홈 버튼 눌렀을 때의 이벤트
+            case android.R.id.home:
+                finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
