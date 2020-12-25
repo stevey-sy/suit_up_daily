@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,17 +23,28 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class Home extends AppCompatActivity {
 
     private Button btn_closet, btn_my_codi, btn_share_codi;
+    private TextView text_view_nick;
     private Toolbar toolbar;
     private ActionBar actionBar;
     private Context context = this;
     private DrawerLayout drawerLayout;
     private String userID;
+    private CircleImageView image_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +83,6 @@ public class Home extends AppCompatActivity {
                         // TODO: 2020-12-21 로그아웃 구현 필요
                         return true;
                 }
-
                 return true;
             }
         });
@@ -80,6 +91,8 @@ public class Home extends AppCompatActivity {
         btn_closet = findViewById(R.id.btn_closet);
         btn_my_codi = findViewById(R.id.btn_my_codi);
         btn_share_codi = findViewById(R.id.btn_share_codi);
+        image_profile = findViewById(R.id.iv_home_profile);
+        text_view_nick = findViewById(R.id.tv_home_nick);
         // 사용자 아이디 값 받아오는 intent
         Intent intent_get_id = getIntent();
         userID = intent_get_id.getStringExtra("userID");
@@ -123,5 +136,44 @@ public class Home extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+    // 서버로부터 사용자 정보 가져오는 메소드
+    // 서버에서 기본정보 받아오는 메소드
+    public void getProfileInfo() {
+        String id = userID;
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().getProfile(id);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @SuppressLint("CheckResult")
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, retrofit2.Response<ResponsePOJO> response) {
+//                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
+                if(response.body().isStatus()) {
+                    String nick = response.body().getNick();
+                    String photo_url = response.body().getPhotoUrl();
+                    // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.skipMemoryCache(true);
+                    requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+                    requestOptions.placeholder(R.drawable.ic_clothes_hanger);
+                    requestOptions.error(R.drawable.ic_baseline_accessibility_24);
+                    // 서버에서 받아온 데이터를 view 에 뿌려줌
+//                    Glide.with(Home.this).load(photo_url).apply(requestOptions).circleCrop().into(image_profile);
+//                    text_view_nick.setText(nick);
+                } else {
+
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(Home.this, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 서버에서 사용자의 프로필 받아오는 메소드
+        getProfileInfo ();
     }
 }
