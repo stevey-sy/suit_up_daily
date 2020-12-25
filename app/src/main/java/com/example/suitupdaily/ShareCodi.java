@@ -139,7 +139,11 @@ public class ShareCodi extends AppCompatActivity {
         button_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // 전체 코디 가져오는 메소드
+                getCodiBoard();
+                // 검색결과 안내문 보이지 않게 처리
+                button_default.setVisibility(View.GONE);
+                text_searched_word.setVisibility(View.GONE);
             }
         });
     }
@@ -214,13 +218,14 @@ public class ShareCodi extends AppCompatActivity {
                     String result_count = String.valueOf(clothList.size());
                     // 검색어 몇 글자인지 확인
                     int string_count = search_word.length();
-                    Log.d("검색어: ", String.valueOf(string_count));
                     // 검색 후 안내문 작성
-                    text_searched_word.setText("'"+search_word+"' 총 "+result_count+" 건의 검색 결과");
+                    text_searched_word.setText("'"+search_word+"' 총 "+result_count+"건의 검색 결과");
+                    int test = text_searched_word.getText().length();
                     // 검색어 부분만 컬러로 강조
                     Spannable span = (Spannable) text_searched_word.getText();
                     String color_blue = "#1e90ff";
                     span.setSpan(new ForegroundColorSpan(Color.parseColor(color_blue)),1, string_count+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    span.setSpan(new ForegroundColorSpan(Color.RED),string_count+5, string_count+6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     // 검색 초기화 버튼 활성화
                     button_default.setVisibility(View.VISIBLE);
                     // 서버로부터 받아온 데이터 리사이클러뷰에 적용
@@ -276,20 +281,6 @@ public class ShareCodi extends AppCompatActivity {
         editor.putString("liked", idx);
         editor.commit();
     }
-
-    public void textFormColor( View v, String text, int left, int right ) {
-        if ( text == null ) return;
-        if ( left < 0 || right < 0 ) return;
-        if ( text.length( ) < left + right ) return;
-        if ( v.getClass( ) == AppCompatTextView.class || v.getClass( ) == TextView.class ) {
-            SpannableString s = new SpannableString( text );
-            s.setSpan( new ForegroundColorSpan( Color.BLUE ), 0, left, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE );
-            s.setSpan( new ForegroundColorSpan( Color.RED ), text.length( ) - right, text.length( ), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE );
-            ( ( TextView ) v ).setText( s );
-
-        }
-    }
-
 
     @Override
     protected void onResume() {
