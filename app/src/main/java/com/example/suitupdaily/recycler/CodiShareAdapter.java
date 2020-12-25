@@ -93,7 +93,6 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         holder.date.setText(converted_date);
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
-        holder.text_view_like_num.setText(String.valueOf(clothList.get(position).getLike()));
         holder.text_view_user_name.setText(clothList.get(position).getUserNick());
 
         String user_id = "sinsy8989@gmail.com";
@@ -103,10 +102,14 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
          // 서버에서 받아온 리스트 문자열에 사용자 id 가 포함되어 있는지 체크
         if(who_liked.contains(user_id)) {
             // 리스트에 이미 id가 존재한다면 좋아요 누른처리
+            int like_edit = clothList.get(position).getLike() -1;
+            holder.text_view_like_num.setText(String.valueOf(like_edit));
             holder.check_like.setChecked(true);
+
         } else {
             // 리스트에 id가 존재하지 않는다면 좋아요 버튼 default 처리
             holder.check_like.setChecked(false);
+            holder.text_view_like_num.setText(String.valueOf(clothList.get(position).getLike()));
         }
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
