@@ -93,6 +93,13 @@ public interface Api {
     );
 
     @FormUrlEncoded
+    @POST("codi/get_search.php")
+    Call<List<ResponsePOJO>> searchCodi(
+            @Field("id") String id,
+            @Field("search_word") String search_word
+    );
+
+    @FormUrlEncoded
     @POST("closet/codi_board.php")
     Call<List<ResponsePOJO>> getCodiBoard(
             @Field("id") String id
