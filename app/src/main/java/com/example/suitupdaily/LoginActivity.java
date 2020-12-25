@@ -172,24 +172,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             user_id = account.getEmail();
                             uploadUserList(user_id);
                             Log.d("resultLogin: ", user_id);
-//                            if(check_new_user) {
-//                                Intent intent = new Intent(LoginActivity.this, UserBasicInfo.class);
-//                                intent.putExtra("userID", user_id);
-//                                startActivity(intent);
-//                            } else {
-//
-//                            }
-                            // 서버에다가 email 조회, 있으면 넘어감
-                            // 없으면 회원 리스트에 추가
-
-//                            Intent intent = new Intent(getApplicationContext(), Home.class);
-//                            intent.putExtra("userID",account.getEmail());
-//                            startActivity(intent);
-
                        } else {
                             Toast.makeText(LoginActivity.this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                          // 로그인 실패
-
                         }
                     }
                 });

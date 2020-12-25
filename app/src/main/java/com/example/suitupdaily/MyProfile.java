@@ -199,9 +199,7 @@ public class MyProfile extends AppCompatActivity {
 
     // 서버에서 기본정보 받아오는 메소드
     public void getProfileInfo () {
-
         String id = user_id;
-
         Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().getProfile(id);
         call.enqueue(new Callback<ResponsePOJO>() {
             @SuppressLint("CheckResult")

@@ -300,16 +300,12 @@ public class CuttingImage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {
-
             if (resultCode == RESULT_OK) {
-
                 try {
                 uri= data.getData();
                 image_edit.setImageURI(uri);
                 mCurrentPhotoPath = createCopyAndReturnRealPath(this, uri);
                 Log.d("절대경로 : ", uri.toString() + "|n" + mCurrentPhotoPath);
-
-
                 ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), uri);
                 bitmap = ImageDecoder.decodeBitmap(source);
                 //image_edit.setImageBitmap(bitmap);
