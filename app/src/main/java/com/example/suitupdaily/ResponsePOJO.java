@@ -53,6 +53,28 @@ public class ResponsePOJO {
         this.myLikeList = myLikeList;
     }
 
+    @SerializedName("img_url")
+    private String imgURL;
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    @SerializedName("user_nickname")
+    private String userNick;
+
+    public String getUserNick() {
+        return userNick;
+    }
+
+    public void setUserNick(String userNick) {
+        this.userNick = userNick;
+    }
+
     @SerializedName("who_liked")
     private String whoLiked;
 
