@@ -22,6 +22,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
@@ -46,7 +47,7 @@ public class ShareCodi extends AppCompatActivity {
     CodiShareAdapter.ShareViewClickListener listener;
     private List<ResponsePOJO> clothList;
     private TextView filter_recently, filter_sex, filter_age, text_searched_word, notify_no_codi;
-    private String user_id, codi_idx;
+    private String user_id, codi_idx, string_recently, string_sex, string_age;
     private Toolbar toolbar;
     private ActionBar actionBar;
     private Boolean click_like = false;
@@ -79,6 +80,11 @@ public class ShareCodi extends AppCompatActivity {
         edit_text_search_word = (EditText)findViewById(R.id.et_search_word);
         button_default = (Button)findViewById(R.id.btn_search_default);
         text_searched_word = (TextView)findViewById(R.id.tv_searched_word);
+
+        // filter 메뉴 초기화
+        string_recently = "recently";
+        string_sex = "all";
+        string_age = "all";
 
         // 검색결과 안내문 처음에 보이지 않게 처리
         button_default.setVisibility(View.GONE);
@@ -133,6 +139,9 @@ public class ShareCodi extends AppCompatActivity {
                 }
                 // 검색창 초기화
                 edit_text_search_word.setText("");
+                // 검색 후 가상 키보드 내리기
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edit_text_search_word.getWindowToken(), 0);
             }
         });
         // 초기화 버튼 클릭 리스너
@@ -147,26 +156,36 @@ public class ShareCodi extends AppCompatActivity {
             }
         });
     }
-    // 필터링 버튼 "최신순" 클릭했을 때의 이벤트 메소드
+    // 필터링 버튼 클릭했을 때의 메소드
     public void onPopupButtonClick(View button) {
-        //popup menu 객체 생성
-        PopupMenu popup = new PopupMenu (this, button);
-        // xml 과 연결
-        popup.getMenuInflater().inflate(R.menu.menu_filter_recently, popup.getMenu());
-        // popup 메뉴 클릭 시 이벤트
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.recently:
-                        break;
-                    case R.id.popular:
-                        break;
+        // 필터링 버튼 "최신순" 클릭했을 때의 메소드
+        if (button == filter_recently) {
+            //popup menu 객체 생성
+            PopupMenu popup = new PopupMenu (this, button);
+            // xml 과 연결
+            popup.getMenuInflater().inflate(R.menu.menu_filter_recently, popup.getMenu());
+            // popup 메뉴 클릭 시 이벤트
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.recently:
+                            string_recently = "recently";
+                            // 서버에 필터링 요청 보내는 메소드
+                            setFilter();
+                            break;
+                        case R.id.popular:
+                            string_recently = "popular";
+                            // 서버에 필터링 요청 보내는 메소드
+                            setFilter();
+                            break;
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
-        popup.show();
+            });
+            popup.show();
+        }
+
     }
 
     // 서버에서 코디 정보 가져오는 메서드
@@ -191,6 +210,39 @@ public class ShareCodi extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 } else if (response.body() == null) {
                     Toast.makeText(getApplicationContext(), "Test 중입니다. 서버 통신 실패" , Toast.LENGTH_SHORT).show();
+                    recyclerView.setVisibility(View.GONE);
+                    notify_no_codi.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
+                Toast.makeText(ShareCodi.this, "rp :"+
+                                t.getMessage().toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    // 서버에 게시글 필터링 요청하는 메소드
+    public void setFilter() {
+        String recently = string_recently;
+        String sex = string_sex;
+        String age = string_age;
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().setFilter(recently, sex, age);
+        call.enqueue(new Callback<List<ResponsePOJO>>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
+                clothList = response.body();
+                if(response.body() != null) {
+                    // 서버로부터 받아온 데이터 리사이클러뷰에 적용
+                    text_searched_word.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    notify_no_codi.setVisibility(View.GONE);
+                    adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else if (response.body() == null) {
+                    Toast.makeText(getApplicationContext(), "일치하는 데이터가 없습니다." , Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
                     notify_no_codi.setVisibility(View.VISIBLE);
                 }
@@ -249,13 +301,10 @@ public class ShareCodi extends AppCompatActivity {
             }
         });
     }
-
+    // 좋아요 버튼 눌렸을 때의 메소드
     private void uploadLike() {
         String id = user_id;
         String idx = codi_idx;
-
-        Log.d("코디 idx : ", idx);
-
         Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadLike(id, idx);
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override
@@ -272,14 +321,6 @@ public class ShareCodi extends AppCompatActivity {
             }
         });
 //        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
-    }
-
-    private void savePreferences(String idx) {
-        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-
-        editor.putString("liked", idx);
-        editor.commit();
     }
 
     @Override
