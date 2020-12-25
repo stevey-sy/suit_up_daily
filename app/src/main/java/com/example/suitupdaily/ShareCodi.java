@@ -191,10 +191,6 @@ public class ShareCodi extends AppCompatActivity {
 //        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
     }
 
-    public void getLikeInfo (String idx) {
-
-    }
-
     private void savePreferences(String idx) {
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
