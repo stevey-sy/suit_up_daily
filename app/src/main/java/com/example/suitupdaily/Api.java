@@ -99,6 +99,15 @@ public interface Api {
             @Field("search_word") String search_word
     );
 
+    // 코디 공유 페이지에서 서버로 게시글 filter 데이터 요청
+    @FormUrlEncoded
+    @POST("codi/set_filter.php")
+    Call<List<ResponsePOJO>> setFilter(
+            @Field("update") String recently,
+            @Field("sex") String sex,
+            @Field("age") String age
+    );
+
     @FormUrlEncoded
     @POST("closet/codi_board.php")
     Call<List<ResponsePOJO>> getCodiBoard(

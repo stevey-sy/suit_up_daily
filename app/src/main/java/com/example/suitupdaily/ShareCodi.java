@@ -83,8 +83,6 @@ public class ShareCodi extends AppCompatActivity {
 
         // filter 메뉴 초기화
         string_recently = "recently";
-        string_sex = "all";
-        string_age = "all";
 
         // 검색결과 안내문 처음에 보이지 않게 처리
         button_default.setVisibility(View.GONE);
@@ -120,11 +118,25 @@ public class ShareCodi extends AppCompatActivity {
                     uploadLike();
             }
         };
-        // 필터 버튼 클릭 리스너
+        // 필터 "최신순" 버튼 클릭 리스너
         filter_recently.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPopupButtonClick(filter_recently);
+            }
+        });
+        // 필터 "성별" 버튼 클릭 리스너
+        filter_sex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPopupButtonClick(filter_sex);
+            }
+        });
+        // 필터 "연령" 버튼 클릭 리스너
+        filter_age.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPopupButtonClick(filter_age);
             }
         });
         // 해쉬태그 검색 버튼 클릭 리스너
@@ -185,9 +197,66 @@ public class ShareCodi extends AppCompatActivity {
             });
             popup.show();
         }
-
+        // 성별 filter 클릭했을 때 메뉴 생성
+        if (button == filter_sex) {
+            //popup menu 객체 생성
+            PopupMenu popup = new PopupMenu (this, button);
+            // xml 과 연결
+            popup.getMenuInflater().inflate(R.menu.menu_filter_sex, popup.getMenu());
+            // popup 메뉴 클릭 시 이벤트
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.male:
+                            string_sex = "남";
+                            // 서버에 필터링 요청 보내는 메소드
+                            setFilter();
+                            break;
+                        case R.id.female:
+                            string_sex = "여";
+                            // 서버에 필터링 요청 보내는 메소드
+                            setFilter();
+                            break;
+                    }
+                    return true;
+                }
+            });
+            popup.show();
+        }
+        // 나이대 filter 클릭했을 때 메뉴 생성
+        if (button == filter_age) {
+            //popup menu 객체 생성
+            PopupMenu popup = new PopupMenu (this, button);
+            // xml 과 연결
+            popup.getMenuInflater().inflate(R.menu.menu_filter_age, popup.getMenu());
+            // popup 메뉴 클릭 시 이벤트
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.teenager:
+                            string_age = "10대";
+                            // 서버에 필터링 요청 보내는 메소드
+                            setFilter();
+                            break;
+                        case R.id.twenty:
+                            string_age = "20대";
+                            // 서버에 필터링 요청 보내는 메소드
+                            setFilter();
+                            break;
+                        case R.id.thirty:
+                            string_age = "30대";
+                            // 서버에 필터링 요청 보내는 메소드
+                            setFilter();
+                            break;
+                    }
+                    return true;
+                }
+            });
+            popup.show();
+        }
     }
-
     // 서버에서 코디 정보 가져오는 메서드
     public void getCodiBoard() {
         String id = user_id;
@@ -235,7 +304,6 @@ public class ShareCodi extends AppCompatActivity {
                 clothList = response.body();
                 if(response.body() != null) {
                     // 서버로부터 받아온 데이터 리사이클러뷰에 적용
-                    text_searched_word.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
                     notify_no_codi.setVisibility(View.GONE);
                     adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener);
