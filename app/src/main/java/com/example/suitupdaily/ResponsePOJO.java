@@ -7,7 +7,6 @@ public class ResponsePOJO {
     private boolean status;
     private String remarks;
     private String[] myLikeList;
-
     private String nick;
     private String birth;
     private String sex;
@@ -83,6 +82,14 @@ public class ResponsePOJO {
     }
     public void setWhoLiked(String whoLiked) {
         this.whoLiked = whoLiked;
+    }
+
+    // DB 에서 조회수 데이터 가져올 때 사용할 메소드 선언
+    @SerializedName("view")
+    private String view;
+
+    public String getView() {
+        return view;
     }
 
     @SerializedName("result")

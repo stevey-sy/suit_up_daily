@@ -98,17 +98,21 @@ public class ShareCodi extends AppCompatActivity {
         listener = new CodiShareAdapter.ShareViewClickListener() {
             @Override
             public void onRowClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), "view 클릭." , Toast.LENGTH_SHORT).show();
                 // 다음 액티비티에 필요한 데이터를 intent에 담는다.
-//                Intent intent = new Intent(ShareCodi.this, CodiDetail.class);
-//                intent.putExtra("userID", user_id);
-//                intent.putExtra("idx", clothList.get(position).getIdx());
-//                intent.putExtra("picture", clothList.get(position).getPicture());
-//                intent.putExtra("season", clothList.get(position).getSeason());
-//                intent.putExtra("tags", clothList.get(position).getTags());
-//                intent.putExtra("memo", clothList.get(position).getMemo());
-//                intent.putExtra("date", clothList.get(position).getDate());
-//                startActivity(intent);
+                Intent intent = new Intent(ShareCodi.this, CodiArticle.class);
+                intent.putExtra("userID", user_id);
+                intent.putExtra("nick", clothList.get(position).getUserNick());
+                intent.putExtra("idx", clothList.get(position).getIdx());
+                intent.putExtra("picture", clothList.get(position).getPicture());
+                intent.putExtra("profile_pic", clothList.get(position).getImgURL());
+                intent.putExtra("season", clothList.get(position).getSeason());
+                intent.putExtra("tags", clothList.get(position).getTags());
+                intent.putExtra("memo", clothList.get(position).getMemo());
+                intent.putExtra("date", clothList.get(position).getDate());
+                intent.putExtra("who_liked", clothList.get(position).getWhoLiked());
+                intent.putExtra("like_num", String.valueOf(clothList.get(position).getLike()));
+                intent.putExtra("view", String.valueOf(clothList.get(position).getView()));
+                startActivity(intent);
             }
 
             @Override
@@ -280,7 +284,6 @@ public class ShareCodi extends AppCompatActivity {
 
                     recyclerView.setVisibility(View.VISIBLE);
                     notify_no_codi.setVisibility(View.GONE);
-
                     adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();

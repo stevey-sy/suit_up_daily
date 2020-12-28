@@ -14,6 +14,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface Api {
+    @FormUrlEncoded
+    @POST("codi/upload_view.php")
+    Call<ResponsePOJO> uploadView(
+            @Field("idx") String idx
+    );
 
     @FormUrlEncoded
     @POST("user/edit_profile.php")

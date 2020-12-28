@@ -5,15 +5,18 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -22,12 +25,15 @@ import com.bumptech.glide.request.RequestOptions;
 import org.w3c.dom.Text;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CodiArticle extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private Toolbar toolbar;
     private ActionBar actionBar;
-    private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked;
+    private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked, codi_idx;
     private TextView text_writer_name, text_date, text_view_num, text_like_num, text_reply_num, text_hash_tags, text_memo, title_like;
     private ImageView img_codi;
     private CircleImageView writer_pic;
@@ -48,6 +54,8 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         profile_url = intent_id.getStringExtra("profile_pic");
         who_liked = intent_id.getStringExtra("who_liked");
         like_num = intent_id.getStringExtra("like_num");
+        codi_idx = intent_id.getStringExtra("idx");
+        view_num = intent_id.getStringExtra("view");
 
         // 툴바 세팅
         toolbar = findViewById(R.id.toolbar_article);
@@ -72,11 +80,14 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         title_like = (TextView) findViewById(R.id.title_article_like);
         // intent 로 부터 받아온 데이터를 view 에 뿌려준다.
         setDataFromIntent();
+        // 서버에 게시글 조회수 올리는 메소드
+        uploadView();
         // 좋아요 버튼 클릭 리스너 생성
         check_like.setOnCheckedChangeListener(this);
     }
 
     // 인텐트로 받아온 데이터를 뷰에 뿌려주는 메소드
+    @SuppressLint("CheckResult")
     private void setDataFromIntent() {
         text_writer_name.setText(writer_nick);
         text_memo.setText(memo);
@@ -85,6 +96,8 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         // ex) 2020-12-10 00:00:00 --------> 2020-12-10
         String short_date = date.substring(0,10);
         text_date.setText(short_date);
+        // 조회수 데이터 view 에 삽입
+        text_view_num.setText(view_num);
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.skipMemoryCache(true);
@@ -151,5 +164,20 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
             String color_black = "#000000";
             title_like.setTextColor(Color.parseColor(color_black));
         }
+    }
+    // 조회수 count 하는 서버통신 메소드.
+    private void uploadView() {
+        String idx = codi_idx;
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadView(idx);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+                Log.d("조회수 count: ", "성공");
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+//                Toast.makeText(ShareCodi.this, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
