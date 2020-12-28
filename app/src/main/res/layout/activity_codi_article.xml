@@ -56,13 +56,15 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_marginHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:background="@color/black_de"
                         android:gravity="center_vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_marginLeft="10dp"
                             android:id="@+id/civ_article_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -73,9 +75,57 @@
                             android:id="@+id/tv_article_writer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
                             android:text="유저 닉네임" />
 
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="조회수: "
+                            android:textSize="12sp"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="5dp"
+                            android:textSize="12sp"
+                            android:id="@+id/tv_article_views"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="0" />
+
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_article_codi"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        app:srcCompat="@drawable/ic_clothes_hanger" />
+
+                    <TextView
+                        android:layout_margin="10dp"
+                        android:id="@+id/tv_article_hash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="해쉬태그 리스트"
+                        android:textColor="#1e90ff" />
+
+                    <TextView
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/tv_article_memo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="메모" />
 
                     <LinearLayout
                         android:layout_marginHorizontal="10dp"
@@ -101,44 +151,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="등록일" />
-
-                        <ImageView
-                            android:layout_marginStart="15dp"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_eye" />
-
-                        <TextView
-                            android:textSize="12sp"
-                            android:layout_marginStart="5dp"
-                            android:id="@+id/tv_article_views"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="조회수" />
-
-
                     </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/iv_article_codi"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        app:srcCompat="@drawable/ic_clothes_hanger" />
-
-                    <TextView
-                        android:layout_margin="10dp"
-                        android:id="@+id/tv_article_hash"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="해쉬태그 리스트" />
-
-                    <TextView
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:id="@+id/tv_article_memo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="메모" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -153,8 +166,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     />
-
                 <CheckBox
+                    android:layout_marginStart="15dp"
                     android:id="@+id/cb_article_like"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
