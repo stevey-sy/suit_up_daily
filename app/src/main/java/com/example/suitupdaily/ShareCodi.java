@@ -46,12 +46,12 @@ public class ShareCodi extends AppCompatActivity {
     private CodiShareAdapter adapter;
     CodiShareAdapter.ShareViewClickListener listener;
     private List<ResponsePOJO> clothList;
-    private TextView filter_recently, filter_sex, filter_age, text_searched_word, notify_no_codi;
+    private TextView text_searched_word, notify_no_codi;
     private String user_id, codi_idx, string_recently, string_sex, string_age;
     private Toolbar toolbar;
     private ActionBar actionBar;
     private Boolean click_like = false;
-    private Button button_search, button_default;
+    private Button button_search, button_default, filter_recently, filter_sex, filter_age;
     private EditText edit_text_search_word;
 
     @Override
@@ -71,9 +71,9 @@ public class ShareCodi extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         //xml 연결
-        filter_recently = (TextView)findViewById(R.id.filter_recently);
-        filter_sex = (TextView)findViewById(R.id.filter_sex);
-        filter_age = (TextView)findViewById(R.id.filter_age);
+        filter_recently = (Button)findViewById(R.id.filter_recently);
+        filter_sex = (Button)findViewById(R.id.filter_sex);
+        filter_age = (Button)findViewById(R.id.filter_age);
         notify_no_codi = (TextView)findViewById(R.id.notify_no_codi);
         recyclerView = (RecyclerView)findViewById(R.id.recycler_codi_view);
         button_search = (Button)findViewById(R.id.btn_search);
@@ -212,13 +212,13 @@ public class ShareCodi extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.male:
                             string_sex = "남";
-                            filter_sex.setText("남");
+                            filter_sex.setText("남자");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
                             return true;
                         case R.id.female:
                             string_sex = "여";
-                            filter_sex.setText("여");
+                            filter_sex.setText("여자");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
                             return true;
