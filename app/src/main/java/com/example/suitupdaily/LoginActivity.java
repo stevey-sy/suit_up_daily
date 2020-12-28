@@ -104,14 +104,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onResponse(String response) {
                         try {
-
                             JSONObject jsonObject = new JSONObject(response);
-
                             boolean success = jsonObject.getBoolean("success");
                             if (success) {
                                 String userID = jsonObject.getString("userID");
 //                                String userPass = jsonObject.getString("userPass");
-
                                 // 로그인에 성공한 경우
                                 Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다." , Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, Home.class);
@@ -121,23 +118,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             } else {
                                 // 로그인에 실패 경우
                                 Log.d("인증번호 버튼 눌림: ", "사용자 이메일 입력안함");
-                                Log.d("인증번호 버튼 눌림: ", "사용자 이메일 입력안함");
-                                Log.d("인증번호 버튼 눌림: ", "사용자 이메일 입력안함");
-                                Log.d("인증번호 버튼 눌림: ", "사용자 이메일 입력안함");
-                                Log.d("인증번호 버튼 눌림: ", "사용자 이메일 입력안함");
                                 Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호가 잘못되었습니다." , Toast.LENGTH_SHORT).show();
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 };
                 LoginRequest loginRequest = new LoginRequest(userID, userPass, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(loginRequest);
-
             }
         });
     }
@@ -146,13 +136,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == REQ_SIGN_GOOGLE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             // 인증 결과가 성공적일 때의 코드
             if(result.isSuccess()) {
                 // account 라는 데이터는 구글 로그인 정보를 담고 있다.
-
                 GoogleSignInAccount account = result.getSignInAccount();
                 // 로그인 결과 값 출력 수행 메소드
                 resultLogin(account);
@@ -181,7 +169,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void uploadUserList(String id) {
-
         Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadUserList(id);
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override

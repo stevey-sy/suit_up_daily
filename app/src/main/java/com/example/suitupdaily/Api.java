@@ -117,7 +117,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("closet/read.php")
     Call<List<ResponsePOJO>> getCloth(
-                    @Field("id") String id,
+            @Field("id") String id,
             @Field("type") String type,
             @Field("season") String season
     );
