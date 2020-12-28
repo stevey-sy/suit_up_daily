@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +28,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     private Toolbar toolbar;
     private ActionBar actionBar;
     private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked;
-    private TextView text_writer_name, text_date, text_view_num, text_like_num, text_reply_num, text_hash_tags, text_memo;
+    private TextView text_writer_name, text_date, text_view_num, text_like_num, text_reply_num, text_hash_tags, text_memo, title_like;
     private ImageView img_codi;
     private CircleImageView writer_pic;
     private CheckBox check_like;
@@ -68,6 +69,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         writer_pic = (CircleImageView)findViewById(R.id.civ_article_profile);
         img_codi = (ImageView)findViewById(R.id.iv_article_codi);
         check_like = (CheckBox)findViewById(R.id.cb_article_like);
+        title_like = (TextView) findViewById(R.id.title_article_like);
         // intent 로 부터 받아온 데이터를 view 에 뿌려준다.
         setDataFromIntent();
         // 좋아요 버튼 클릭 리스너 생성
@@ -108,10 +110,14 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
 //            text_like_num.setText(String.valueOf(like_edit));
             text_like_num.setText(like_num);
             check_like.setChecked(true);
+            String color_orange = "#FF8C00";
+            title_like.setTextColor(Color.parseColor(color_orange));
         } else {
             // 리스트에 id가 존재하지 않는다면 좋아요 버튼 default 처리
             check_like.setChecked(false);
             text_like_num.setText(like_num);
+            String color_black = "#000000";
+            title_like.setTextColor(Color.parseColor(color_black));
         }
     }
 
@@ -134,12 +140,16 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
             int like_int = Integer.parseInt(like_string);
             like_int += 1;
             text_like_num.setText(String.valueOf(like_int));
+            String color_orange = "#FF8C00";
+            title_like.setTextColor(Color.parseColor(color_orange));
         } else {
             // 좋아요 버튼 한번 더 눌렀을 때
             String like_string = text_like_num.getText().toString();
             int like_int = Integer.parseInt(like_string);
             like_int -= 1;
             text_like_num.setText(String.valueOf(like_int));
+            String color_black = "#000000";
+            title_like.setTextColor(Color.parseColor(color_black));
         }
     }
 }

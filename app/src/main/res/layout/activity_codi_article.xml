@@ -129,6 +129,7 @@
 
                     <LinearLayout
                         android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" >
@@ -175,10 +176,12 @@
                     android:background="@drawable/custom_checkbox"/>
 
                 <TextView
+                    android:id="@+id/title_article_like"
                     android:layout_marginStart="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="좋아요" />
+                    android:text="좋아요"
+                    android:textColor="@color/black_de"/>
 
                 <TextView
                     android:layout_marginStart="5dp"
@@ -199,6 +202,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black_de"
                     android:text="댓글" />
 
                 <TextView
