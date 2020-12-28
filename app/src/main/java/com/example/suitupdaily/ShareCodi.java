@@ -183,14 +183,16 @@ public class ShareCodi extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.recently:
                             string_recently = "recently";
+                            filter_recently.setText("최신순");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
-                            break;
+                            return true;
                         case R.id.popular:
                             string_recently = "popular";
+                            filter_recently.setText("인기순");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
-                            break;
+                            return true;
                     }
                     return true;
                 }
@@ -210,14 +212,16 @@ public class ShareCodi extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.male:
                             string_sex = "남";
+                            filter_sex.setText("남");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
-                            break;
+                            return true;
                         case R.id.female:
                             string_sex = "여";
+                            filter_sex.setText("여");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
-                            break;
+                            return true;
                     }
                     return true;
                 }
@@ -237,19 +241,22 @@ public class ShareCodi extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.teenager:
                             string_age = "10대";
+                            filter_age.setText("10대");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
-                            break;
+                            return true;
                         case R.id.twenty:
                             string_age = "20대";
+                            filter_age.setText("20대");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
-                            break;
+                            return true;
                         case R.id.thirty:
                             string_age = "30대";
+                            filter_age.setText("30대");
                             // 서버에 필터링 요청 보내는 메소드
                             setFilter();
-                            break;
+                            return true;
                     }
                     return true;
                 }
@@ -296,9 +303,10 @@ public class ShareCodi extends AppCompatActivity {
         String recently = string_recently;
         String sex = string_sex;
         String age = string_age;
+        Log.d("필터 요청: ", "recently: " + recently + " sex: " + sex + " age : " + age);
         Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().setFilter(recently, sex, age);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
-            @SuppressLint("SetTextI18n")
+
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 clothList = response.body();
@@ -394,6 +402,6 @@ public class ShareCodi extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getCodiBoard();
+        setFilter();
     }
 }

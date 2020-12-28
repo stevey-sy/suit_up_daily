@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/teenager"
+        android:title="10대" />
+
+    <item android:id="@+id/twenty"
+        android:title="20대" />
+
+    <item android:id="@+id/thirty"
+        android:title="30대" />
+
+</menu>
