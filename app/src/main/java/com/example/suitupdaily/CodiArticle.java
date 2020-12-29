@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,8 +27,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.suitupdaily.recycler.CodiShareAdapter;
+import com.example.suitupdaily.recycler.CommentAdapter;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -43,6 +50,11 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     private CheckBox check_like;
     private EditText edit_text_reply;
     private Button button_comment;
+    private List<ResponsePOJO> commentList;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private CommentAdapter adapter;
+    private CommentAdapter.CommentViewClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +98,13 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         edit_text_reply = (EditText) findViewById(R.id.et_article_input_reply);
         reply_profile_pic = (CircleImageView)findViewById(R.id.civ_reply_profile_pic);
         button_comment = (Button)findViewById(R.id.btn_comment);
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_reply);
+        // 댓글 리사이클러뷰 세팅
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         // intent 로 부터 받아온 데이터를 view 에 뿌려준다.
         setDataFromIntent();
-        // 서버에 게시글 조회수 올리는 메소드
+        // 서버에 게시글 조회수++ & 사용자의 프로필 불러오는 메소드
         uploadView();
         // 좋아요 버튼 클릭 리스너 생성
         check_like.setOnCheckedChangeListener(this);
@@ -104,6 +120,34 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                     // 서버에 댓글 저장 요청하는 메소드
                     uploadComment();
                 }
+            }
+        });
+    }
+
+    // 서버로부터 댓글 리스트 가져오는 메소드
+    public void getComment() {
+        String idx = codi_idx;
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getComment(idx);
+        call.enqueue(new Callback<List<ResponsePOJO>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
+                commentList = response.body();
+
+                if(response.body() != null) {
+                    Log.d("getComment 서버 응답 확인: ", "성공");
+
+                    adapter = new CommentAdapter(commentList, CodiArticle.this, listener);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else if (response.body() == null) {
+                    Toast.makeText(getApplicationContext(), "Test 중입니다. 서버 통신 실패" , Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
+                Toast.makeText(CodiArticle.this, "rp :"+
+                                t.getMessage().toString(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -238,5 +282,10 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
 //                Toast.makeText(ShareCodi.this, "Network Failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getComment();
     }
 }

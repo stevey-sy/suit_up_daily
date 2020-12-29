@@ -99,6 +99,12 @@ public interface Api {
             @Field("hash_tag") String hash_tag,
             @Field("memo") String memo
     );
+    // 댓글 리스트 가져오는 메소드
+    @FormUrlEncoded
+    @POST("codi/get_comment.php")
+    Call<List<ResponsePOJO>> getComment(
+            @Field("codi_idx") String idx
+    );
 
     @FormUrlEncoded
     @POST("codi/codi_read.php")

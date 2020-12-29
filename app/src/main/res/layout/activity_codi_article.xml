@@ -233,7 +233,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginBottom="50dp"
                     android:hint="댓글을 남겨보세요.">
                 </EditText>
                 <Button
@@ -247,11 +246,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_reply"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="200dp" />
         </LinearLayout>
-
-
     </ScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

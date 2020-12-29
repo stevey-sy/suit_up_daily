@@ -88,6 +88,13 @@ public class ResponsePOJO {
     @SerializedName("view")
     private String view;
 
+    @SerializedName("content")
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
     public String getView() {
         return view;
     }
