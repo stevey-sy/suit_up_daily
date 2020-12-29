@@ -17,6 +17,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("codi/upload_view.php")
     Call<ResponsePOJO> uploadView(
+            @Field("id") String id,
             @Field("idx") String idx
     );
 

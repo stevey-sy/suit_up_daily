@@ -38,7 +38,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked, codi_idx;
     private TextView text_writer_name, text_date, text_view_num, text_like_num, text_reply_num, text_hash_tags, text_memo, title_like;
     private ImageView img_codi;
-    private CircleImageView writer_pic;
+    private CircleImageView writer_pic, reply_profile_pic;
     private CheckBox check_like;
     private EditText edit_text_reply;
 
@@ -82,6 +82,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         check_like = (CheckBox)findViewById(R.id.cb_article_like);
         title_like = (TextView) findViewById(R.id.title_article_like);
         edit_text_reply = (EditText) findViewById(R.id.et_article_input_reply);
+        reply_profile_pic = (CircleImageView)findViewById(R.id.civ_reply_profile_pic);
         // intent 로 부터 받아온 데이터를 view 에 뿌려준다.
         setDataFromIntent();
         // 서버에 게시글 조회수 올리는 메소드
@@ -90,6 +91,9 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         check_like.setOnCheckedChangeListener(this);
         // 키보드가 editText 를 가리는 현상을 막아주는 코드
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        // 댓글창에 현재 사용자의 프로필 사진을 세팅하는 부분
+        // 유저아이디를 서버에 조회해서
+        // 프로필 url 저장된 것이 있으면 가져오고 없으면 default 이미지 출력
     }
 
     // 인텐트로 받아온 데이터를 뷰에 뿌려주는 메소드
@@ -173,12 +177,26 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     }
     // 조회수 count 하는 서버통신 메소드.
     private void uploadView() {
+        String id = user_id;
         String idx = codi_idx;
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadView(idx);
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadView(id, idx);
         call.enqueue(new Callback<ResponsePOJO>() {
+            @SuppressLint("CheckResult")
             @Override
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
                 Log.d("조회수 count: ", "성공");
+                String photo_url = response.body().getPhotoUrl();
+                // photo url이 존재한다면 댓글창 프로필 image view 에 이미지를 출력
+                if(photo_url != null) {
+                    // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.skipMemoryCache(true);
+                    requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+                    requestOptions.placeholder(R.drawable.ic_clothes_hanger);
+                    requestOptions.error(R.drawable.ic_baseline_accessibility_24);
+                    // 서버에서 받아온 데이터를 view 에 뿌려줌
+                    Glide.with(CodiArticle.this).load(photo_url).apply(requestOptions).circleCrop().into(reply_profile_pic);
+                }
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
