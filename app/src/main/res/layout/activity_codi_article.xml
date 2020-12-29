@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CodiArticle">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,10 +14,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        android:theme="?attr/actionBarTheme">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +102,6 @@
                             android:text="0"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
-
                     </LinearLayout>
 
                     <ImageView
@@ -244,9 +241,11 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginHorizontal="10dp"
                 android:id="@+id/recycler_reply"
+                android:background="#DCDCDC"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
