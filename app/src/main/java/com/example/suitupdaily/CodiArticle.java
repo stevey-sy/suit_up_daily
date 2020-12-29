@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -35,12 +36,13 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
 
     private Toolbar toolbar;
     private ActionBar actionBar;
-    private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked, codi_idx;
+    private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked, codi_idx, reply_content;
     private TextView text_writer_name, text_date, text_view_num, text_like_num, text_reply_num, text_hash_tags, text_memo, title_like;
     private ImageView img_codi;
     private CircleImageView writer_pic, reply_profile_pic;
     private CheckBox check_like;
     private EditText edit_text_reply;
+    private Button button_comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +85,50 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         title_like = (TextView) findViewById(R.id.title_article_like);
         edit_text_reply = (EditText) findViewById(R.id.et_article_input_reply);
         reply_profile_pic = (CircleImageView)findViewById(R.id.civ_reply_profile_pic);
+        button_comment = (Button)findViewById(R.id.btn_comment);
         // intent 로 부터 받아온 데이터를 view 에 뿌려준다.
         setDataFromIntent();
         // 서버에 게시글 조회수 올리는 메소드
         uploadView();
         // 좋아요 버튼 클릭 리스너 생성
         check_like.setOnCheckedChangeListener(this);
-        // 키보드가 editText 를 가리는 현상을 막아주는 코드
+        // 가상 키보드가 editText 를 가리는 현상을 막아주는 코드
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        // 댓글창에 현재 사용자의 프로필 사진을 세팅하는 부분
-        // 유저아이디를 서버에 조회해서
-        // 프로필 url 저장된 것이 있으면 가져오고 없으면 default 이미지 출력
+        // 댓글 입력 버튼 클릭 이벤트
+        button_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 만약 댓글 창이 빈값이 아니라면
+                reply_content = edit_text_reply.getText().toString();
+                if (!reply_content.isEmpty()) {
+                    // 서버에 댓글 저장 요청하는 메소드
+                    uploadComment();
+                }
+            }
+        });
+    }
+
+    // 서버에 댓글 저장 요청하는 메소드
+    private void uploadComment() {
+        String id = user_id;
+        String content = reply_content;
+        // 게시글 번호
+        String idx = codi_idx;
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadComment(id, idx, content);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @SuppressLint("CheckResult")
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+                Log.d("서버 응답: ", "성공");
+                String remarks = response.body().getRemarks();
+                Toast.makeText(getApplicationContext(), remarks, Toast.LENGTH_SHORT).show();
+                // 서버 응답 성공하면 댓글 담당하는 recycler view 를 reload 한다.
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(CodiArticle.this, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // 인텐트로 받아온 데이터를 뷰에 뿌려주는 메소드

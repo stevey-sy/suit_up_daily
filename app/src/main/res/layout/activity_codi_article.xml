@@ -237,6 +237,7 @@
                     android:hint="댓글을 남겨보세요.">
                 </EditText>
                 <Button
+                    android:id="@+id/btn_comment"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:text="입력"

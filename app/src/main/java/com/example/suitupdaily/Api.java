@@ -15,6 +15,14 @@ import retrofit2.http.Part;
 
 public interface Api {
     @FormUrlEncoded
+    @POST("codi/upload_comment.php")
+    Call<ResponsePOJO> uploadComment(
+            @Field("id") String id,
+            @Field("idx") String idx,
+            @Field("content") String content
+    );
+
+    @FormUrlEncoded
     @POST("codi/upload_view.php")
     Call<ResponsePOJO> uploadView(
             @Field("id") String id,
