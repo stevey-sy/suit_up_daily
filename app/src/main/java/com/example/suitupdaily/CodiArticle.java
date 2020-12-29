@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     private ImageView img_codi;
     private CircleImageView writer_pic;
     private CheckBox check_like;
+    private EditText edit_text_reply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +81,15 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         img_codi = (ImageView)findViewById(R.id.iv_article_codi);
         check_like = (CheckBox)findViewById(R.id.cb_article_like);
         title_like = (TextView) findViewById(R.id.title_article_like);
+        edit_text_reply = (EditText) findViewById(R.id.et_article_input_reply);
         // intent 로 부터 받아온 데이터를 view 에 뿌려준다.
         setDataFromIntent();
         // 서버에 게시글 조회수 올리는 메소드
         uploadView();
         // 좋아요 버튼 클릭 리스너 생성
         check_like.setOnCheckedChangeListener(this);
+        // 키보드가 editText 를 가리는 현상을 막아주는 코드
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     // 인텐트로 받아온 데이터를 뷰에 뿌려주는 메소드
