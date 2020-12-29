@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.suitupdaily.R;
 import com.example.suitupdaily.ResponsePOJO;
+import com.example.suitupdaily.TimeConverter;
 
 import java.util.List;
 
@@ -47,8 +48,17 @@ public class CommentAdapter extends RecyclerView.Adapter <CommentAdapter.Comment
         // 서버에서 받아온 데이터를 view 에 세팅.
         Log.d("유저 닉네임: ", commentList.get(position).getUserNick());
         holder.tv_user_nick.setText(commentList.get(position).getUserNick());
-        holder.tv_reply_date.setText(commentList.get(position).getDate());
         holder.tv_reply_content.setText(commentList.get(position).getContent());
+        // 서버에서 받아온 date
+        String date_from_server = commentList.get(position).getDate();
+        // 불순물 제거
+        String replace_dash = date_from_server.replace("-","");
+        String replace_time = replace_dash.replace(":", "");
+        String pure_date = replace_time.replace(" ", "");
+        // timeConverter 클래스를 선언, 메소드 사용.
+        // 현재 시간 기준으로 얼마나 지난 포스트인지 date 를 변환함.
+        String converted_date = TimeConverter.CreateDataWithCheck(pure_date);
+        holder.tv_reply_date.setText(converted_date);
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.skipMemoryCache(true);
