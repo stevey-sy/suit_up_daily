@@ -406,6 +406,11 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     }
     // 조회수 count 하는 서버통신 메소드.
     private void uploadView() {
+        // 화면상으로만 조회수 +1 (서버통신 전)
+        String view = text_view_num.getText().toString();
+        int view_num = Integer.parseInt(view)+1;
+        text_view_num.setText(String.valueOf(view_num));
+        // 서버에 실제로 조회수 +1 (서버통신)
         String id = user_id;
         String idx = codi_idx;
         Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadView(id, idx);
