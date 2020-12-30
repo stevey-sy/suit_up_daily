@@ -112,6 +112,7 @@ public class ShareCodi extends AppCompatActivity {
                 intent.putExtra("who_liked", clothList.get(position).getWhoLiked());
                 intent.putExtra("like_num", String.valueOf(clothList.get(position).getLike()));
                 intent.putExtra("view", String.valueOf(clothList.get(position).getView()));
+                intent.putExtra("comment_count", String.valueOf(clothList.get(position).getCommentCount()));
                 startActivity(intent);
             }
 
@@ -281,7 +282,6 @@ public class ShareCodi extends AppCompatActivity {
                 if(response.body() != null) {
                     Log.d("서버 응답 확인: ", response.body().toString());
 //                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
-
                     recyclerView.setVisibility(View.VISIBLE);
                     notify_no_codi.setVisibility(View.GONE);
                     adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener);

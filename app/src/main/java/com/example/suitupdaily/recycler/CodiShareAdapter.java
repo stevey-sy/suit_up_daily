@@ -94,6 +94,8 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
         holder.text_view_user_name.setText(clothList.get(position).getUserNick());
+        // 서버로부터 댓글 개수 가져올 명령어
+        holder.text_view_comment.setText(clothList.get(position).getCommentCount());
 
         String user_id = "sinsy8989@gmail.com";
         // 좋아요 부분
@@ -177,7 +179,6 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         private Boolean isThread;
         private int like_count;
 
-        List<ResponsePOJO> clothList;
         private FirebaseAuth mAuth;
         private boolean checked;
 

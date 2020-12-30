@@ -28,7 +28,8 @@ public interface Api {
     @POST("codi/delete_comment.php")
     Call<ResponsePOJO> deleteComment(
             @Field("id") String id,
-            @Field("idx") String idx
+            @Field("comment_idx") String comment_idx,
+            @Field("codi_idx") String codi_idx
     );
     // 댓글 업로드 하는 메소드
     @FormUrlEncoded

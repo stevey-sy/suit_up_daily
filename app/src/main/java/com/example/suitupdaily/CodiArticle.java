@@ -48,7 +48,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
 
     private Toolbar toolbar;
     private ActionBar actionBar;
-    private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked, codi_idx, reply_content;
+    private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked, codi_idx, reply_content, comment_count;
     private TextView text_writer_name, text_date, text_view_num, text_like_num, text_reply_num, text_hash_tags, text_memo, title_like;
     private ImageView img_codi;
     private CircleImageView writer_pic, reply_profile_pic;
@@ -78,6 +78,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         like_num = intent_id.getStringExtra("like_num");
         codi_idx = intent_id.getStringExtra("idx");
         view_num = intent_id.getStringExtra("view");
+        comment_count = intent_id.getStringExtra("comment_count");
 
         // 툴바 세팅
         toolbar = findViewById(R.id.toolbar_article);
@@ -187,7 +188,8 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                                     public void onClick(DialogInterface dialog, int which) {
 //                                        Toast.makeText(getApplicationContext(), String.valueOf(commentList.get(position).getCommentIdx()), Toast.LENGTH_SHORT).show();
                                         // 확인후 서버에 댓글 삭제 요청
-                                        deleteComment(comment_idx);
+                                        Log.d("삭제될 codi_idx: ", codi_idx);
+                                        deleteComment(comment_idx, codi_idx);
                                         dialog.dismiss();
                                     }
                                 });
@@ -230,9 +232,9 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     }
 
     // 서버에 댓글 삭제 요청하는 메소드
-    private void deleteComment(String comment_idx) {
+    private void deleteComment(String comment_idx, String codi_idx) {
         String id = user_id;
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().deleteComment(id, comment_idx);
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().deleteComment(id, comment_idx, codi_idx);
         call.enqueue(new Callback<ResponsePOJO>() {
             @SuppressLint("CheckResult")
             @Override
@@ -242,6 +244,10 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 Toast.makeText(getApplicationContext(), remarks, Toast.LENGTH_SHORT).show();
                 // 서버 응답 성공하면 댓글 담당하는 recycler view 를 reload 한다.
                 getComment();
+                // 댓글 표시란에 -1을 한다.
+                String comment_num = text_reply_num.getText().toString();
+                int num = Integer.parseInt(comment_num)-1;
+                text_reply_num.setText(String.valueOf(num));
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
@@ -258,15 +264,14 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 commentList = response.body();
-
                 if(response.body() != null) {
                     Log.d("getComment 서버 응답 확인: ", "성공");
-
+                    recyclerView.setVisibility(View.VISIBLE);
                     adapter = new CommentAdapter(commentList, CodiArticle.this, listener);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else if (response.body() == null) {
-                    Toast.makeText(getApplicationContext(), "Test 중입니다. 서버 통신 실패" , Toast.LENGTH_SHORT).show();
+                    recyclerView.setVisibility(View.GONE);
                 }
             }
             @Override
@@ -294,6 +299,11 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 Toast.makeText(getApplicationContext(), remarks, Toast.LENGTH_SHORT).show();
                 // 서버 응답 성공하면 댓글 담당하는 recycler view 를 reload 한다.
                 getComment();
+                // 댓글 표시란에 +1을 한다.
+                String comment_num = text_reply_num.getText().toString();
+                int num = Integer.parseInt(comment_num)+1;
+                text_reply_num.setText(String.valueOf(num));
+
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
@@ -314,6 +324,8 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         text_date.setText(short_date);
         // 조회수 데이터 view 에 삽입
         text_view_num.setText(view_num);
+        // 댓글 개수 데이터 삽입
+        text_reply_num.setText(comment_count);
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.skipMemoryCache(true);

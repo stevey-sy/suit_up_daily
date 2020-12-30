@@ -106,6 +106,13 @@ public class ResponsePOJO {
     public String getCommentIdx() {
         return commentIdx;
     }
+    // 댓글 개수 가져오는 메소드
+    @SerializedName("comment_num")
+    private String commentCount;
+
+    public String getCommentCount() {
+        return commentCount;
+    }
 
     @SerializedName("result")
     private String result;
