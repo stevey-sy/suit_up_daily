@@ -137,6 +137,8 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
             @Override
             public void onRowClick(View view, final int position) {
                 // TODO: 2020-12-29 popup 메뉴로 수정, 삭제 버튼 나오게 하기
+                // 수정 or 삭제할 댓글의 index 번호를 확정한다.
+                final String comment_idx = String.valueOf(commentList.get(position).getCommentIdx());
                 //popup menu 객체 생성
                 PopupMenu popup = new PopupMenu (CodiArticle.this, view);
                 // xml 과 연결 (수정, 삭제 xml)
@@ -160,6 +162,9 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // 서버에 데이터 수정 요청
+                                                // 댓글의 index 와 수정한 댓글 내용을 매개변수로 사용.
+                                                String content = edit_text.getText().toString();
+                                                editComment(comment_idx, content);
                                             }
                                         });
                                 builder.setNegativeButton("취소",
@@ -181,8 +186,6 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 //                                        Toast.makeText(getApplicationContext(), String.valueOf(commentList.get(position).getCommentIdx()), Toast.LENGTH_SHORT).show();
-                                        // 삭제할 댓글의 index 번호를 확인한다.
-                                        String comment_idx = String.valueOf(commentList.get(position).getCommentIdx());
                                         // 확인후 서버에 댓글 삭제 요청
                                         deleteComment(comment_idx);
                                         dialog.dismiss();
@@ -204,6 +207,28 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
             }
         };
     }
+
+    // 서버에 댓글 수정 요청하는 메소드
+    private void editComment(String comment_idx, String content) {
+        String id = user_id;
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().editComment(id, comment_idx, content);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @SuppressLint("CheckResult")
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+                Log.d("서버 응답: ", "성공");
+                String remarks = response.body().getRemarks();
+                Toast.makeText(getApplicationContext(), remarks, Toast.LENGTH_SHORT).show();
+                // 서버 응답 성공하면 댓글 담당하는 recycler view 를 reload 한다.
+                getComment();
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(CodiArticle.this, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     // 서버에 댓글 삭제 요청하는 메소드
     private void deleteComment(String comment_idx) {
         String id = user_id;
