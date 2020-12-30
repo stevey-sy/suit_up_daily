@@ -94,8 +94,14 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         holder.text_view_hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
         holder.text_view_user_name.setText(clothList.get(position).getUserNick());
+        // 만약, 게시글의 댓글 수가 0이 아니라면, 댓글 이미지 색 변경
+        String comment_count = clothList.get(position).getCommentCount();
+        int count = Integer.parseInt(comment_count);
+        if(count != 0) {
+            holder.image_comment.setImageResource(R.drawable.ic_comment_black);
+        }
         // 서버로부터 댓글 개수 가져올 명령어
-        holder.text_view_comment.setText(clothList.get(position).getCommentCount());
+        holder.text_view_comment.setText(comment_count);
 
         String user_id = "sinsy8989@gmail.com";
         // 좋아요 부분
@@ -169,7 +175,7 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
 
         private CodiShareAdapter.ShareViewClickListener mListener = null;
         private CircleImageView circleImageView;
-        private ImageView image_codi, image_user_profile, image_like, image_like_orange, image_comment;
+        private ImageView image_codi, image_comment;
         private TextView text_view_user_name, text_view_hash_tags, text_view_like, text_view_comment, text_view_date, text_view_like_num;
         private TextView idx, hash_tags, memo, date;
         private LinearLayout mRowContainer;
@@ -199,6 +205,7 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
             memo = (TextView) itemView.findViewById(R.id.share_memo);
             memo.setVisibility(View.GONE);
             text_view_like_num = (TextView) itemView.findViewById(R.id.text_view_like_num);
+            image_comment = (ImageView) itemView.findViewById(R.id.iv_comment_indicator);
             // 클릭 리스너
             mListener = listener;
             image_codi.setOnClickListener(this);
