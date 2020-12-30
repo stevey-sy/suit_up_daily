@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -119,9 +120,21 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 if (!reply_content.isEmpty()) {
                     // 서버에 댓글 저장 요청하는 메소드
                     uploadComment();
+                    // 댓글 창 초기화
+                    edit_text_reply.setText("");
+                    // 입력 후 가상 키보드 없애기
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edit_text_reply.getWindowToken(), 0);
                 }
             }
         });
+        // 리사이클러뷰, 댓글 창에서 메뉴 클릭 시, 이벤트
+        listener = new CommentAdapter.CommentViewClickListener() {
+            @Override
+            public void onRowClick(View view, int position) {
+                // TODO: 2020-12-29 popup 메뉴로 수정, 삭제 버튼 나오게 하기
+            }
+        };
     }
 
     // 서버로부터 댓글 리스트 가져오는 메소드
@@ -167,6 +180,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 String remarks = response.body().getRemarks();
                 Toast.makeText(getApplicationContext(), remarks, Toast.LENGTH_SHORT).show();
                 // 서버 응답 성공하면 댓글 담당하는 recycler view 를 reload 한다.
+                getComment();
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
