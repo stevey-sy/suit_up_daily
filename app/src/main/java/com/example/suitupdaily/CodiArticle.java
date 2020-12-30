@@ -50,7 +50,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
     private ActionBar actionBar;
     private String user_id, date, like_num, view_num, memo, hash_tags, profile_url, writer_nick, codi_url, who_liked, codi_idx, reply_content, comment_count;
     private TextView text_writer_name, text_date, text_view_num, text_like_num, text_reply_num, text_hash_tags, text_memo, title_like;
-    private ImageView img_codi;
+    private ImageView img_codi, img_comment;
     private CircleImageView writer_pic, reply_profile_pic;
     private CheckBox check_like;
     private EditText edit_text_reply;
@@ -105,6 +105,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         reply_profile_pic = (CircleImageView)findViewById(R.id.civ_reply_profile_pic);
         button_comment = (Button)findViewById(R.id.btn_comment);
         recyclerView = (RecyclerView)findViewById(R.id.recycler_reply);
+        img_comment = (ImageView)findViewById(R.id.iv_article_comment);
         // 댓글 리사이클러뷰 세팅
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -248,6 +249,9 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 String comment_num = text_reply_num.getText().toString();
                 int num = Integer.parseInt(comment_num)-1;
                 text_reply_num.setText(String.valueOf(num));
+                if(num == 0) {
+                    img_comment.setImageResource(R.drawable.ic_comment);
+                }
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
@@ -264,6 +268,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 commentList = response.body();
+
                 if(response.body() != null) {
                     Log.d("getComment 서버 응답 확인: ", "성공");
                     recyclerView.setVisibility(View.VISIBLE);
@@ -303,7 +308,8 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 String comment_num = text_reply_num.getText().toString();
                 int num = Integer.parseInt(comment_num)+1;
                 text_reply_num.setText(String.valueOf(num));
-
+                // 댓글 이미지 컬러 변경
+                img_comment.setImageResource(R.drawable.ic_comment_black);
             }
             @Override
             public void onFailure(Call<ResponsePOJO> call, Throwable t) {
@@ -326,6 +332,11 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         text_view_num.setText(view_num);
         // 댓글 개수 데이터 삽입
         text_reply_num.setText(comment_count);
+        // 댓글 개수가 0 이 아니라면 댓글 이미지 컬러 변경 됨
+        int count = Integer.parseInt(comment_count);
+        if(count != 0) {
+            img_comment.setImageResource(R.drawable.ic_comment_black);
+        }
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.skipMemoryCache(true);
