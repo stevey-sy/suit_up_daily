@@ -139,7 +139,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 // TODO: 2020-12-29 popup 메뉴로 수정, 삭제 버튼 나오게 하기
                 //popup menu 객체 생성
                 PopupMenu popup = new PopupMenu (CodiArticle.this, view);
-                // xml 과 연결
+                // xml 과 연결 (수정, 삭제 xml)
                 popup.getMenuInflater().inflate(R.menu.comment_menu, popup.getMenu());
                 // popup 메뉴 클릭 시 이벤트
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -148,6 +148,28 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                         switch (item.getItemId()) {
                             case R.id.modify:
                                 // 수정 이벤트
+                                // 수정 dialog 를 생성
+                                final EditText edit_text = new EditText(CodiArticle.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(CodiArticle.this);
+                                builder.setTitle("댓글 수정");
+                                builder.setMessage("댓글을 수정해주세요.");
+                                builder.setView(edit_text);
+                                edit_text.setText(commentList.get(position).getContent());
+                                builder.setPositiveButton("수정",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // 서버에 데이터 수정 요청
+                                            }
+                                        });
+                                builder.setNegativeButton("취소",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Log.d("댓글 수정 ", "수정 취소버튼 눌림");
+                                            }
+                                        });
+                                builder.show();
 
                                 return true;
                             case R.id.delete:
