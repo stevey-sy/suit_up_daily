@@ -243,7 +243,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginHorizontal="10dp"
                 android:id="@+id/recycler_reply"
-                android:background="#DCDCDC"
+                android:background="#D3D3D3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
