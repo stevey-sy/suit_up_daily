@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,6 +72,7 @@ public class CommentAdapter extends RecyclerView.Adapter <CommentAdapter.Comment
                 .apply(requestOptions)
                 .circleCrop()
                 .into(holder.profile_img);
+        // TODO: 2020-12-29  댓글 창에 수정, 삭제 버튼은 사용자가 등록한 댓글에만 보이도록 할 것. 
     }
 
     @Override
@@ -88,6 +90,7 @@ public class CommentAdapter extends RecyclerView.Adapter <CommentAdapter.Comment
         private CircleImageView profile_img;
         private TextView tv_user_nick, tv_reply_content, tv_reply_date;
         private ImageView iv_reply_menu;
+        private Context context;
 
         public CommentViewHolder(@NonNull View itemView, CommentViewClickListener listener) {
             super(itemView);
@@ -104,8 +107,9 @@ public class CommentAdapter extends RecyclerView.Adapter <CommentAdapter.Comment
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.img_view_codi_share) {
+            if (v.getId() == R.id.iv_reply_menu ) {
                 mListener.onRowClick(iv_reply_menu, getAdapterPosition());
+                // popup 메뉴 생성
             }
         }
     }

@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -133,6 +134,28 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
             @Override
             public void onRowClick(View view, int position) {
                 // TODO: 2020-12-29 popup 메뉴로 수정, 삭제 버튼 나오게 하기
+                //popup menu 객체 생성
+                PopupMenu popup = new PopupMenu (CodiArticle.this, view);
+                // xml 과 연결
+                popup.getMenuInflater().inflate(R.menu.comment_menu, popup.getMenu());
+                // popup 메뉴 클릭 시 이벤트
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.modify:
+                                // 수정 이벤트
+
+                                return true;
+                            case R.id.delete:
+                                // 삭제 이벤트
+
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
             }
         };
     }
