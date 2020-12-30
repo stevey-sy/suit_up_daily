@@ -14,6 +14,14 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface Api {
+    // 댓글 삭제하는 메소드
+    @FormUrlEncoded
+    @POST("codi/delete_comment.php")
+    Call<ResponsePOJO> deleteComment(
+            @Field("id") String id,
+            @Field("idx") String idx
+    );
+    // 댓글 업로드 하는 메소드
     @FormUrlEncoded
     @POST("codi/upload_comment.php")
     Call<ResponsePOJO> uploadComment(

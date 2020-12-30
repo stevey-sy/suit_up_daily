@@ -2,6 +2,7 @@ package com.example.suitupdaily;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -132,7 +135,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
         // 리사이클러뷰, 댓글 창에서 메뉴 클릭 시, 이벤트
         listener = new CommentAdapter.CommentViewClickListener() {
             @Override
-            public void onRowClick(View view, int position) {
+            public void onRowClick(View view, final int position) {
                 // TODO: 2020-12-29 popup 메뉴로 수정, 삭제 버튼 나오게 하기
                 //popup menu 객체 생성
                 PopupMenu popup = new PopupMenu (CodiArticle.this, view);
@@ -149,7 +152,27 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                                 return true;
                             case R.id.delete:
                                 // 삭제 이벤트
-
+                                // 정말 삭제할 것인지 물어보는 dialog 생성
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(CodiArticle.this);
+                                dialog.setMessage("댓글을 삭제하시겠습니까?");
+                                dialog.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+//                                        Toast.makeText(getApplicationContext(), String.valueOf(commentList.get(position).getCommentIdx()), Toast.LENGTH_SHORT).show();
+                                        // 삭제할 댓글의 index 번호를 확인한다.
+                                        String comment_idx = String.valueOf(commentList.get(position).getCommentIdx());
+                                        // 확인후 서버에 댓글 삭제 요청
+                                        deleteComment(comment_idx);
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog.show();
                                 return true;
                         }
                         return true;
@@ -158,6 +181,26 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 popup.show();
             }
         };
+    }
+    // 서버에 댓글 삭제 요청하는 메소드
+    private void deleteComment(String comment_idx) {
+        String id = user_id;
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().deleteComment(id, comment_idx);
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @SuppressLint("CheckResult")
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {
+                Log.d("서버 응답: ", "성공");
+                String remarks = response.body().getRemarks();
+                Toast.makeText(getApplicationContext(), remarks, Toast.LENGTH_SHORT).show();
+                // 서버 응답 성공하면 댓글 담당하는 recycler view 를 reload 한다.
+                getComment();
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(CodiArticle.this, "Network Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // 서버로부터 댓글 리스트 가져오는 메소드

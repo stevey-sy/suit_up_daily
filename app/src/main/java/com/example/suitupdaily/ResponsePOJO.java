@@ -99,6 +99,14 @@ public class ResponsePOJO {
         return view;
     }
 
+    // 서버로부터 사용자가 선택한 댓글의 index 를 받아올 메소드
+    @SerializedName("comment_idx")
+    private String commentIdx;
+
+    public String getCommentIdx() {
+        return commentIdx;
+    }
+
     @SerializedName("result")
     private String result;
 
