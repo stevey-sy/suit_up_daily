@@ -69,7 +69,7 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
 
     @Override
     public void onBindViewHolder(@NonNull final CodiShareAdapter.ShareViewHolder holder, final int position) {
-
+        holder.image_comment.setImageResource(R.drawable.ic_comment_gray);
         holder.idx.setText(clothList.get(position).getIdx());
         clicked_idx = clothList.get(position).getIdx();
         // 서버에서 받아온 날짜 데이터 예시
