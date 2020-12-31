@@ -37,22 +37,23 @@
         <me.relex.circleindicator.CircleIndicator
             android:id="@+id/home_circle_indicator"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             app:ci_drawable="@drawable/black_radius"
             app:ci_height="7dp"
             app:ci_width="7dp"
             app:ci_margin="4dp"/>
 
         <androidx.viewpager.widget.ViewPager
+            android:layout_marginHorizontal="10dp"
             android:id="@+id/home_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="350dp" />
 
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="10dp"
             android:gravity="center">
 
             <Button
