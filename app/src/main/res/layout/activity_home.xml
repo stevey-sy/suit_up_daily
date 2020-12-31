@@ -7,7 +7,8 @@
     android:id="@+id/drawer_layout"
     tools:context=".Home">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -20,10 +21,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            android:theme="?attr/actionBarTheme">
 
             <TextView
                 android:layout_marginStart="50dp"
@@ -34,52 +32,62 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
-
         </androidx.appcompat.widget.Toolbar>
 
-        <Button
-            android:id="@+id/btn_closet"
-            android:layout_width="130dp"
-            android:layout_height="125dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:background="#000000"
-            android:text="옷장"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_my_codi"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_home" />
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/home_circle_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:ci_drawable="@drawable/black_radius"
+            app:ci_height="7dp"
+            app:ci_width="7dp"
+            app:ci_margin="4dp"/>
 
-        <Button
-            android:id="@+id/btn_share_codi"
-            android:layout_width="130dp"
-            android:layout_height="125dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:background="#000000"
-            android:text="코디 공유"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_my_codi"
-            app:layout_constraintHorizontal_bias="0.45"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_closet" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/home_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
 
-        <Button
-            android:id="@+id/btn_my_codi"
-            android:layout_width="130dp"
-            android:layout_height="125dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="#000000"
-            android:text="내 코디"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_closet"
-            app:layout_constraintTop_toTopOf="@+id/btn_closet" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_closet"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/filter_button"
+                android:text="옷장"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_my_codi"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/filter_button"
+                android:text="코디 Log"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"/>
+
+            <Button
+                android:id="@+id/btn_share_codi"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/filter_button"
+                android:text="오픈 룩북"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/home_nav_view"
@@ -89,8 +97,6 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/menu_home"
         app:headerLayout="@layout/home_menu_header">
-
-
 
     </com.google.android.material.navigation.NavigationView>
 

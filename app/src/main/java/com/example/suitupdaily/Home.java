@@ -8,6 +8,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,11 +33,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.suitupdaily.Fragment.BestLikeFragment;
+import com.example.suitupdaily.Fragment.SuggestionFragment;
+import com.example.suitupdaily.Fragment.WeatherFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
+
+import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 public class Home extends AppCompatActivity {
 
@@ -45,6 +55,7 @@ public class Home extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private String userID;
     private CircleImageView image_profile;
+    FragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +98,13 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        // 홈 화면 view pager 세팅
+        ViewPager viewPager = (ViewPager) findViewById(R.id.home_view_pager);
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPager.setAdapter(adapterViewPager);
+        // circle indicator 세팅
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.home_circle_indicator);
+        indicator.setViewPager(viewPager);
         // xml 연결
         btn_closet = findViewById(R.id.btn_closet);
         btn_my_codi = findViewById(R.id.btn_my_codi);
@@ -176,4 +194,38 @@ public class Home extends AppCompatActivity {
         // 서버에서 사용자의 프로필 받아오는 메소드
         getProfileInfo ();
     }
+
+    // view pager adapter 생성
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 3;
+
+        public MyPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return WeatherFragment.newInstance(0, "Page # 1");
+                case 1:
+                    return BestLikeFragment.newInstance(1, "Page # 2");
+                case 2:
+                    return SuggestionFragment.newInstance(2, "Page # 3");
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+    }
+    // Returns the page title for the top indicator
+//    @Override
+//    public CharSequence getPageTitle(int position) {
+//        return "Page " + position;
+//    }
 }
