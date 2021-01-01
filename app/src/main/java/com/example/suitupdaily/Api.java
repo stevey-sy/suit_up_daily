@@ -1,5 +1,7 @@
 package com.example.suitupdaily;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -12,8 +14,15 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface Api {
+    // 베스트 코디 불러오는 메소드
+    @FormUrlEncoded
+    @POST("codi/best_codi.php")
+    Call<ResponsePOJO> getBestCodi(
+            @Field("id") String id
+    );
     // 댓글 수정하는 메소드
     @FormUrlEncoded
     @POST("codi/edit_comment.php")
