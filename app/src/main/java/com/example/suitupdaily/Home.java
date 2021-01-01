@@ -47,7 +47,7 @@ import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CU
 
 public class Home extends AppCompatActivity {
 
-    private Button btn_closet, btn_my_codi, btn_share_codi;
+    private Button btn_closet, btn_my_codi, btn_share_codi, btn_do_codi;
     private TextView text_view_nick;
     private Toolbar toolbar;
     private ActionBar actionBar;
@@ -111,6 +111,7 @@ public class Home extends AppCompatActivity {
         btn_share_codi = findViewById(R.id.btn_share_codi);
         image_profile = findViewById(R.id.iv_home_profile);
         text_view_nick = findViewById(R.id.tv_home_nick);
+        btn_do_codi = findViewById(R.id.btn_do_codi);
         // 사용자 아이디 값 받아오는 intent
         Intent intent_get_id = getIntent();
         userID = intent_get_id.getStringExtra("userID");
@@ -138,6 +139,15 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Home.this, ShareCodi.class);
+                intent.putExtra("userID", userID);
+                startActivity(intent);
+            }
+        });
+        // 코디하러 가기 버튼 클릭 이벤트
+        btn_do_codi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, SelfCodi.class);
                 intent.putExtra("userID", userID);
                 startActivity(intent);
             }

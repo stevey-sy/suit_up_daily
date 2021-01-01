@@ -47,10 +47,10 @@
             android:layout_marginHorizontal="10dp"
             android:id="@+id/home_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="350dp" />
+            android:layout_height="320dp" />
 
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -84,9 +84,16 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:layout_marginLeft="10dp"/>
-
-
         </LinearLayout>
+        <Button
+            android:id="@+id/btn_do_codi"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_button"
+            android:text="코디하러 가기"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
