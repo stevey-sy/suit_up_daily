@@ -40,24 +40,24 @@ public class ResponseOpenWeather {
         public String icon;
     }
 
-    class Clouds {
+    public class Clouds {
         @SerializedName("all")
         public float all;
     }
 
-    class Rain {
+    public class Rain {
         @SerializedName("3h")
         public float h3;
     }
 
-    class Wind {
+    public class Wind {
         @SerializedName("speed")
         public float speed;
         @SerializedName("deg")
         public float deg;
     }
 
-    class Main {
+    public class Main {
         @SerializedName("temp")
         public float temp;
         @SerializedName("humidity")
@@ -68,10 +68,11 @@ public class ResponseOpenWeather {
         public float temp_min;
         @SerializedName("temp_max")
         public float temp_max;
-
+        @SerializedName("feels_like")
+        public float temp_feel;
     }
 
-    class Sys {
+    public class Sys {
         @SerializedName("country")
         public String country;
         @SerializedName("sunrise")
@@ -80,7 +81,7 @@ public class ResponseOpenWeather {
         public long sunset;
     }
 
-    class Coord {
+    public class Coord {
         @SerializedName("lon")
         public float lon;
         @SerializedName("lat")

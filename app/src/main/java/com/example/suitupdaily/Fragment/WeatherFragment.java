@@ -58,16 +58,16 @@ public class WeatherFragment extends Fragment {
 
         // 서버에 날씨 데이터 요청하는 메소드
         getCurrentWeather();
-
         return view;
     }
 
     private void getCurrentWeather() {
-        String lat = "37";
-        String lon = "127";
+        String lat = "37.38";
+        String lon = "127.12";
         String APPID = getString(R.string.APPID);
+        String metric = "metric";
 
-        Call<ResponseOpenWeather> call = RetrofitOpenWeather.getInstance().getApi().getCurrentWeather(lat, lon, APPID);
+        Call<ResponseOpenWeather> call = RetrofitOpenWeather.getInstance().getApi().getCurrentWeather(lat, lon, APPID, metric);
         call.enqueue(new Callback<ResponseOpenWeather>() {
             @SuppressLint("CheckResult")
             @Override
@@ -75,11 +75,18 @@ public class WeatherFragment extends Fragment {
 //                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                 ResponseOpenWeather weather_data = response.body();
 
-//                String temp = weather_data.main;
-                Log.d("날씨 데이터: ", String.valueOf(response.body()));
                 assert weather_data != null;
-                String body = weather_data.sys.country;
-                Log.d("날씨 데이터22: ", body);
+                String body = String.valueOf(weather_data.name);
+                Log.d("날씨 데이터 test: ", body);
+                // 필요한 데이터 = 맑음, 최저, 최고, 현재온도, 위치명, 체감온도
+                String location_name = weather_data.name;
+                String weather_status = weather_data.weather.get(0).description;
+                String temper_current = String.valueOf(weather_data.main.temp);
+                String temper_lowest = String.valueOf(weather_data.main.temp_min);
+                String temper_highest = String.valueOf(weather_data.main.temp_max);
+                String temper_feel = String.valueOf(weather_data.main.temp_feel);
+                // 가져온 데이터를 view 에 세팅하는 메소드
+                setWeatherData(location_name, weather_status, temper_current, temper_lowest, temper_highest, temper_feel);
             }
             @Override
             public void onFailure(Call<ResponseOpenWeather> call, Throwable t) {
@@ -87,5 +94,18 @@ public class WeatherFragment extends Fragment {
 //                Toast.makeText(this, "Network Failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setWeatherData(String location, String status, String temp, String temp_min, String temp_max, String feel) {
+//        tv_highest_temper = (TextView)view.findViewById(R.id.tv_highest_temper);
+//        tv_lowest_temper = (TextView)view.findViewById(R.id.tv_lowest_temper);
+//        tv_current_temper = (TextView)view.findViewById(R.id.tv_current_temper);
+//        tv_weather_status = (TextView)view.findViewById(R.id.tv_weather_status);
+//        lottie = (LottieAnimationView)view.findViewById(R.id.animation_view);
+
+        tv_highest_temper.setText(temp_max +"°");
+        tv_lowest_temper.setText(temp_min +"°");
+        tv_current_temper.setText(feel +"°");
+
     }
 }

@@ -12,6 +12,7 @@ public interface ApiOpenWeather {
     Call<ResponseOpenWeather> getCurrentWeather(
             @Query("lat") String lat,
             @Query("lon") String lon,
-            @Query("APPID") String APPID
+            @Query("APPID") String APPID,
+            @Query("units") String metric
     );
 }
