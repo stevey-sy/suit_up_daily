@@ -29,6 +29,7 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/tv_highest_temper"
             android:layout_marginStart="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:text="/" />
         <TextView
+            android:id="@+id/tv_lowest_temper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="최저" />
@@ -50,6 +52,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_current_temper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="현재 온도" />
@@ -76,6 +79,7 @@
                 app:lottie_fileName="sunny.json"
                 app:lottie_loop="true"/>
             <TextView
+                android:id="@+id/tv_weather_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="맑음"
@@ -137,13 +141,13 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_codi_guide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="무조건 따뜻하게 입으세요! "
                 android:textColor="@color/black_de"
                 android:textSize="16sp"
                 android:gravity="center"/>
-
 
         </LinearLayout>
 
