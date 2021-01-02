@@ -1,7 +1,9 @@
 package com.example.suitupdaily.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.suitupdaily.CodiArticle;
 import com.example.suitupdaily.MyProfile;
 import com.example.suitupdaily.R;
 import com.example.suitupdaily.ResponsePOJO;
 import com.example.suitupdaily.RetrofitClient;
+import com.example.suitupdaily.ShareCodi;
+
+import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -26,8 +33,10 @@ import retrofit2.Callback;
 public class BestLikeFragment extends Fragment {
     // Store instance variables
     private String title, codi_idx;
+    private String user_id, nick, like_num, comment_num, photo_url, codi_img_url, view_num, hash_tags, date, memo, who_liked;
     private int page;
     private CircleImageView iv_user_profile;
+    private CardView card_view;
     private ImageView img_codi;
     private TextView tv_user_nick, tv_like_num, tv_comment_num, tv_hash_tags;
 
@@ -47,7 +56,6 @@ public class BestLikeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
-
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -55,7 +63,6 @@ public class BestLikeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_best_like, container, false);
-
         // xml 연결
         img_codi = (ImageView) view.findViewById(R.id.iv_article_codi);
         iv_user_profile = (CircleImageView) view.findViewById(R.id.civ_article_profile);
@@ -63,10 +70,31 @@ public class BestLikeFragment extends Fragment {
         tv_like_num = (TextView) view.findViewById(R.id.tv_article_views);
         tv_comment_num = (TextView) view.findViewById(R.id.tv_article_comments);
         tv_hash_tags = (TextView) view.findViewById(R.id.tv_article_hash);
+        card_view = (CardView) view.findViewById(R.id.card_view_codi);
 
         // 서버에서 코디 데이터 받아오는 메소드
         getBestCodi();
-
+        // 카드뷰 클릭 이벤트
+        card_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // intent: 화면 전환 to Codi Board
+                Intent intent = new Intent (getActivity(), CodiArticle.class);
+                intent.putExtra("userID", "sinsy8989@gmail.com");
+                intent.putExtra("idx", codi_idx);
+                intent.putExtra("nick", nick);
+                intent.putExtra("like_num", like_num);
+                intent.putExtra("comment_count", comment_num);
+                intent.putExtra("profile_pic", photo_url);
+                intent.putExtra("tags", hash_tags);
+                intent.putExtra("picture", codi_img_url);
+                intent.putExtra("view", view_num);
+                intent.putExtra("date", date);
+                intent.putExtra("memo", memo);
+                intent.putExtra("who_liked", who_liked);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -80,21 +108,25 @@ public class BestLikeFragment extends Fragment {
             public void onResponse(Call<ResponsePOJO> call, retrofit2.Response<ResponsePOJO> response) {
 //                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                 if(response.body().isStatus()) {
-                    String nick = response.body().getNick();
-                    String like_num = String.valueOf(response.body().getLike());
-                    String comment_num = String.valueOf(response.body().getCommentCount());
-                    String photo_url = response.body().getPhotoUrl();
-                    String hash_tags = response.body().getTags();
-                    String codi_img_url = response.body().getImgURL();
+                    // 서버에서 받아온 데이터
+                    nick = response.body().getNick();
+                    like_num = String.valueOf(response.body().getLike());
+                    comment_num = String.valueOf(response.body().getCommentCount());
+                    photo_url = response.body().getPhotoUrl();
+                    hash_tags = response.body().getTags();
+                    codi_img_url = response.body().getImgURL();
                     codi_idx = response.body().getIdx();
-
+                    view_num = response.body().getView();
+                    date = response.body().getDate();
+                    user_id = "sinsy8989@gmail.com";
+                    memo = response.body().getMemo();
+                    who_liked = response.body().getWhoLiked();
                     // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.skipMemoryCache(true);
                     requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
                     requestOptions.placeholder(R.drawable.ic_clothes_hanger);
                     requestOptions.error(R.drawable.ic_baseline_accessibility_24);
-
                     // 서버에서 받아온 데이터를 view 에 뿌려줌
                     Glide.with(BestLikeFragment.this).load(photo_url).apply(requestOptions).circleCrop().into(iv_user_profile);
                     Glide.with(BestLikeFragment.this).load(codi_img_url).apply(requestOptions).into(img_codi);
@@ -113,6 +145,4 @@ public class BestLikeFragment extends Fragment {
             }
         });
     }
-
-
 }

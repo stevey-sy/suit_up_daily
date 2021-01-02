@@ -17,6 +17,7 @@
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_codi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
