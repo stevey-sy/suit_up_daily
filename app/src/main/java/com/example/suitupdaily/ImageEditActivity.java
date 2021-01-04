@@ -96,23 +96,16 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
     private TextView text_guide, tv_color;
     private Toolbar toolbar;
     private ActionBar actionBar;
-
     private Boolean check_show;
     private String check = "off";
-
     Context context;
-
     private int status = 0;
     private int say = 1;
     private Mat img;
-
     private Dialog dialog;
     private GridView gridView;
-
-
     String[] color_name = {"블랙", "화이트", "아이보리", "베이지", "그레이"};
     String[] color_code = {"#000000","#FFFFFF", "#f5f5dc", "#ece6cc", "#d3d3d3"};
-
     final String[] season_list = new String[] {"모두", "봄", "여름", "가을", "겨울"};
     final int CODE_GALLERY_REQUEST = 999;
     private String name = "";
@@ -152,8 +145,11 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         // xml 연결
+        img_cloth = (ImageView) findViewById(R.id.fake_image_view);
         colorPickerView = (ColorPickerView) findViewById(R.id.img_cloth);
         tv_color = (TextView) findViewById(R.id.tv_color_title);
         color_square = (AlphaTileView) findViewById(R.id.color_square);
@@ -174,12 +170,37 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
         add_img_fab = (FloatingActionButton) findViewById(R.id.add_img_fab);
         add_img_fab.setVisibility(View.GONE);
 
+        // 여기서 code 888 왔을 때, 안왔을 때로 나뉘어서 작동
+        default_drawable = ContextCompat.getDrawable(this, R.drawable.ic_clothes_hanger);
+        colorPickerView.setPaletteDrawable(default_drawable);
+        tv_color.setVisibility(View.INVISIBLE);
+        color_square.setVisibility(View.INVISIBLE);
+        underline_color.setVisibility(View.INVISIBLE);
+        colorPickerView.setColorListener(new ColorEnvelopeListener() {
+            @Override
+            public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
+                color_square.setBackgroundColor(envelope.getColor());
+//                tv_color.setText("#" + envelope.getHexCode());
+                color_hex_code = "#" + envelope.getHexCode();
+                int_color = envelope.getColor();
+                int[] array = envelope.getArgb();
+                Log.d("argb 값: ", Arrays.toString(array));
+                array = sliceArray(array, 1, 4);
+                Log.d("rgb 값: ", Arrays.toString(array));
+                colorUtils = new ColorUtils();
+                String color_name2 = colorUtils.getColorNameFromRgb2(array);
+                Log.d("rgb 컬러 값2: ", color_name2);
+                tv_color.setText(color_name2);
+                String color = Integer.toString(int_color);
+            }
+        });
+
         //  이미지 불러오기 버튼 눌렀을 때
-        add_img_fab.setOnClickListener(new View.OnClickListener() {
+        img_cloth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transparent_view.setVisibility(View.GONE);
-                first_guide.setVisibility(View.GONE);
+//                transparent_view.setVisibility(View.GONE);
+////                first_guide.setVisibility(View.GONE);
                 // 팝업 메뉴가 뜨면서,  카메라 촬영할지 / 겔러리에서 가져올지 선택.
                 PopupMenu p = new PopupMenu(getApplicationContext(), v);
                 getMenuInflater().inflate(R.menu.context_add_cloth, p.getMenu());
@@ -209,58 +230,63 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        default_drawable = ContextCompat.getDrawable(this, R.drawable.ic_clothes_hanger);
-        colorPickerView.setPaletteDrawable(default_drawable);
-        tv_color.setVisibility(View.INVISIBLE);
-        color_square.setVisibility(View.INVISIBLE);
-        underline_color.setVisibility(View.INVISIBLE);
-
-        colorPickerView.setColorListener(new ColorEnvelopeListener() {
+        //  이미지 불러오기 버튼 눌렀을 때
+        add_img_fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
-                color_square.setBackgroundColor(envelope.getColor());
-//                tv_color.setText("#" + envelope.getHexCode());
-                color_hex_code = "#" + envelope.getHexCode();
-                int_color = envelope.getColor();
-                int[] array = envelope.getArgb();
-                Log.d("argb 값: ", Arrays.toString(array));
-                array = sliceArray(array, 1, 4);
-                Log.d("rgb 값: ", Arrays.toString(array));
-                colorUtils = new ColorUtils();
-                String color_name2 = colorUtils.getColorNameFromRgb2(array);
-                Log.d("rgb 컬러 값2: ", color_name2);
-                tv_color.setText(color_name2);
-                String color = Integer.toString(int_color);
+            public void onClick(View v) {
+//                transparent_view.setVisibility(View.GONE);
+////                first_guide.setVisibility(View.GONE);
+                // 팝업 메뉴가 뜨면서,  카메라 촬영할지 / 겔러리에서 가져올지 선택.
+                PopupMenu p = new PopupMenu(getApplicationContext(), v);
+                getMenuInflater().inflate(R.menu.context_add_cloth, p.getMenu());
+
+                p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()) {
+                            case R.id.img_camera:
+                                Intent intent_camera = new Intent(ImageEditActivity.this, CuttingImage.class);
+                                intent_camera.putExtra("userID", name);
+                                intent_camera.putExtra("requestCode", 1005);
+                                startActivity(intent_camera);
+                                return true;
+
+                            case R.id.img_gallery:
+                                Intent intent_gallery = new Intent(ImageEditActivity.this, CuttingImage.class);
+                                intent_gallery.putExtra("userID", name);
+                                intent_gallery.putExtra("requestCode", 1004);
+                                startActivity(intent_gallery);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                p.show();
             }
         });
 
         // openCV로 편집된 이미지가 있을 때의 진행 코드
         if (status == 888) {
-
-            transparent_view.setVisibility(View.GONE);
-            first_guide.setVisibility(View.GONE);
-
+            img_cloth.setVisibility(View.GONE);
+            add_img_fab.setVisibility(View.VISIBLE);
+            // 이미지 편집이 완료된 상황이면,
+            // color listener 활성화
             SharedPreferences shared = getSharedPreferences("check",MODE_PRIVATE);
             // SharedPreferences 의 데이터를 저장/편집 하기위해 Editor 변수를 선언한다.
             SharedPreferences.Editor shared_editor = shared.edit();
 
             check_show = sf.getBoolean("checker", false);
-
             Log.d("boolean 값: ", String.valueOf(check_show));
-
             if (!check_show) {
                 // false 면은
                 DialogColorGuide dialogColorGuide = new DialogColorGuide(ImageEditActivity.this);
                 dialogColorGuide.callFunction(text_show_again);
             }
-
             shared_editor.putBoolean("checker", true);
             shared_editor.commit();
-
             // Name
             String check = text_show_again.getText().toString();
             Log.d("체크 값: ", check);
-
             if (check.contains("on")) {
                 // 다시보지 않기
                 Log.d("on 체크 값: ", check);
@@ -273,7 +299,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
                 shared_editor.putBoolean("checker", false);
                 shared_editor.commit();
             }
-
             tv_color.setVisibility(View.VISIBLE);
             color_square.setVisibility(View.VISIBLE);
             underline_color.setVisibility(View.VISIBLE);
@@ -283,7 +308,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
             bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
 //            img_cloth.setImageBitmap(bitmap);
             text_guide.setVisibility(View.GONE);
-
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
             colorPickerView.setPaletteDrawable(drawable);
         }
@@ -415,6 +439,17 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
     public boolean getPreferenceBoolean(String key) {
         SharedPreferences pref = getSharedPreferences("check", MODE_PRIVATE);
         return pref.getBoolean(key, false);
+    }
+
+    // 툴바 메뉴 눌렀을 때의 코드 (홈 버튼)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // 사진 가져올 때 사용된 메서드

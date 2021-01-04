@@ -57,7 +57,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:alpha_selector="0.8"
                 app:selector_size="5dp"
-                />
+                >
+
+            </com.skydoves.colorpickerview.ColorPickerView>
+
+            <ImageView
+                android:id="@+id/fake_image_view"
+                android:layout_width="245dp"
+                android:layout_height="203dp"
+                app:layout_constraintEnd_toEndOf="@+id/img_cloth"
+                app:layout_constraintStart_toStartOf="@+id/img_cloth"
+                app:layout_constraintTop_toTopOf="@+id/img_cloth"
+                app:srcCompat="@drawable/ic_clothes_hanger" />
 
             <TextView
                 android:id="@+id/msg_choose"
