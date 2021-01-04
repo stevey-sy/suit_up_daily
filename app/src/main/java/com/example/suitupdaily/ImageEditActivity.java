@@ -1,6 +1,7 @@
 package com.example.suitupdaily;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import android.os.Environment;
@@ -77,7 +79,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
     private static final int REQUEST_IMAGE_CAPTURE = 672;
     private String imageFilePath;
     private Uri photoUri;
-
     private FloatingActionButton add_img_fab;
     private ColorPickerView colorPickerView;
     private AlphaTileView color_square;
@@ -85,12 +86,9 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
     private View underline_color;
     private String color_hex_code;
     private int int_color;
-
     private View transparent_view;
     private TextView first_guide;
-
     private ColorUtils colorUtils;
-
     private ImageView img_cloth;
     private Button btn_crop;
     private Bitmap bitmap;
@@ -116,11 +114,9 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
     String[] color_code = {"#000000","#FFFFFF", "#f5f5dc", "#ece6cc", "#d3d3d3"};
 
     final String[] season_list = new String[] {"모두", "봄", "여름", "가을", "겨울"};
-
     final int CODE_GALLERY_REQUEST = 999;
     private String name = "";
     int IMG_REQUEST = 21;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,45 +146,33 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
         Intent get_intent = getIntent();
 
         status = extras.getInt("code");
-//        byte[] byteArray = getIntent().getByteArrayExtra("Image");
-
+        // 툴바 세팅
         toolbar = findViewById(R.id.toolbar_add_cloth);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
-//        img_cloth = (ImageView) findViewById(R.id.img_cloth);
+        // xml 연결
         colorPickerView = (ColorPickerView) findViewById(R.id.img_cloth);
         tv_color = (TextView) findViewById(R.id.tv_color_title);
         color_square = (AlphaTileView) findViewById(R.id.color_square);
         underline_color = (View) findViewById(R.id.underline_season);
-
-//        btn_upload = (Button) findViewById(R.id.btn_save);
-
         btn_crop = (Button) findViewById(R.id.btn_crop);
         text_main_category = (EditText) findViewById(R.id.text_main_category);
         text_color = (EditText) findViewById(R.id.text_color);
-//        text_color.setBackgroundColor(Color.parseColor("#afe3ff"));
-
         text_date = (EditText) findViewById(R.id.text_date);
         text_fit = (EditText) findViewById(R.id.text_cloth_size);
-
         text_season = (EditText) findViewById(R.id.text_season);
         text_guide = (TextView) findViewById(R.id.msg_choose);
         cloth_type = (EditText) findViewById(R.id.cloth_type);
         cloth_type.setVisibility(GONE);
         text_show_again = (EditText) findViewById(R.id.text_show_again);
         text_show_again.setVisibility(GONE);
-
         border_line = (EditText) findViewById(R.id.border_line);
         border_line.setClickable(false);
-
-        transparent_view = (View) findViewById(R.id.transparent_view);
-        first_guide = (TextView) findViewById(R.id.tv_first_guide);
-
         add_img_fab = (FloatingActionButton) findViewById(R.id.add_img_fab);
+        add_img_fab.setVisibility(View.GONE);
 
         //  이미지 불러오기 버튼 눌렀을 때
         add_img_fab.setOnClickListener(new View.OnClickListener() {
@@ -205,16 +189,13 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
                     public boolean onMenuItemClick(MenuItem item) {
                         switch(item.getItemId()) {
                             case R.id.img_camera:
-
                                 Intent intent_camera = new Intent(ImageEditActivity.this, CuttingImage.class);
                                 intent_camera.putExtra("userID", name);
                                 intent_camera.putExtra("requestCode", 1005);
                                 startActivity(intent_camera);
-
                                 return true;
 
                             case R.id.img_gallery:
-
                                 Intent intent_gallery = new Intent(ImageEditActivity.this, CuttingImage.class);
                                 intent_gallery.putExtra("userID", name);
                                 intent_gallery.putExtra("requestCode", 1004);
@@ -241,39 +222,15 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 //                tv_color.setText("#" + envelope.getHexCode());
                 color_hex_code = "#" + envelope.getHexCode();
                 int_color = envelope.getColor();
-
                 int[] array = envelope.getArgb();
-
                 Log.d("argb 값: ", Arrays.toString(array));
-                Log.d("argb 값: ", Arrays.toString(array));
-                Log.d("argb 값: ", Arrays.toString(array));
-                Log.d("argb 값: ", Arrays.toString(array));
-                Log.d("argb 값: ", Arrays.toString(array));
-                Log.d("argb 값: ", Arrays.toString(array));
-
                 array = sliceArray(array, 1, 4);
-
                 Log.d("rgb 값: ", Arrays.toString(array));
-
                 colorUtils = new ColorUtils();
-
                 String color_name2 = colorUtils.getColorNameFromRgb2(array);
-
                 Log.d("rgb 컬러 값2: ", color_name2);
-                Log.d("rgb 컬러 값2: ", color_name2);
-
                 tv_color.setText(color_name2);
-
                 String color = Integer.toString(int_color);
-//                tv_color.setText(envelope.getArgb());
-
-
-//                colorUtils = new ColorUtils();
-//
-//                String color_name = envelope.getHexCode();
-//                int num = Integer.parseInt(color_name);
-//                String color = colorUtils.getColorNameFromHex(num);
-//                tv_color.setText(color);
             }
         });
 
@@ -302,13 +259,7 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 
             // Name
             String check = text_show_again.getText().toString();
-
-            Log.d("String check: ", check);
             Log.d("체크 값: ", check);
-            Log.d("체크 값: ", check);
-            Log.d("체크 값: ", check);
-            Log.d("체크 값: ", check);
-
 
             if (check.contains("on")) {
                 // 다시보지 않기
@@ -322,15 +273,12 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
                 shared_editor.putBoolean("checker", false);
                 shared_editor.commit();
             }
-//            ClothCategoryDialog clothCategoryDialog = new ClothCategoryDialog(ImageEditActivity.this);
-//            clothCategoryDialog.callFunction(cloth_type, text_main_category);
 
             tv_color.setVisibility(View.VISIBLE);
             color_square.setVisibility(View.VISIBLE);
             underline_color.setVisibility(View.VISIBLE);
             text_color.setVisibility(View.GONE);
 
-//            Intent intent = getIntent();
             byte[] arr = getIntent().getByteArrayExtra("edited_image");
             bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
 //            img_cloth.setImageBitmap(bitmap);
@@ -442,32 +390,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 
     }
 
-//    // 툴바 메뉴 불러오기
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.menu_add_cloth, menu);
-//
-//        action = menu;
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//            case R.id.add_cloth_confirm:
-////                convertMatToBitMap(img);
-//                uploadImage();
-//
-//                Toast.makeText(getApplicationContext(), "저장버튼", Toast.LENGTH_SHORT).show();
-//
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
     public void openDialog() {
         dialog = new Dialog(ImageEditActivity.this);
         dialog.setContentView(R.layout.dialog_color_list);
@@ -487,9 +409,7 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
                 dialog.dismiss();
             }
         });
-
         dialog.show();
-
     }
 
     public boolean getPreferenceBoolean(String key) {
@@ -497,15 +417,14 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
         return pref.getBoolean(key, false);
     }
 
-
     // 사진 가져올 때 사용된 메서드
+        @RequiresApi(api = Build.VERSION_CODES.P)
         @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-
                 Uri uri = null;
                 if (data != null) {
                     try {
@@ -519,29 +438,8 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
                         e.printStackTrace();
                     }
                 }
-
-//                if (uri != null) {
-//                    // 선택한 이미지에서 비트맵 생성
-//                    InputStream in = null;
-//                    try {
-//                        in = getContentResolver().openInputStream(data.getData());
-//                        bitmap = BitmapFactory.decodeStream(in);
-//                        in.close();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                    // 이미지 표시
-//                    img_cloth.setImageURI(uri);
-////                    imgPath= getRealPathFromUri(uri);
-////                    filePath = createCopyAndReturnRealPath(this, uri);
-////
-//////                    imgPath = getRealPathFromURI_API19(this, uri);
-//////                    imgPath = realPathUtil.getRealPath(this, uri);
-////                    new AlertDialog.Builder(this).setMessage(uri.toString()+"\n"+filePath).create().show();
-//                }
             }
         }
-
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
                 Bitmap bitmap2 = BitmapFactory.decodeFile(imageFilePath);
                 ExifInterface exif = null;
