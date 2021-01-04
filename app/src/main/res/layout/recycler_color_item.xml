@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/color_item">
+
+    <View
+        android:layout_marginTop="5dp"
+        android:id="@+id/view_color"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/color_list" />
 
     <TextView
         android:id="@+id/text_color_item"

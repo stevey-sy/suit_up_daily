@@ -43,6 +43,7 @@ import com.example.suitupdaily.grid.ClosetItem;
 import com.example.suitupdaily.grid.ClosetViewer;
 import com.example.suitupdaily.grid.GridAdapter;
 import com.example.suitupdaily.listview.FilterSeasonAdapter;
+import com.example.suitupdaily.recycler.ColorAdapter;
 import com.example.suitupdaily.recycler.RecyclerAdapter;
 import com.example.suitupdaily.viewpager.SeasonPageAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -90,11 +91,14 @@ public class MyClosetActivity extends AppCompatActivity {
     private String selected_season = "all";
 
     private FirebaseAuth mAuth;
+    private RecyclerView recycler_color;
+    private ColorAdapter color_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_closet);
+        init();
 
         //Firebase 로그인한 사용자 정보
         mAuth = FirebaseAuth.getInstance();
@@ -129,7 +133,7 @@ public class MyClosetActivity extends AppCompatActivity {
         btn_load_accessory = findViewById(R.id.btn_accessory);
         btn_load_accessory.setBackgroundColor(Color.LTGRAY);
 
-        recycler_view_season = findViewById(R.id.recyclerview_season);
+//        recycler_view_season = findViewById(R.id.recyclerview_season);
         season_radio_group = (RadioGroup)findViewById(R.id.season_radio_group);
 
         season_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -238,8 +242,6 @@ public class MyClosetActivity extends AppCompatActivity {
             }
         };
 
-        btn_add_action = findViewById(R.id.btn_add_floating);
-//        ImageView btn_add = (ImageView) findViewById(R.id.btn_add);
         TextView tv= (TextView) findViewById(R.id.textView);
         tv_closet_empty = (TextView) findViewById(R.id.tv_closet_empty);
         tv_closet_empty.setVisibility(View.GONE);
@@ -253,20 +255,20 @@ public class MyClosetActivity extends AppCompatActivity {
 //        ab.setDisplayHomeAsUpEnabled(true);
 
 //         플러스 버튼 클릭했을 때 화면 전환 이벤트
-        btn_add_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 사용자의 ID를 같이 가져간다.
-                Intent intent_get_id = getIntent();
-                String userID = intent_get_id.getStringExtra("userID");
-
-                Log.d("아이디 확인 MyCloset: ", "사용자 이메일: " + userID);
-
-                Intent intent = new Intent(getApplicationContext(), ImageEditActivity.class);
-                intent.putExtra("userID", userID);
-                startActivity(intent);
-            }
-        });
+//        btn_add_action.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 사용자의 ID를 같이 가져간다.
+//                Intent intent_get_id = getIntent();
+//                String userID = intent_get_id.getStringExtra("userID");
+//
+//                Log.d("아이디 확인 MyCloset: ", "사용자 이메일: " + userID);
+//
+//                Intent intent = new Intent(getApplicationContext(), ImageEditActivity.class);
+//                intent.putExtra("userID", userID);
+//                startActivity(intent);
+//            }
+//        });
 
 //        btn_add.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -387,6 +389,34 @@ public class MyClosetActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void init() {
+        recycler_color = findViewById(R.id.recycler_color);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recycler_color.setLayoutManager(layoutManager);
+
+        ArrayList<String> itemList = new ArrayList<>();
+        itemList.add("블랙");
+        itemList.add("화이트");
+        itemList.add("그레이");
+        itemList.add("베이지");
+        itemList.add("블루");
+        itemList.add("레드");
+
+        color_adapter = new ColorAdapter(this, itemList, onClickItem);
+        recycler_color.setAdapter(color_adapter);
+
+    }
+
+    private View.OnClickListener onClickItem = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            String[] color_names = {"블랙", "화이트", "그레이", "베이지", "블루", "레드"};
+            String str = (String) v.getTag();
+            Toast.makeText(getApplicationContext(), str , Toast.LENGTH_SHORT).show();
+        }
+    };
 
     // 플러스 버튼 눌렀을 때의 메뉴 생성
     @Override

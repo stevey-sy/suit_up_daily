@@ -83,18 +83,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/recycler_view" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_add_floating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="56dp"
-                android:clickable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.881"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/ic_baseline_add_24" />
-
             <Button
                 android:layout_marginStart="10dp"
                 android:id="@+id/btn_upper"
@@ -165,8 +153,7 @@
         <RelativeLayout
             android:id="@+id/linear_test"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            >
+            android:layout_height="250dp" >
             <TextView
                 android:id="@+id/tv_title_season"
                 android:layout_width="match_parent"
@@ -176,7 +163,7 @@
                 android:text="계절"
                 android:textColor="@color/black_de"
                 android:background="#a9a9a9"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
 
             <RadioGroup
@@ -218,31 +205,28 @@
                     android:layout_height="wrap_content"
                     android:text="겨울"
                     android:id="@+id/radio_winter" />
-
-
             </RadioGroup>
 
             <TextView
-                android:layout_below="@id/season_radio_group"
+                android:layout_above="@id/recycler_color"
                 android:id="@+id/tv_title_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:paddingStart="50dp"
-                android:text="컬러"
+                android:text="Color"
                 android:textColor="@color/black_de"
                 android:background="#a9a9a9"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
 
-
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@id/tv_title_season"
-                android:id="@+id/recyclerview_season"
+                android:layout_above="@id/btn_filter_downward"
+                android:id="@+id/recycler_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:choiceMode="multipleChoice"
-                tools:listitem="@layout/season_item"/>
+                android:scrollbars="horizontal"
+                android:background="#E6E6FA"/>
 
             <Button
                 android:id="@+id/btn_filter_downward"
