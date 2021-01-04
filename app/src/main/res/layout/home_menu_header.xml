@@ -3,26 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="100dp"
     android:orientation="horizontal"
     android:background="@color/black_de"
     android:padding="10dp"
     android:gravity="center_vertical">
 
-
-    <ImageView
-        android:layout_marginStart="10dp"
-        android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:srcCompat="@drawable/ic_user" />
-
     <TextView
-        android:layout_marginStart="20dp"
+        android:layout_margin="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:text="사용자 닉네임"
+        android:layout_height="wrap_content"
+        android:text="My Page"
+        android:textColor="@color/white"
         android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@color/white"/>
+        style="bold"/>
+
+
 </LinearLayout>
