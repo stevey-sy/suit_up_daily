@@ -101,6 +101,16 @@ public class MyClosetActivity extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         Log.d("구글 닉네임: ", user.getDisplayName());
 
+        // 툴바 세팅
+        // 툴바 세팅
+        toolbar = findViewById(R.id.toolbar_home);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_left_arrow);
+
         Intent intent_id = getIntent();
         user_id = intent_id.getStringExtra("userID");
         load_type = "upper";
@@ -234,12 +244,6 @@ public class MyClosetActivity extends AppCompatActivity {
         tv_closet_empty = (TextView) findViewById(R.id.tv_closet_empty);
         tv_closet_empty.setVisibility(View.GONE);
 
-        toolbar = findViewById(R.id.toolbar_home);
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-
 //        Toolbar tb = (Toolbar) findViewById(R.id.toolbar_home) ;
 //        setSupportActionBar(tb) ;
 //        ActionBar ab = getSupportActionBar() ;
@@ -349,10 +353,8 @@ public class MyClosetActivity extends AppCompatActivity {
         btn_load_shoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 btn_load_shoes.setBackgroundColor(Color.BLACK);
                 btn_load_shoes.setTextColor(Color.WHITE);
-
                 btn_load_upper.setBackgroundColor(Color.LTGRAY);
                 btn_load_upper.setTextColor(Color.BLACK);
                 btn_load_outer.setBackgroundColor(Color.LTGRAY);
@@ -361,7 +363,6 @@ public class MyClosetActivity extends AppCompatActivity {
                 btn_load_bottom.setTextColor(Color.BLACK);
                 btn_load_accessory.setBackgroundColor(Color.LTGRAY);
                 btn_load_accessory.setTextColor(Color.BLACK);
-
                 load_type = "shoes";
                 getCloth();
             }
@@ -371,7 +372,6 @@ public class MyClosetActivity extends AppCompatActivity {
         btn_load_accessory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 btn_load_accessory.setBackgroundColor(Color.BLACK);
                 btn_load_accessory.setTextColor(Color.WHITE);
                 btn_load_upper.setBackgroundColor(Color.LTGRAY);
@@ -382,7 +382,6 @@ public class MyClosetActivity extends AppCompatActivity {
                 btn_load_shoes.setTextColor(Color.BLACK);
                 btn_load_bottom.setBackgroundColor(Color.LTGRAY);
                 btn_load_bottom.setTextColor(Color.BLACK);
-
                 load_type = "accessory";
                 getCloth();
             }
@@ -394,31 +393,6 @@ public class MyClosetActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_closet_menu, menu);
-    }
-    // 컨텍스트 메뉴 불러오기
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                finish();
-                return true;
-
-            case R.id.add_closet:
-                Intent intent_get_id = getIntent();
-                String userID = intent_get_id.getStringExtra("userID");
-
-                Log.d("아이디 확인 MyCloset: ", "사용자 이메일: " + userID);
-
-                Intent intent = new Intent(getApplicationContext(), ImageEditActivity.class);
-                intent.putExtra("userID", userID);
-                startActivity(intent);
-                return true;
-//            default :
-//                return super.onOptionsItemSelected(item);
-        }
-
-        return super.onContextItemSelected(item);
     }
 
     // 툴바 메뉴
@@ -434,20 +408,19 @@ public class MyClosetActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch(item.getItemId()) {
-            case R.id.filter_closet:
-
-                if (slidingLayout != null) {
-                    if(slidingLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
-                        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-                    } else {
-                        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    }
-                }
-
+            case R.id.add_cloth:
+                // 툴바의 옷 추가 버튼을 눌렀을 때의 이벤트
+                // 사용자의 ID를 같이 가져간다.
+                Intent intent_get_id = getIntent();
+                String userID = intent_get_id.getStringExtra("userID");
+                Intent intent = new Intent(getApplicationContext(), ImageEditActivity.class);
+                intent.putExtra("userID", userID);
+                startActivity(intent);
                 return true;
-
+            case android.R.id.home:
+                finish();
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
     // Pets 따라하기 메소드
@@ -462,20 +435,14 @@ public class MyClosetActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 clothList = response.body();
-
                 String content = "";
-
                 if(response.body() != null) {
                     Log.d("서버 응답 확인: ", response.body().toString());
-
                     recyclerView.setVisibility(View.VISIBLE);
                     tv_closet_empty.setVisibility(View.GONE);
-
                     adapter = new RecyclerAdapter(clothList, MyClosetActivity.this, listener);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
-
                 } else if (response.body() == null) {
                     recyclerView.setVisibility(View.GONE);
                     tv_closet_empty.setVisibility(View.VISIBLE);
@@ -496,7 +463,6 @@ public class MyClosetActivity extends AppCompatActivity {
     public void getPants() {
         String id = user_id;
         String pants = "pants";
-
     }
 
 //    // 그리드 뷰 어댑터 클래스
@@ -561,15 +527,10 @@ public class MyClosetActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-
     @Override
     protected void onResume() {
         super.onResume();
         getCloth();
-    }
-
-    public void btnChange(String type) {
-
     }
 
     @Override
@@ -579,6 +540,4 @@ public class MyClosetActivity extends AppCompatActivity {
         intent.putExtra("userID", user_id);
         startActivity(intent);//액티비티 띄우기
     }
-
-
 }

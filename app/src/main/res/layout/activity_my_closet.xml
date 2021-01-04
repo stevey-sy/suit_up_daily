@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_home"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black_de"
         android:minHeight="?attr/actionBarSize"
@@ -22,11 +22,10 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="100sp"
-
             android:text="옷장"
             android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:textSize="24sp"
+            android:textStyle="bold"
             tools:layout_editor_absoluteX="32dp"
             tools:layout_editor_absoluteY="89dp" />
 
@@ -71,7 +70,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_outer"
                 android:background="#d3d3d3"
-
                 />
 
             <TextView
@@ -98,32 +96,35 @@
                 app:srcCompat="@drawable/ic_baseline_add_24" />
 
             <Button
+                android:layout_marginStart="10dp"
                 android:id="@+id/btn_upper"
-                android:layout_width="60dp"
+                android:layout_width="56dp"
                 android:layout_height="64dp"
                 android:layout_marginTop="10dp"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:text="상의"
+                android:background="@drawable/button_closet_category"
                 app:layout_constraintEnd_toStartOf="@+id/btn_bottom"
                 app:layout_constraintStart_toStartOf="@+id/recycler_view"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_bottom"
-                android:layout_width="60dp"
+                android:layout_width="56dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="6dp"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="하의"
+                android:background="@drawable/button_closet_category"
                 app:layout_constraintEnd_toStartOf="@+id/btn_outer"
                 app:layout_constraintStart_toEndOf="@+id/btn_upper"
                 app:layout_constraintTop_toTopOf="@+id/btn_upper" />
 
             <Button
                 android:id="@+id/btn_outer"
-                android:layout_width="60dp"
+                android:layout_width="56dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="4dp"
                 android:minHeight="0dp"
@@ -136,7 +137,7 @@
 
             <Button
                 android:id="@+id/btn_shoes"
-                android:layout_width="60dp"
+                android:layout_width="56dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="5dp"
                 android:minHeight="0dp"
@@ -147,8 +148,9 @@
                 app:layout_constraintTop_toTopOf="@+id/btn_upper" />
 
             <Button
+                android:layout_marginEnd="10dp"
                 android:id="@+id/btn_accessory"
-                android:layout_width="60dp"
+                android:layout_width="56dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="7dp"
                 android:minHeight="0dp"
@@ -163,7 +165,7 @@
         <RelativeLayout
             android:id="@+id/linear_test"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="150dp"
             >
             <TextView
                 android:id="@+id/tv_title_season"

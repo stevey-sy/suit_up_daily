@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="코디 공유글"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView

@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/filter_closet"
-        android:icon="@drawable/ic_baseline_filter_list_24"
-        android:title="필터링"
+        android:id="@+id/add_cloth"
+        android:title="옷 추가"
         app:showAsAction="always"/>
 
 </menu>
