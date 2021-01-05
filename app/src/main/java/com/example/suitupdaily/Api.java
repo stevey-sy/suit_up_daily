@@ -166,7 +166,8 @@ public interface Api {
     Call<List<ResponsePOJO>> getCloth(
             @Field("id") String id,
             @Field("type") String type,
-            @Field("season") String season
+            @Field("season") String season,
+            @Field("color") String color
     );
 
     @FormUrlEncoded

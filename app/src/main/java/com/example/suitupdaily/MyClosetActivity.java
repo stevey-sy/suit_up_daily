@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,16 +80,13 @@ public class MyClosetActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ActionBar actionBar;
+    private Menu action;
 
-    private RecyclerView recycler_view_season;
-    private SeasonAdapter season_adapter;
-    private RecyclerView.LayoutManager season_layout_manager;
     private ArrayList<String> arrayList = new ArrayList<>();
-
-    private List<FilterSeason> season_list;
-
     private RadioGroup season_radio_group;
-    private String selected_season = "all";
+    private RadioButton season_default_button;
+    private String selected_season;
+    private String selected_color;
 
     private FirebaseAuth mAuth;
     private RecyclerView recycler_color;
@@ -104,7 +102,6 @@ public class MyClosetActivity extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         Log.d("구글 닉네임: ", user.getDisplayName());
 
-        // 툴바 세팅
         // 툴바 세팅
         toolbar = findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
@@ -131,69 +128,64 @@ public class MyClosetActivity extends AppCompatActivity {
         btn_load_shoes.setBackgroundColor(Color.LTGRAY);
         btn_load_accessory = findViewById(R.id.btn_accessory);
         btn_load_accessory.setBackgroundColor(Color.LTGRAY);
-        // 옷장의 컬러 필터(리사이클러뷰)를 세팅하는 메소드
-        setColorFilter();
 
-//        recycler_view_season = findViewById(R.id.recyclerview_season);
         season_radio_group = (RadioGroup)findViewById(R.id.season_radio_group);
-
+        season_default_button = (RadioButton)findViewById(R.id.radio_all_season);
         season_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radio_all_season:
-                        selected_season = "all";
+                        selected_season = null;
                         getCloth();
                         break;
 
                     case R.id.radio_spring:
                         selected_season = "봄";
                         getCloth();
+                        action.findItem(R.id.filter_default).setVisible(true);
                         break;
 
                     case R.id.radio_summer:
                         selected_season = "여름";
                         getCloth();
+                        action.findItem(R.id.filter_default).setVisible(true);
                         break;
 
                     case R.id.radio_fall:
                         selected_season = "가을";
                         getCloth();
+                        action.findItem(R.id.filter_default).setVisible(true);
                         break;
 
                     case R.id.radio_winter:
                         selected_season = "겨울";
                         getCloth();
+                        action.findItem(R.id.filter_default).setVisible(true);
                         break;
                 }
             }
         });
+        // filter 세팅
+        // 옷장의 컬러 필터(리사이클러뷰)를 세팅하는 메소드
+        setColorFilter();
+        //날씨 filter 에 담을 카테고리 요소
+//        arrayList.addAll(Arrays.asList("봄", "여름", "가을", "겨울"));
 
-        //Add values in array list
-        arrayList.addAll(Arrays.asList("봄", "여름", "가을", "겨울"));
-
-        // make vertical adapter for recyclerview
-
-
+        // 화면 상단의 filter 버튼을 누르면 열리는 drawer 레이아웃 세팅
         btn_filter_on = findViewById(R.id.btn_filter_downward);
         btn_filter_on.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                     slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     btn_filter_on.setText("FILTER CLOSE");
-
-
                 } else if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     btn_filter_on.setText("FILTER");
-
                 }
             }
         });
-
-
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.drawer);
         slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -212,6 +204,7 @@ public class MyClosetActivity extends AppCompatActivity {
             }
         });
 
+        // 옷장 데이터를 담을 리사이클러뷰 세팅
         int numberOfColumns =4;
         layoutManager = new GridLayoutManager(this, numberOfColumns);
         recyclerView.setLayoutManager(layoutManager);
@@ -241,10 +234,8 @@ public class MyClosetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 load_type = "upper";
-
                 btn_load_upper.setBackgroundColor(Color.BLACK);
                 btn_load_upper.setTextColor(Color.WHITE);
-
                 btn_load_bottom.setBackgroundColor(Color.LTGRAY);
                 btn_load_bottom.setTextColor(Color.BLACK);
                 btn_load_outer.setBackgroundColor(Color.LTGRAY);
@@ -253,7 +244,6 @@ public class MyClosetActivity extends AppCompatActivity {
                 btn_load_shoes.setTextColor(Color.BLACK);
                 btn_load_accessory.setBackgroundColor(Color.LTGRAY);
                 btn_load_accessory.setTextColor(Color.BLACK);
-
                 getCloth();
             }
         });
@@ -262,10 +252,8 @@ public class MyClosetActivity extends AppCompatActivity {
         btn_load_bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 btn_load_bottom.setBackgroundColor(Color.BLACK);
                 btn_load_bottom.setTextColor(Color.WHITE);
-
                 btn_load_upper.setBackgroundColor(Color.LTGRAY);
                 btn_load_upper.setTextColor(Color.BLACK);
                 btn_load_outer.setBackgroundColor(Color.LTGRAY);
@@ -274,7 +262,6 @@ public class MyClosetActivity extends AppCompatActivity {
                 btn_load_shoes.setTextColor(Color.BLACK);
                 btn_load_accessory.setBackgroundColor(Color.LTGRAY);
                 btn_load_accessory.setTextColor(Color.BLACK);
-
                 load_type = "bottom";
                 getCloth();
             }
@@ -285,7 +272,6 @@ public class MyClosetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 load_type = "outer";
-
                 btn_load_upper.setBackgroundColor(Color.LTGRAY);
                 btn_load_upper.setTextColor(Color.BLACK);
                 btn_load_bottom.setBackgroundColor(Color.LTGRAY);
@@ -294,10 +280,8 @@ public class MyClosetActivity extends AppCompatActivity {
                 btn_load_shoes.setTextColor(Color.BLACK);
                 btn_load_accessory.setBackgroundColor(Color.LTGRAY);
                 btn_load_accessory.setTextColor(Color.BLACK);
-
                 btn_load_outer.setBackgroundColor(Color.BLACK);
                 btn_load_outer.setTextColor(Color.WHITE);
-
                 getCloth();
             }
         });
@@ -362,8 +346,12 @@ public class MyClosetActivity extends AppCompatActivity {
     private View.OnClickListener onClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String str = (String) v.getTag();
-            Toast.makeText(getApplicationContext(), str , Toast.LENGTH_SHORT).show();
+            // 클릭된 view 의 색이름을 가져온다.
+            selected_color = (String) v.getTag();
+            Toast.makeText(getApplicationContext(), selected_color, Toast.LENGTH_SHORT).show();
+            // 서버에 선택한 컬러의 데이터를 요청한다.
+            getCloth();
+            action.findItem(R.id.filter_default).setVisible(true);
         }
     };
 
@@ -379,6 +367,8 @@ public class MyClosetActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.my_closet_menu, menu);
+        action = menu;
+        action.findItem(R.id.filter_default).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -399,6 +389,13 @@ public class MyClosetActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.filter_default:
+                selected_color = null;
+                selected_season = null;
+                season_default_button.setChecked(true);
+                getCloth();
+                action.findItem(R.id.filter_default).setVisible(false);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -407,7 +404,8 @@ public class MyClosetActivity extends AppCompatActivity {
         String id = user_id;
         String type = load_type;
         String season = selected_season;
-        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season);
+        String color = selected_color;
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {

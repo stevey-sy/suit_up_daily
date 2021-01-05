@@ -70,7 +70,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
 
     private String user_id = null;
     private RadioGroup season_radio_group;
-    private String selected_season = "all";
+    private String selected_season = null;
+    private String selected_color = null;
 
     private List<ResponsePOJO> clothList;
     private List<ResponsePOJO> bottomList;
@@ -401,8 +402,9 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         String type = "upper";
 //        String type = load_type;
         String season = selected_season;
+        String color = null;
 
-        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season);
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
@@ -444,8 +446,9 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         String type = "bottom";
 //        String type = load_type;
         String season = selected_season;
+        String color = null;
 
-        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season);
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
@@ -485,10 +488,10 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
 
         String id = user_id;
         String type = "outer";
-//        String type = load_type;
         String season = selected_season;
+        String color = selected_color;
 
-        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season);
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
@@ -501,20 +504,14 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
 
                     outer_recycler.setVisibility(View.VISIBLE);
 //                    tv_closet_empty.setVisibility(View.GONE);
-
                     adapter = new RecyclerAdapter(outerList, SelfCodi.this, listener_outer);
                     outer_recycler.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
-
                 } else if (response.body() == null) {
                     outer_recycler.setVisibility(View.GONE);
                     tv_no_outer.setVisibility(View.VISIBLE);
-//                    tv_closet_empty.setVisibility(View.VISIBLE);
-//                    tv_closet_empty.setText("불러올 데이터가 없습니다.");
                 }
             }
-
             @Override
             public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
                 Toast.makeText(SelfCodi.this, "rp :"+
