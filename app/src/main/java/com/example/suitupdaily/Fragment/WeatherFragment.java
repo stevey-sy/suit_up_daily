@@ -40,7 +40,6 @@ public class WeatherFragment extends Fragment {
         super.onCreate(savedInstanceState);
         page = getArguments().getInt("someInt", 0);
         title = getArguments().getString("someTitle");
-
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -97,15 +96,8 @@ public class WeatherFragment extends Fragment {
     }
 
     private void setWeatherData(String location, String status, String temp, String temp_min, String temp_max, String feel) {
-//        tv_highest_temper = (TextView)view.findViewById(R.id.tv_highest_temper);
-//        tv_lowest_temper = (TextView)view.findViewById(R.id.tv_lowest_temper);
-//        tv_current_temper = (TextView)view.findViewById(R.id.tv_current_temper);
-//        tv_weather_status = (TextView)view.findViewById(R.id.tv_weather_status);
-//        lottie = (LottieAnimationView)view.findViewById(R.id.animation_view);
-
-        tv_highest_temper.setText(temp_max +"°");
-        tv_lowest_temper.setText(temp_min +"°");
+        tv_highest_temper.setText(temp_min +"°");
+        tv_lowest_temper.setText(temp_max +"°");
         tv_current_temper.setText(feel +"°");
-
     }
 }
