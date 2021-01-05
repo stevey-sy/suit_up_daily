@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    android:id="@+id/color_item">
+    android:id="@+id/color_item_layout">
 
     <View
         android:layout_marginTop="5dp"

@@ -98,7 +98,6 @@ public class MyClosetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_closet);
-        init();
 
         //Firebase 로그인한 사용자 정보
         mAuth = FirebaseAuth.getInstance();
@@ -132,6 +131,8 @@ public class MyClosetActivity extends AppCompatActivity {
         btn_load_shoes.setBackgroundColor(Color.LTGRAY);
         btn_load_accessory = findViewById(R.id.btn_accessory);
         btn_load_accessory.setBackgroundColor(Color.LTGRAY);
+        // 옷장의 컬러 필터(리사이클러뷰)를 세팅하는 메소드
+        setColorFilter();
 
 //        recycler_view_season = findViewById(R.id.recyclerview_season);
         season_radio_group = (RadioGroup)findViewById(R.id.season_radio_group);
@@ -197,35 +198,26 @@ public class MyClosetActivity extends AppCompatActivity {
         slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(@NonNull View panel, float slideOffset) {
-//                btn_filter_on.setVisibility(View.GONE);
-//                btn_filter_off.setVisibility(View.VISIBLE);
-
-
             }
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
             }
-
         });
 
         slidingLayout.setFadeOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
             }
         });
 
         int numberOfColumns =4;
-
         layoutManager = new GridLayoutManager(this, numberOfColumns);
         recyclerView.setLayoutManager(layoutManager);
-
         listener = new RecyclerAdapter.RecyclerViewClickListener() {
             @Override
             public void onRowClick(View view, int position) {
-
                 Intent intent = new Intent(MyClosetActivity.this, ItemInfo.class);
                 intent.putExtra("userID", user_id);
                 intent.putExtra("idx", clothList.get(position).getIdx());
@@ -236,54 +228,13 @@ public class MyClosetActivity extends AppCompatActivity {
                 intent.putExtra("season", clothList.get(position).getSeason());
                 intent.putExtra("type", clothList.get(position).getType());
                 intent.putExtra("fit", clothList.get(position).getFit());
-
                 startActivity(intent);
-
             }
         };
 
         TextView tv= (TextView) findViewById(R.id.textView);
         tv_closet_empty = (TextView) findViewById(R.id.tv_closet_empty);
         tv_closet_empty.setVisibility(View.GONE);
-
-//        Toolbar tb = (Toolbar) findViewById(R.id.toolbar_home) ;
-//        setSupportActionBar(tb) ;
-//        ActionBar ab = getSupportActionBar() ;
-//        ab.setLogo(R.drawable.ic_baseline_add_24);
-//        ab.setDisplayShowCustomEnabled(true);
-//        ab.setDisplayShowTitleEnabled(false);
-//        ab.setDisplayHomeAsUpEnabled(true);
-
-//         플러스 버튼 클릭했을 때 화면 전환 이벤트
-//        btn_add_action.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 사용자의 ID를 같이 가져간다.
-//                Intent intent_get_id = getIntent();
-//                String userID = intent_get_id.getStringExtra("userID");
-//
-//                Log.d("아이디 확인 MyCloset: ", "사용자 이메일: " + userID);
-//
-//                Intent intent = new Intent(getApplicationContext(), ImageEditActivity.class);
-//                intent.putExtra("userID", userID);
-//                startActivity(intent);
-//            }
-//        });
-
-//        btn_add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 사용자의 ID를 같이 가져간다.
-//                Intent intent_get_id = getIntent();
-//                String userID = intent_get_id.getStringExtra("userID");
-//
-//                Log.d("아이디 확인 MyCloset: ", "사용자 이메일: " + userID);
-//
-//                Intent intent = new Intent(getApplicationContext(), ImageEditActivity.class);
-//                intent.putExtra("userID", userID);
-//                startActivity(intent);
-//            }
-//        });
 
         // 상의 버튼 클릭 했을 때,
         btn_load_upper.setOnClickListener(new View.OnClickListener() {
@@ -389,9 +340,10 @@ public class MyClosetActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void init() {
+    // 컬러 리사이클러뷰 세팅 메소드
+    private void setColorFilter() {
         recycler_color = findViewById(R.id.recycler_color);
+        // 리사이클러뷰에서 사용할 layout = LinearLayout & Horizontal
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recycler_color.setLayoutManager(layoutManager);
 
@@ -405,14 +357,11 @@ public class MyClosetActivity extends AppCompatActivity {
 
         color_adapter = new ColorAdapter(this, itemList, onClickItem);
         recycler_color.setAdapter(color_adapter);
-
     }
-
+    // 컬러 Filter 클릭했을 때의 이벤트
     private View.OnClickListener onClickItem = new View.OnClickListener() {
-
         @Override
         public void onClick(View v) {
-            String[] color_names = {"블랙", "화이트", "그레이", "베이지", "블루", "레드"};
             String str = (String) v.getTag();
             Toast.makeText(getApplicationContext(), str , Toast.LENGTH_SHORT).show();
         }
@@ -453,13 +402,11 @@ public class MyClosetActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    // Pets 따라하기 메소드
+    // 서버로부터 옷장 데이터 받아오는 메소드
     public void getCloth() {
-
         String id = user_id;
         String type = load_type;
         String season = selected_season;
-
         Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
@@ -488,75 +435,7 @@ public class MyClosetActivity extends AppCompatActivity {
             }
         });
     }
-    // 따라하기 메소드 종료
 
-    public void getPants() {
-        String id = user_id;
-        String pants = "pants";
-    }
-
-//    // 그리드 뷰 어댑터 클래스
-//    class ClosetAdapter extends BaseAdapter {
-//
-//        // 객체를 ArrayList 형태로 여러개 저장할 수 있도록 items 변수를 생성.
-//        ArrayList<ClosetItem> items = new ArrayList<ClosetItem>();
-//
-//        public void addItem (ClosetItem closetItem) {
-//            items.add(closetItem);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return items.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int i) {
-//            return items.get(i);
-//        }
-//
-//        @Override
-//        public long getItemId(int i) {
-//            return i;
-//        }
-//
-//        @Override
-//        public View getView(int i, View convertView, ViewGroup viewGroup) {
-//            ClosetViewer closetViewer = new ClosetViewer(getApplicationContext());
-//            closetViewer.setItem(items.get(i));
-//
-//            ImageView iv = convertView.findViewById(R.id.iv_gird_item);
-//            ClosetItem closetItem = closetItems.get(i);
-//
-//            Glide.with(convertView).load(closetItem.getImgPath()).into(iv);
-//
-//            return closetViewer;
-//
-//        }
-//    }
-//
-//    public void getCloth() {
-//        Call<List<ResponsePOJO>> call = apiInterface.getCloth();
-//        call.enqueue(new Callback<List<ResponsePOJO>>() {
-//
-//            @Override
-//            public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
-//                clothList = response.body();
-//                closetAdapter = new ClosetAdapter();
-//                gridView.setAdapter(closetAdapter);
-//                closetAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
-//                Toast.makeText(MyClosetActivity.this, "rp :"+
-//                                t.getMessage().toString(),
-//                        Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-//    }
     @Override
     protected void onResume() {
         super.onResume();

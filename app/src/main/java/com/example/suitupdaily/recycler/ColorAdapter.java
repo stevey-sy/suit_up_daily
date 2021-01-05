@@ -12,14 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.suitupdaily.R;
+import com.example.suitupdaily.ResponsePOJO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> {
 
-    private ArrayList<String> itemList;
-    private Context context;
     private View.OnClickListener onClickItem;
+    private ArrayList<String> itemList;
+    private List<String> colors;
+    private Context context;
+
     private String[] color_list = { "#000000", "#FFFFFF", "#C0C0C0", "#F5F5DC", "#0000CD", "#FF0000"};
     private String[] color_names = {"블랙", "화이트", "그레이", "베이지", "블루", "레드"};
 
@@ -31,21 +35,18 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public ColorAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.recycler_color_item, parent, false);
-        return new ViewHolder(view);
+        return new ColorAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ColorAdapter.ViewHolder holder, int position) {
         String item = itemList.get(position);
-
-        holder.view_color.setBackgroundResource(R.drawable.color_list);
+        holder.text_view.setText(item);
         holder.view_color.setBackgroundColor(Color.parseColor(color_list[position]));
-        holder.text_view.setText(color_names[position]);
-        holder.text_view.setTag(item);
+        holder.color_item.setTag(item);
         holder.color_item.setOnClickListener(onClickItem);
     }
 
@@ -54,16 +55,15 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
         return itemList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView text_view;
         public View view_color;
         public LinearLayout color_item;
         public ViewHolder(View itemView) {
             super(itemView);
-            color_item = itemView.findViewById(R.id.color_item);
+            color_item = (LinearLayout) itemView.findViewById(R.id.color_item_layout);
             view_color = itemView.findViewById(R.id.view_color);
             text_view = itemView.findViewById(R.id.text_color_item);
-
         }
     }
 }
