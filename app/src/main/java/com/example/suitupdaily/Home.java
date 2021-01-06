@@ -109,8 +109,8 @@ public class Home extends AppCompatActivity {
         btn_closet = findViewById(R.id.btn_closet);
         btn_my_codi = findViewById(R.id.btn_my_codi);
         btn_share_codi = findViewById(R.id.btn_share_codi);
-        image_profile = findViewById(R.id.iv_home_profile);
-        text_view_nick = findViewById(R.id.tv_home_nick);
+//        image_profile = findViewById(R.id.iv_home_profile);
+//        text_view_nick = findViewById(R.id.tv_home_nick);
         btn_do_codi = findViewById(R.id.btn_do_codi);
         // 사용자 아이디 값 받아오는 intent
         Intent intent_get_id = getIntent();

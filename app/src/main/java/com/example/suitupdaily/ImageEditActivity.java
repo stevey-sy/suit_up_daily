@@ -319,7 +319,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 //                Intent intent = new Intent(ImageEditActivity.this, CuttingImage.class);
 //                startActivity(intent);
                 uploadImage();
-
             }
         });
 

@@ -175,14 +175,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onResponse(Call<ResponsePOJO> call, retrofit2.Response<ResponsePOJO> response) {
 //                Toast.makeText(ShareCodi.this, response.body().getRemarks(), Toast.LENGTH_SHORT).show();
                 if(response.body().getRemarks().equals("저장")) {
-                    Toast.makeText(getApplicationContext(), "회원 리스트에 추가되었습니다." , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "회원 리스트에 추가되었습니다." , Toast.LENGTH_SHORT).show();
                     check_new_user = true;
                     // 기본 정보 입력 필요.
                     Intent intent = new Intent(LoginActivity.this, UserBasicInfo.class);
                     intent.putExtra("userID", user_id);
                     startActivity(intent);
                 } else if (response.body().getRemarks().equals("중복")){
-                    Toast.makeText(getApplicationContext(), "기존 회원입니다." , Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "기존 회원입니다." , Toast.LENGTH_SHORT).show();
                     check_new_user = false;
                     Intent intent = new Intent(LoginActivity.this, Home.class);
                     intent.putExtra("userID", user_id);

@@ -2,6 +2,7 @@ package com.example.suitupdaily;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -72,13 +74,10 @@ public class CuttingImage extends AppCompatActivity {
     Uri uri = null;
 
     private BackgroundThread mBackThread;
-
     ProgressDialog progressDialog;
-
     private static final int REQUEST_IMAGE_CAPTURE = 672;
     private String imageFilePath;
     private Uri photoUri;
-
     private String mCurrentPhotoPath;
     private int touchCount=0;
     Point tl;
@@ -86,9 +85,6 @@ public class CuttingImage extends AppCompatActivity {
     boolean targetChose = false;
     ProgressDialog dlg;
     int request;
-
-
-
     String name;
 
     @Override
@@ -107,18 +103,15 @@ public class CuttingImage extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-
         image_edit = (ImageView)findViewById(R.id.image_edit);
         btn_target = (Button)findViewById(R.id.btn_target);
         btn_cutter = (Button)findViewById(R.id.btn_grab);
         btn_finish = (Button)findViewById(R.id.btn_finish);
-
         Intent intent_get_id = getIntent();
         name = intent_get_id.getStringExtra("userID");
         request = intent_get_id.getIntExtra("requestCode", 1);
 
         if (request == 1005) {
-
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if(intent.resolveActivity(getPackageManager()) != null) {
                 File photoFile = null;
@@ -132,53 +125,19 @@ public class CuttingImage extends AppCompatActivity {
                     startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
                 }
             }
-
-//            int permissionCheck = ContextCompat.checkSelfPermission(CuttingImage.this, Manifest.permission.CAMERA);
-//            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
-//                // 권한 없을 때
-//                ActivityCompat.requestPermissions(CuttingImage.this, new String[] {Manifest.permission.CAMERA}, 0);
-//            } else {
-//                // 권한 있을 때
-//                Intent intent_capture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                if (intent_capture.resolveActivity(getPackageManager()) != null) {
-//                    File photoFile = null;
-//                    try {
-//                        photoFile = createImageFile();
-//                    } catch (IOException e) {
-//
-//                    }
-//
-//                    if (photoFile != null) {
-//                        photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
-//                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-//                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-//                    }
-//                }
-//            }
-
         } else if (request == 1004) {
-
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             // 고르고 나면, startActivityForResult 로 넘어간다.
             startActivityForResult(intent, 1);
-
         }
-
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        // 고르고 나면, startActivityForResult 로 넘어간다.
-//        startActivityForResult(intent, 1);
 
         dlg = new ProgressDialog(this);
         tl = new Point();
         br = new Point();
         if (!OpenCVLoader.initDebug()) {
-
         }
-
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,24 +149,6 @@ public class CuttingImage extends AppCompatActivity {
                 intent.putExtra("code", 888);
                 intent.putExtra("userID", name);
                 startActivity(intent);
-//                if (mCurrentPhotoPath != null) {
-//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                    Bitmap bitmap2 = grabCutImage;
-//                    float scale = (float) (1024/(float)bitmap2.getWidth());
-//                    int image_w = (int) (bitmap2.getWidth() * scale);
-//                    int image_h = (int) (bitmap2.getHeight() * scale);
-//
-//                    Bitmap resize = Bitmap.createScaledBitmap(bitmap2, image_w, image_h, true);
-//                    resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                    byte[] byteArray = stream.toByteArray();
-//
-//                    Intent intent = new Intent(CuttingImage.this, ImageEditActivity.class);
-//                    intent.putExtra("image", byteArray);
-//                    intent.putExtra("code", "888");
-//
-//                    startActivity(intent);
-//
-//                }
             }
         });
 
@@ -252,53 +193,33 @@ public class CuttingImage extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         });
 
         btn_cutter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                doWork();
-
-
-//                mBackThread = new BackgroundThread();
-//                mBackThread.setRunning(true);
-//                mBackThread.start();
-
                 if (request == 1004) {
                     if (mCurrentPhotoPath != null) {
                         progressDialog = new ProgressDialog(CuttingImage.this);
                         progressDialog.show();
                         progressDialog.setContentView(R.layout.progress_dialog);
                         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
                         mBackThread = new BackgroundThread();
                         mBackThread.setRunning(true);
                         mBackThread.start();
-//                        grabcutAlgo(bitmap);
                     }
                 } else if (request == 1005) {
                     grabcutAlgo(resized);
                 }
-
-//                if (request == 1004) {
-//
-//                    if (mCurrentPhotoPath != null) {
-//                        grabcutAlgo(bitmap);
-//                    }
-//                } else if (request == 1005) {
-
-//                        grabcutAlgo(resized);
-//                }
             }
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 try {
@@ -312,7 +233,6 @@ public class CuttingImage extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                Toast.makeText(getApplicationContext(), mCurrentPhotoPath, Toast.LENGTH_LONG).show();
             }
         }
 
