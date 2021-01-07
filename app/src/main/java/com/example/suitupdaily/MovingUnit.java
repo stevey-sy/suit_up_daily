@@ -37,16 +37,12 @@ public class MovingUnit {
 
     int mode = NONE;
 
-
-
     //Image를 인자로 받는다.
     public MovingUnit(Bitmap Image) {
         // TODO Auto-generated constructor stub
         this.Image=Image;
-
         setSize(Image.getHeight(),Image.getWidth());
         setXY(0,0);
-
     }
 
     public void TouchProcess(MotionEvent event) {
@@ -155,7 +151,5 @@ public class MovingUnit {
     public Bitmap getImage(){
         return Image;
     }
-
-
 
 }
