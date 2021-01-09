@@ -94,8 +94,8 @@ public class MyPicture {
     }
 
     boolean isOnPic(int x, int y){
-        int w = picture.getWidth() /2;
-        int h = picture.getHeight() /2;
+        int w = picture.getWidth() ;
+        int h = picture.getHeight() ;
 
         Log.d("ZZZ width ", String.valueOf(w));
         Log.d("ZZZ Height", String.valueOf(h));

@@ -10,63 +10,65 @@ public class MovingUnit {
 
     //이미지
     private Bitmap Image;
-
+    // 현재 이미지 위치 좌표
     private float X;
     private float Y;
-
+    // 현재 이미지의 사이즈
     private float Width;
     private float Height;
-
-    //처음 이미지를 선택했을 때, 이미지의 X,Y 값과 클릭 지점 간의 거리
+    //처음 이미지를 선택했을 때,
+    // 실제 이미지의 X,Y 좌표와
+    // 클릭 지점 좌표 간의 거리
     private float offsetX;
     private float offsetY;
-
-    // 드래그시 좌표 저장
-
-    int posX1=0, posX2=0, posY1=0, posY2=0;
-
-    // 핀치시 두좌표간의 거리 저장
-
+    // 이동하기 전 X,Y 좌표
+    int posX1=0, posY1=0;
+    // 이동하고난 후의 X,Y 좌표
+    int posX2=0, posY2=0;
+    // 사이즈 변경 드래그 전, 후 변수
     float oldDist = 1f;
     float newDist = 1f;
-
     // 드래그 모드인지 핀치줌 모드인지 구분
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;
-
+    // 드래그 모드를 판단하는 변수
     int mode = NONE;
 
-    //Image를 인자로 받는다.
-    public MovingUnit(Bitmap Image) {
+    public MovingUnit(int picX, int picY, Bitmap Image) {
         // TODO Auto-generated constructor stub
         this.Image=Image;
+        // 이미지의 사이즈를 정의하는 함수
         setSize(Image.getHeight(),Image.getWidth());
-        setXY(0,0);
+        // 이미지가 출력될 위치를 지정하는 함수
+        setXY(picX,picY);
     }
-
+    // 이미지의 Motion 을 감지하여 return 하는 메소드
     public void TouchProcess(MotionEvent event) {
         int act = event.getAction();
         switch(act & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:    //첫번째 손가락 터치
-                if(InObject(event.getX(), event.getY())){//손가락 터치 위치가 이미지 안에 있으면 DragMode가 시작된다.
-                    posX1 = (int) event.getX();
-                    posY1 = (int) event.getY();
-                    offsetX=posX1-X;
-                    offsetY=posY1-Y;
-
-                    Log.d("zoom", "mode=DRAG" );
-
-                    mode = DRAG;
-                }
+                // 사용자가 터치한 위치 좌표
+                posX1 = (int) event.getX();
+                posY1 = (int) event.getY();
+                // offset 변수에 사용자가 실제 터치한 위치와
+                // 이미지의 현재 위치의 오차를 구한다.
+                offsetX=posX1-X;
+                offsetY=posY1-Y;
+                posX2 = posX1;
+                posY2 = posY1;
+                Log.d("zoom", "mode=DRAG" );
+                mode = DRAG;
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if(mode == DRAG) {   // 드래그 중이면, 이미지의 X,Y값을 변환시키면서 위치 이동.
+                if(mode == DRAG) {
+                    // 드래그 중이면, 이미지의 X,Y값을 변환시키면서 위치 이동.
                     X=posX2-offsetX;
                     Y=posY2-offsetY;
                     posX2 = (int) event.getX();
                     posY2 = (int) event.getY();
+                    // 사용자가 20 pixel 이상 만큼 움직였을 때 작동한다.
                     if(Math.abs(posX2-posX1)>20 || Math.abs(posY2-posY1)>20) {
                         posX1 = posX2;
                         posY1 = posY2;
@@ -74,7 +76,11 @@ public class MovingUnit {
                     }
 
                 } else if (mode == ZOOM) {    // 핀치줌 중이면, 이미지의 거리를 계산해서 확대를 한다.
-                    newDist = spacing(event);
+                    try {
+                        newDist = spacing(event);
+                    } catch (IllegalArgumentException e) {
+                        Log.d("Zoom Exception: ", String.valueOf(e));
+                    }
 
                     if (newDist - oldDist > 20) {  // zoom in
                         float scale=(float)Math.sqrt(((newDist-oldDist)*(newDist-oldDist))/(Height*Height + Width * Width));
@@ -112,7 +118,6 @@ public class MovingUnit {
                 Log.d("zoom", "newDist=" + newDist);
                 Log.d("zoom", "oldDist=" + oldDist);
                 Log.d("zoom", "mode=ZOOM");
-
                 break;
             case MotionEvent.ACTION_CANCEL:
             default :
@@ -123,6 +128,7 @@ public class MovingUnit {
     //Rect 형태로 넘겨준다.
     public Rect getRect(){
         Rect rect=new Rect();
+        // 업데이트 된 X, Y 좌표를 세팅하는 코드
         rect.set((int)X,(int)Y, (int)(X+Width), (int)(Y+Height));
         return rect;
     }
@@ -148,8 +154,23 @@ public class MovingUnit {
         this.X=X;
         this.Y=Y;
     }
+
     public Bitmap getImage(){
         return Image;
+    }
+
+    boolean isOnPic(float nowX, float nowY) {
+        float w = Width;
+        float h = Height;
+        Log.d("WWW width ", String.valueOf(w));
+        Log.d("WWW nowX", String.valueOf(nowX));
+        Log.d("WWW X", String.valueOf(X));
+        if(nowX >= X && nowX <= X +w){
+            if(nowY >= Y && nowY<= Y +h){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
