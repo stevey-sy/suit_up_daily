@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -219,6 +220,101 @@ public class ClothCategoryDialog {
             }
         });
 
+        //신발 버튼 클릭 이벤트
+        tv_shoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cloth_type.setText("shoes");
+                dialog.setContentView(R.layout.dialog_shoes);
+                final TextView tv_sports_shoes = (TextView) dialog.findViewById(R.id.tv_sports_shoes);
+                final TextView tv_casual_shoes= (TextView) dialog.findViewById(R.id.tv_casual_shoes);
+                final TextView tv_sneakers = (TextView) dialog.findViewById(R.id.tv_sneakers);
+                final ImageView btn_shoes_close = (ImageView) dialog.findViewById(R.id.btn_shoes_cancel);
+                tv_sports_shoes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("운동화");
+                        dialog.dismiss();
+                    }
+                });
+                tv_casual_shoes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("구두");
+                        dialog.dismiss();
+                    }
+                });
+                tv_sneakers.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("스니커즈");
+                        dialog.dismiss();
+                    }
+                });
+                btn_shoes_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        //엑세서리 버튼
+        tv_accessory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cloth_type.setText("accessory");
+                dialog.setContentView(R.layout.dialog_accessory);
+                final TextView tv_bag = (TextView) dialog.findViewById(R.id.tv_bag);
+                final TextView tv_muffler = (TextView) dialog.findViewById(R.id.tv_muffler);
+                final TextView tv_cap = (TextView) dialog.findViewById(R.id.tv_cap);
+                final TextView tv_bracelet = (TextView) dialog.findViewById(R.id.tv_bracelet);
+                final TextView tv_ear_ring = (TextView) dialog.findViewById(R.id.tv_ear_ring);
+                final ImageView iv_accessory_close = (ImageView) dialog.findViewById(R.id.btn_accessory_close);
+                tv_bag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("가방");
+                        dialog.dismiss();
+                    }
+                });
+                tv_cap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("모자");
+                        dialog.dismiss();
+                    }
+                });
+                tv_muffler.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("머플러");
+                        dialog.dismiss();
+                    }
+                });
+                tv_bracelet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("팔찌");
+                        dialog.dismiss();
+                    }
+                });
+                tv_ear_ring.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        text_main_category.setText("귀걸이");
+                        dialog.dismiss();
+                    }
+                });
+                iv_accessory_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
 
         // 닫기 버튼 눌렀을 때의 이벤트
         btn_cancel.setOnClickListener(new View.OnClickListener() {
