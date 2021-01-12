@@ -53,6 +53,8 @@ public class ShowRoom extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         // xml 연결
         recyclerView = findViewById(R.id.recycler_show_room);
@@ -153,6 +155,9 @@ public class ShowRoom extends AppCompatActivity {
                 Intent intent = new Intent(ShowRoom.this, SelfCodi.class);
                 intent.putExtra("userID", user_id);
                 startActivity(intent);
+                return true;
+            case android.R.id.home:
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
