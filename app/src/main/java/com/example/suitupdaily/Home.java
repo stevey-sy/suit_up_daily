@@ -56,6 +56,8 @@ public class Home extends AppCompatActivity {
     private String userID;
     private CircleImageView image_profile;
     FragmentPagerAdapter adapterViewPager;
+    // 뒤로가기 버튼을 눌렀던 시간 저장
+    private long backKeyPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,9 +235,20 @@ public class Home extends AppCompatActivity {
             return NUM_ITEMS;
         }
     }
-    // Returns the page title for the top indicator
-//    @Override
-//    public CharSequence getPageTitle(int position) {
-//        return "Page " + position;
-//    }
+
+    @Override
+    public void onBackPressed() {
+        // 기존의 뒤로가기 버튼의 기능을 막음.
+        //super.onBackPressed();
+        // 만약 뒤로가기 버튼이 눌렸던 시간에 2초를 더해 현재시간과 비교 후,
+        // 마지막으로 뒤로가기 버튼을 눌렀던 시간이
+        // 2초를 초과했으면 toast 를 표시한다.
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "\'뒤로가기\' 버튼을 한번 더 누르면 종료됩니다." , Toast.LENGTH_SHORT).show();
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+        }
+    }
 }
