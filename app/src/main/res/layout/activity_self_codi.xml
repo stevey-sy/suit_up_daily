@@ -292,6 +292,74 @@
                             android:background="#686868"
                             android:scrollbars="horizontal" />
 
+                        <TextView
+                            android:id="@+id/tv_item_shoes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_outer"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="150dp"
+                            android:text="신발"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tv_no_shoes"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_below="@id/tv_item_shoes"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#bdbebd"
+                            android:gravity="center"
+                            android:text="가져올 데이터가 없습니다.."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_shoes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_shoes"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#686868"
+                            android:scrollbars="horizontal" />
+
+                        <TextView
+                            android:id="@+id/tv_item_accessory"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_shoes"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="150dp"
+                            android:text="악세서리"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tv_no_acc"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_below="@id/tv_item_accessory"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#bdbebd"
+                            android:gravity="center"
+                            android:text="가져올 데이터가 없습니다.."
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_accessory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_item_accessory"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#686868"
+                            android:scrollbars="horizontal" />
+
                     </RelativeLayout>
 
                 </ScrollView>

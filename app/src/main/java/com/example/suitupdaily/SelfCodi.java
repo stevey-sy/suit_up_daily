@@ -49,8 +49,6 @@ import retrofit2.Response;
 
 public class SelfCodi extends AppCompatActivity implements View.OnClickListener {
 
-    private Paint server_image;
-
     static Bitmap bitmap_picture;
     //이미지가 있나 없나를 공유하는 전역변수
     boolean imgFlag = false;
@@ -72,22 +70,28 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
     private RadioGroup season_radio_group;
     private String selected_season = null;
     private String selected_color = null;
-
+    // 옷장 아이템을 카테고리별로 담아 둘 array list
     private List<ResponsePOJO> clothList;
     private List<ResponsePOJO> bottomList;
     private List<ResponsePOJO> outerList;
-
+    private List<ResponsePOJO> shoesList;
+    private List<ResponsePOJO> accList;
+    // 옷장 아이템 카테고리별로 사용할 리사이클러뷰
     private RecyclerView recyclerView;
     private RecyclerView bottom_recycler;
     private RecyclerView outer_recycler;
-
-    private TextView tv_no_upper, tv_no_bottom, tv_no_outer;
+    private RecyclerView shoes_recycler;
+    private RecyclerView accessory_recycler;
+    // 서버로부터 가져올 데이터가 없을 경우 표시할 안내문 text view
+    private TextView tv_no_upper, tv_no_bottom, tv_no_outer, tv_no_shoes, tv_no_acc;
 
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerAdapter adapter;
     RecyclerAdapter.RecyclerViewClickListener listener;
     RecyclerAdapter.RecyclerViewClickListener listener_bottom;
     RecyclerAdapter.RecyclerViewClickListener listener_outer;
+    RecyclerAdapter.RecyclerViewClickListener listener_shoes;
+    RecyclerAdapter.RecyclerViewClickListener listener_acc;
 
     private Boolean check_show;
 
@@ -131,13 +135,19 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_upper);
         bottom_recycler = (RecyclerView) findViewById(R.id.recycler_bottom);
         outer_recycler = (RecyclerView) findViewById(R.id.recycler_outer);
+        shoes_recycler = (RecyclerView) findViewById(R.id.recycler_shoes);
+        accessory_recycler = (RecyclerView) findViewById(R.id.recycler_accessory);
+        // 데이터가 없을시에만 표시할 안내문 text view
         tv_no_upper = (TextView) findViewById(R.id.tv_no_upper);
         tv_no_upper.setVisibility(View.GONE);
         tv_no_bottom = (TextView) findViewById(R.id.tv_no_bottom);
         tv_no_bottom.setVisibility(View.GONE);
         tv_no_outer = (TextView) findViewById(R.id.tv_no_outer);
         tv_no_outer.setVisibility(View.GONE);
-
+        tv_no_shoes = (TextView) findViewById(R.id.tv_no_shoes);
+        tv_no_shoes.setVisibility(View.GONE);
+        tv_no_acc = (TextView) findViewById(R.id.tv_no_acc);
+        tv_no_acc.setVisibility(View.GONE);
         // 옷 보기 액티비티에서 사용자가 코디버튼을 눌렀을 때의 이벤트
         int request_code = 0;
         Bundle extras = getIntent().getExtras();
@@ -161,6 +171,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                         getCloth();
                         getBottom();
                         getOuter();
+                        getShoes();
+                        getAccessory();
                         break;
 
                     case R.id.radio_spring_codi:
@@ -168,6 +180,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                         getCloth();
                         getBottom();
                         getOuter();
+                        getShoes();
+                        getAccessory();
                         break;
 
                     case R.id.radio_summer_codi:
@@ -175,6 +189,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                         getCloth();
                         getBottom();
                         getOuter();
+                        getShoes();
+                        getAccessory();
                         break;
 
                     case R.id.radio_fall_codi:
@@ -182,6 +198,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                         getCloth();
                         getBottom();
                         getOuter();
+                        getShoes();
+                        getAccessory();
                         break;
 
                     case R.id.radio_winter_codi:
@@ -189,6 +207,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                         getCloth();
                         getBottom();
                         getOuter();
+                        getShoes();
+                        getAccessory();
                         break;
                 }
             }
@@ -230,19 +250,14 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        // 리사이클러뷰 아이템 클릭했을 때의 이벤트
+        // 상의 리사이클러뷰 아이템 클릭했을 때의 이벤트
         listener = new RecyclerAdapter.RecyclerViewClickListener() {
             @Override
             public void onRowClick(View view, int position) {
                 // 리사이클러뷰 아이템 클릭했을 때의 이벤트
                 Toast.makeText(getApplicationContext(), "상의 이미지가 출력되었습니다.", Toast.LENGTH_SHORT).show();
-
-                //sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(intent,1);
-
+                // 서버로부터 받아온 옷 이미지 url 을 bitmap 으로 전환 후,
+                // 커스텀 view 에 출력한다.
                 Glide.with(SelfCodi.this)
                         .asBitmap()
                         .load(clothList.get(position).getPicture())
@@ -255,24 +270,15 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                             public void onLoadCleared(@Nullable Drawable placeholder) {
                             }
                         });
-                // bitmap 필요함.
-                            // setImage();
             }
         };
 
-        // 리사이클러뷰 아이템 클릭했을 때의 이벤트
+        // 하의 리사이클러뷰 아이템 클릭했을 때의 이벤트
         listener_bottom = new RecyclerAdapter.RecyclerViewClickListener() {
             @Override
             public void onRowClick(View view, int position) {
                 // 리사이클러뷰 아이템 클릭했을 때의 이벤트
                 Toast.makeText(getApplicationContext(), "하의 이미지가 출력되었습니다.", Toast.LENGTH_SHORT).show();
-
-                //sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(intent,1);
-
                 Glide.with(SelfCodi.this)
                         .asBitmap()
                         .load(bottomList.get(position).getPicture())
@@ -285,24 +291,15 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                             public void onLoadCleared(@Nullable Drawable placeholder) {
                             }
                         });
-                // bitmap 필요함.
-                // setImage();
             }
         };
 
-        // 리사이클러뷰 아이템 클릭했을 때의 이벤트
+        // 아우터 리사이클러뷰 아이템 클릭했을 때의 이벤트
         listener_outer = new RecyclerAdapter.RecyclerViewClickListener() {
             @Override
             public void onRowClick(View view, int position) {
                 // 리사이클러뷰 아이템 클릭했을 때의 이벤트
-                Toast.makeText(getApplicationContext(), "아우터 이미지가 출려되었습니다.", Toast.LENGTH_SHORT).show();
-
-                //sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(intent,1);
-
+                Toast.makeText(getApplicationContext(), "아우터 이미지가 출력되었습니다.", Toast.LENGTH_SHORT).show();
                 Glide.with(SelfCodi.this)
                         .asBitmap()
                         .load(outerList.get(position).getPicture())
@@ -315,18 +312,60 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                             public void onLoadCleared(@Nullable Drawable placeholder) {
                             }
                         });
-                // bitmap 필요함.
-                // setImage();
-
             }
         };
 
+        // 신발 리사이클러뷰 아이템 클릭했을 때의 이벤트
+        listener_shoes = new RecyclerAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onRowClick(View view, int position) {
+                // 리사이클러뷰 아이템 클릭했을 때의 이벤트
+                Toast.makeText(getApplicationContext(), "신발 이미지가 출력되었습니다.", Toast.LENGTH_SHORT).show();
+                Glide.with(SelfCodi.this)
+                        .asBitmap()
+                        .load(shoesList.get(position).getPicture())
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                mg.addImage(resource);
+                            }
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+                        });
+            }
+        };
+        // 악세서리 리사이클러뷰 아이템 클릭했을 때의 이벤트
+        listener_acc = new RecyclerAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onRowClick(View view, int position) {
+                // 리사이클러뷰 아이템 클릭했을 때의 이벤트
+                Toast.makeText(getApplicationContext(), "신발 이미지가 출력되었습니다.", Toast.LENGTH_SHORT).show();
+                Glide.with(SelfCodi.this)
+                        .asBitmap()
+                        .load(accList.get(position).getPicture())
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                mg.addImage(resource);
+                            }
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+                        });
+            }
+        };
+
+        // 옷장 아이템 리사이클러뷰 layout 세팅
+        // 리니어, 세로방향으로 설정
         LinearLayoutManager layoutManager_bottom = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         bottom_recycler.setLayoutManager(layoutManager_bottom);
-
         LinearLayoutManager layoutManager_outer = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         outer_recycler.setLayoutManager(layoutManager_outer);
-
+        LinearLayoutManager layoutManager_shoes = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        shoes_recycler.setLayoutManager(layoutManager_shoes);
+        LinearLayoutManager layoutManager_acc = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        accessory_recycler.setLayoutManager(layoutManager_acc);
     }
 
     // 툴바 메뉴 불러오기
@@ -334,9 +373,6 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.codi_menu, menu);
-
-//        action = menu;
-
         return true;
     }
 
@@ -347,18 +383,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
             case R.id.codi_save:
                 // 이미지 저장
                 Toast.makeText(getApplicationContext(), "Test 중입니다." , Toast.LENGTH_SHORT).show();
-//                View MyView = mg.getView();
-//                bitmap = getBitmapFromView(MyView);
-                // View 에서 Bitmap 추출하고
-                // 서버 업로드 메서드 실행.
-//                uploadCodi();
-
-//                MyView.setDrawingCacheEnabled(true);
-//                Bitmap screenshot = MyView.getDrawingCache(); //스샷 형태로 저장
-                // 필요한 것:  php 저장 페이지 / DB table / 변수 =  아이디값, url, 파일 / 레트로핏 설정
                 return true;
         }
-
         return false;
     }
 
@@ -371,7 +397,6 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         view.draw(canvas);
         return bitmap;
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -395,34 +420,25 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
-    // Pets 따라하기 메소드
+    // 서버로부터 상의 데이터만 가져오는 메소드
     public void getCloth() {
-
         String id = user_id;
         String type = "upper";
 //        String type = load_type;
         String season = selected_season;
         String color = null;
-
         Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 clothList = response.body();
-
-                String content = "";
-
                 if(response.body() != null) {
                     Log.d("서버 응답 확인: ", response.body().toString());
-
                     recyclerView.setVisibility(View.VISIBLE);
 //                    tv_closet_empty.setVisibility(View.GONE);
-
                     adapter = new RecyclerAdapter(clothList, SelfCodi.this, listener);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
-
                 } else if (response.body() == null) {
                     recyclerView.setVisibility(View.GONE);
                     tv_no_upper.setVisibility(View.VISIBLE);
@@ -441,36 +457,26 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
 
     // 하의 받아오기
     public void getBottom() {
-
         String id = user_id;
         String type = "bottom";
 //        String type = load_type;
         String season = selected_season;
         String color = null;
-
         Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 bottomList = response.body();
-
-                String content = "";
-
                 if(response.body() != null) {
                     Log.d("서버 응답 확인: ", response.body().toString());
-
                     bottom_recycler.setVisibility(View.VISIBLE);
 //                    tv_closet_empty.setVisibility(View.GONE);
-
                     adapter = new RecyclerAdapter(bottomList, SelfCodi.this, listener_bottom);
                     bottom_recycler.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
-
                 } else if (response.body() == null) {
                     bottom_recycler.setVisibility(View.GONE);
                     tv_no_bottom.setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -485,23 +491,17 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
 
     // 아우터 받아오기
     public void getOuter() {
-
         String id = user_id;
         String type = "outer";
         String season = selected_season;
         String color = selected_color;
-
         Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 outerList = response.body();
-
-                String content = "";
-
                 if(response.body() != null) {
                     Log.d("서버 응답 확인: ", response.body().toString());
-
                     outer_recycler.setVisibility(View.VISIBLE);
 //                    tv_closet_empty.setVisibility(View.GONE);
                     adapter = new RecyclerAdapter(outerList, SelfCodi.this, listener_outer);
@@ -510,6 +510,69 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
                 } else if (response.body() == null) {
                     outer_recycler.setVisibility(View.GONE);
                     tv_no_outer.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
+                Toast.makeText(SelfCodi.this, "rp :"+
+                                t.getMessage().toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // 서버로부터 신발 데이터 받아오는 메소드
+    public void getShoes() {
+        String id = user_id;
+        String type = "shoes";
+        String season = selected_season;
+        String color = selected_color;
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
+        call.enqueue(new Callback<List<ResponsePOJO>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
+                shoesList = response.body();
+                if(response.body() != null) {
+                    Log.d("서버 응답 확인: ", response.body().toString());
+                    shoes_recycler.setVisibility(View.VISIBLE);
+//                    tv_closet_empty.setVisibility(View.GONE);
+                    adapter = new RecyclerAdapter(shoesList, SelfCodi.this, listener_shoes);
+                    shoes_recycler.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else if (response.body() == null) {
+                    shoes_recycler.setVisibility(View.GONE);
+                    tv_no_shoes.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ResponsePOJO>> call, Throwable t) {
+                Toast.makeText(SelfCodi.this, "rp :"+
+                                t.getMessage().toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    // 서버로부터 악세서리 데이터 받아오는 메소드
+    public void getAccessory() {
+        String id = user_id;
+        String type = "accessory";
+        String season = selected_season;
+        String color = selected_color;
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCloth(id, type, season, color);
+        call.enqueue(new Callback<List<ResponsePOJO>>() {
+            @Override
+            public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
+                accList = response.body();
+                if(response.body() != null) {
+                    Log.d("서버 응답 확인: ", response.body().toString());
+                    accessory_recycler.setVisibility(View.VISIBLE);
+//                    tv_closet_empty.setVisibility(View.GONE);
+                    adapter = new RecyclerAdapter(accList, SelfCodi.this, listener_acc);
+                    accessory_recycler.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else if (response.body() == null) {
+                    accessory_recycler.setVisibility(View.GONE);
+                    tv_no_acc.setVisibility(View.VISIBLE);
                 }
             }
             @Override
@@ -569,6 +632,8 @@ public class SelfCodi extends AppCompatActivity implements View.OnClickListener 
         getCloth();
         getBottom();
         getOuter();
+        getShoes();
+        getAccessory();
     }
 
     @Override
