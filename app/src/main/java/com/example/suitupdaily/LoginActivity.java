@@ -52,6 +52,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent intent = new Intent(this, LoadingActivity.class);
+        startActivity(intent);
+
 //        sessionCallback = new SessionCallback();
 //        Session.getCurrentSession().addCallback(sessionCallback);
 //        Session.getCurrentSession().checkAndImplicitOpen();
