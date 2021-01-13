@@ -16,10 +16,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.suitupdaily.recycler.ShowRoomAdapter;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,10 +37,13 @@ public class ShowRoom extends AppCompatActivity {
     ShowRoomAdapter.ShowViewClickListener listener;
     private Menu action;
     private TextView tv_no_codi;
-    private String user_id;
+    private String user_id, selected_season;
     private List<ResponsePOJO> clothList;
     private Toolbar toolbar;
     private ActionBar actionBar;
+    private SlidingUpPanelLayout slidingLayout;
+    private RadioGroup radio_group_season;
+    private Button btn_drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,52 @@ public class ShowRoom extends AppCompatActivity {
         // xml 연결
         recyclerView = findViewById(R.id.recycler_show_room);
         tv_no_codi = (TextView) findViewById(R.id.tv_no_codi);
+        radio_group_season = (RadioGroup) findViewById(R.id.rg_show_room);
+        btn_drawer = (Button) findViewById(R.id.btn_sliding_show_room);
+        slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.show_room_sliding);
 
+        // 필터 버튼 활성화
+        btn_drawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    btn_drawer.setText("FILTER CLOSE");
+                } else if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    btn_drawer.setText("FILTER");
+                }
+            }
+        });
+
+        // 필터: 라디오 그룹 세팅
+        radio_group_season.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.btn_all_season:
+                        selected_season = null;
+                        getCodi();
+                        break;
+                    case R.id.btn_spring:
+                        selected_season = "봄";
+                        getCodi();
+                        break;
+                    case R.id.btn_summer:
+                        selected_season = "여름";
+                        getCodi();
+                        break;
+                    case R.id.btn_fall:
+                        selected_season = "가을";
+                        getCodi();
+                        break;
+                    case R.id.btn_winter:
+                        selected_season = "겨울";
+                        getCodi();
+                        break;
+                }
+            }
+        });
         // 그리드 뷰의 한 열에 아이템의 갯수
         int numberOfColumns =2;
         layoutManager = new GridLayoutManager(this, numberOfColumns);
@@ -87,15 +139,13 @@ public class ShowRoom extends AppCompatActivity {
     public void getCodi() {
         String id = user_id;
 //        String type = load_type;
-//        String season = selected_season;
+        String season = selected_season;
 
-        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCodi(id);
+        Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCodi(id, season);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
             public void onResponse(Call<List<ResponsePOJO>> call, Response<List<ResponsePOJO>> response) {
                 clothList = response.body();
-
-                String content = "";
 
                 if(response.body() != null) {
                     Log.d("서버 응답 확인: ", response.body().toString());

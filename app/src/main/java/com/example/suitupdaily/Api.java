@@ -133,10 +133,12 @@ public interface Api {
             @Field("codi_idx") String idx
     );
 
-    @FormUrlEncoded
+    // 내 코디 조회 페이지에서 코디 데이터 요청하는 메소드드
+   @FormUrlEncoded
     @POST("codi/codi_read.php")
     Call<List<ResponsePOJO>> getCodi(
-            @Field("id") String id
+            @Field("id") String id,
+            @Field("season") String season
     );
 
     @FormUrlEncoded
