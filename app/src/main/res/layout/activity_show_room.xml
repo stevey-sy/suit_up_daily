@@ -54,7 +54,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.011" />
+                app:layout_constraintVertical_bias="0.011"
+                android:paddingBottom="80dp"/>
 
             <TextView
                 android:id="@+id/tv_no_codi"
