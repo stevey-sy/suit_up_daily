@@ -17,6 +17,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +48,9 @@ public class CodiInfo extends AppCompatActivity {
     private TextView text_view_codi_season, text_view_codi_place, tags_view;
     private EditText text_input_tag, memo_area;
     private String user_id, string_hash_tag;
+    private int feed_agree;
     private Button button_codi_upload;
+    private CheckBox check_box_feed_agree;
 
     private ArrayList<String> mTagLists;
 
@@ -64,8 +67,21 @@ public class CodiInfo extends AppCompatActivity {
         button_codi_upload = (Button) findViewById(R.id.button_codi_upload);
         tags_view = (TextView)findViewById(R.id.text_view_hash_tag);
         memo_area = (EditText)findViewById(R.id.memo_area);
-//        text_view_codi_place = (TextView) findViewById(R.id.text_view_codi_place);
-        // 해쉬 태그가 표시될 텍스트 뷰
+        check_box_feed_agree = (CheckBox) findViewById(R.id.cb_feed_agree);
+        check_box_feed_agree.setChecked(true);
+        // 피드에 공유하기 체크박스 이벤트
+        check_box_feed_agree.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check_box_feed_agree.isChecked()) {
+                    // 공유를 허가하는 값
+                    feed_agree = 0;
+                } else {
+                    // 공유를 반대하는 값
+                    feed_agree = 1;
+                }
+            }
+        });
 
         // 해쉬 태그 문자열을 넣을 array list
         mTagLists = new ArrayList<String> ();
@@ -74,7 +90,6 @@ public class CodiInfo extends AppCompatActivity {
         Intent getDataFromSelfCodi = getIntent();
         byte[] arr = getDataFromSelfCodi.getByteArrayExtra("edited_image");
         user_id = getDataFromSelfCodi.getStringExtra("userID");
-
 
         // intent 로 받아온 이미지(byte array)를 비트맵 으로 바꾸는 코드
         bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
@@ -91,49 +106,6 @@ public class CodiInfo extends AppCompatActivity {
 //                dialogSeason.callFunction(text_season);
             }
         });
-
-        // 장소 선택 버튼 눌렀을 때의 이벤트
-//        text_view_codi_place.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // layout 을 새로 생성하여 만들어놓은 dialog xml 파일을 연결
-//                final ConstraintLayout layout = (ConstraintLayout) View.inflate(CodiInfo.this, R.layout.dialog_codi_place, null);
-//                new AlertDialog.Builder(CodiInfo.this)
-//                        .setView(layout)
-//                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // dialog에서 사용자의 입력을 받은 EditText 선언
-//                                EditText hash = (EditText) layout.findViewById(R.id.text_input_hash);
-//                                // EditText에 담긴 내용을 string으로 변환
-//                                string_hash_tag = hash.getText().toString();
-//                                // 액티비티에 있는 EditText로 String을 담는다. (사용자에게 보여주기 위해서)
-//                                text_view_codi_place.setText(string_hash_tag);
-//
-//                                // 사용자가 입력한 string에서 ","을 기준으로 나누어, array list 에 담는다.
-//                                String [] toColumnNm = string_hash_tag.split(",");
-//                                for(int i=0; i< toColumnNm.length; i++) {
-//                                    mTagLists.add(toColumnNm[i]);
-//                                }
-//
-//                                //
-//                                if(!isEmpty(string_hash_tag)) {
-//                                    // string을 hastag 처럼 보이도록 하는 메서드
-//                                    setContent();
-//                                }
-//
-//                                dialog.dismiss();
-//                            }
-//                        })
-//                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        })
-//                        .show();
-//            }
-//        });
 
         // 태그 적용 버튼을 눌렀을 때의 이벤트
         button_tag_test.setOnClickListener(new View.OnClickListener() {
@@ -249,8 +221,10 @@ public class CodiInfo extends AppCompatActivity {
         String tags_no_hash = removeHash(hash_tag);
         String memo = memo_area.getText().toString();
         String season = text_view_codi_season.getText().toString();
+        int feed = feed_agree;
+        Log.d("feed ", String.valueOf(feed_agree));
 
-        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage, season, hash_tag, memo);
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().uploadCodi(id, encodedImage, season, hash_tag, memo, feed);
         call.enqueue(new Callback<ResponsePOJO>() {
             @Override
             public void onResponse(Call<ResponsePOJO> call, Response<ResponsePOJO> response) {

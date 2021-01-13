@@ -107,7 +107,8 @@ public interface Api {
             @Field("EN_IMAGE") String encodedImage,
             @Field("season") String season,
             @Field("hash_tag") String tags_no_hash,
-            @Field("memo") String memo
+            @Field("memo") String memo,
+            @Field("feed") int feed
     );
 
     @FormUrlEncoded
