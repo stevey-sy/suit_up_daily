@@ -553,41 +553,6 @@ public class ImageEditActivity extends AppCompatActivity implements DatePickerDi
 //        Toast.makeText (this, encodedImage, Toast.LENGTH_SHORT).show();
     }
 
-    private static Bitmap convertMatToBitMap(Mat input){
-        Bitmap bmp = null;
-        Mat rgb = new Mat();
-        Imgproc.cvtColor(input, rgb, Imgproc.COLOR_BGR2RGB);
-
-        try {
-            bmp = Bitmap.createBitmap(rgb.cols(), rgb.rows(), Bitmap.Config.ARGB_8888);
-            Utils.matToBitmap(rgb, bmp);
-        }
-        catch (CvException e){
-            Log.d("Exception",e.getMessage());
-        }
-        Log.d("bmp: ", String.valueOf(bmp));
-        Log.d("bmp: ", String.valueOf(bmp));
-        Log.d("bmp: ", String.valueOf(bmp));
-        Log.d("bmp: ", String.valueOf(bmp));
-        Log.d("bmp: ", String.valueOf(bmp));
-        Log.d("bmp: ", String.valueOf(bmp));
-
-        return bmp;
-    }
-
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "TEST_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        imageFilePath = image.getAbsolutePath();
-        return image;
-    }
-
     private int exifOrientationToDegress(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
             return 90;

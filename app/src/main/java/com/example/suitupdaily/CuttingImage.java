@@ -37,6 +37,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -88,29 +89,26 @@ public class CuttingImage extends AppCompatActivity {
     String name;
 
     @Override
-    public void onBackPressed() {
-        // 프로그래스 바 해체
-        progressDialog.dismiss();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cutting_image);
-
+        // 툴바 세팅
         toolbar = findViewById(R.id.toolbar_crop);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_left_arrow);
+        // xml 연결
         image_edit = (ImageView)findViewById(R.id.image_edit);
         btn_target = (Button)findViewById(R.id.btn_target);
         btn_cutter = (Button)findViewById(R.id.btn_grab);
         btn_finish = (Button)findViewById(R.id.btn_finish);
+        // 유저 정보 intent 받아오기
         Intent intent_get_id = getIntent();
         name = intent_get_id.getStringExtra("userID");
         request = intent_get_id.getIntExtra("requestCode", 1);
-
         if (request == 1005) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if(intent.resolveActivity(getPackageManager()) != null) {
@@ -276,6 +274,17 @@ public class CuttingImage extends AppCompatActivity {
         }
     }
 
+    // 툴바 메뉴 눌렀을 때의 코드 (홈 버튼)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void doWork () {
 
         progressDialog = new ProgressDialog(CuttingImage.this);
@@ -303,16 +312,7 @@ public class CuttingImage extends AppCompatActivity {
             }
         });
         thread.start();
-
     }
-
-//    public Handler handler = new Handler(Looper.myLooper()) {
-//
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            progressDialog.dismiss();
-//        }
-//    };
 
     public class BackgroundThread extends Thread {
         volatile boolean running = false;
@@ -534,6 +534,12 @@ public class CuttingImage extends AppCompatActivity {
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // 액티비티 종료
+        finish();
     }
 
 

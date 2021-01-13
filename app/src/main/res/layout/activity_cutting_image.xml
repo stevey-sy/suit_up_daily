@@ -39,37 +39,48 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_crop"
         app:srcCompat="@drawable/ic_add" />
 
-    <Button
-        android:id="@+id/btn_target"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="90 회전"
-        app:layout_constraintEnd_toStartOf="@+id/btn_grab"
+        app:layout_constraintTop_toBottomOf="@id/image_edit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_edit" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_grab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        <Button
+            android:id="@+id/btn_grab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_button"
+            android:textColor="@color/white"
+            android:text="배경 제거" />
 
-        android:text="배경 제거"
-        app:layout_constraintEnd_toStartOf="@+id/btn_finish"
-        app:layout_constraintStart_toEndOf="@+id/btn_target"
-        app:layout_constraintTop_toTopOf="@+id/btn_target" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btn_finish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        <Button
+            android:id="@+id/btn_target"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_button"
+            android:textColor="@color/white"
+            android:text="90° 회전" />
 
-        android:text="편집 완료"
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        app:layout_constraintStart_toEndOf="@+id/btn_grab"
-        app:layout_constraintTop_toTopOf="@+id/btn_grab" />
+        <Button
+            android:id="@+id/btn_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_button"
+            android:textColor="@color/white"
+            android:text="편집 완료" />
 
-
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
