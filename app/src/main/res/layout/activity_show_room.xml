@@ -29,7 +29,7 @@
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/show_room_sliding"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity= "top"
         android:layout_marginTop="60dp"
@@ -75,11 +75,64 @@
         <RelativeLayout
             android:id="@+id/show_room_filter"
             android:layout_width="match_parent"
-            android:layout_height="300dp" >
+            android:layout_height="120dp" >
+
+            <TextView
+                android:paddingStart="20dp"
+                android:id="@+id/tv_subtitle_season"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="시즌"
+                android:textSize="16sp"
+                android:textColor="@color/black_de"
+                android:background="#a9a9a9" />
+
+            <RadioGroup
+                android:id="@+id/rg_show_room"
+                android:layout_below="@id/tv_subtitle_season"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/btn_all_season"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="모두" />
+
+                <RadioButton
+                    android:id="@+id/btn_spring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="봄" />
+
+                <RadioButton
+                    android:id="@+id/btn_summer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="여름" />
+
+                <RadioButton
+                    android:id="@+id/btn_fall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="가을" />
+
+                <RadioButton
+                    android:id="@+id/btn_winter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="겨울" />
+            </RadioGroup>
 
             <Button
+                android:id="@+id/btn_sliding_show_room"
+                android:layout_below="@id/rg_show_room"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="FILTER"
                 android:background="@color/black_de"
                 android:textColor="@color/white"
