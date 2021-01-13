@@ -45,12 +45,15 @@ public class ShowRoomAdapter extends RecyclerView.Adapter <ShowRoomAdapter.ShowV
     public void onBindViewHolder(@NonNull ShowRoomAdapter.ShowViewHolder holder, int position) {
 
         holder.idx.setText(clothList.get(position).getIdx());
-//        holder.idx.setText(clothList.get(position).getPicture());
         Log.d("코디 이미지: ", clothList.get(position).getPicture());
-
-        holder.date.setText(clothList.get(position).getDate());
         holder.hash_tags.setText(clothList.get(position).getTags());
         holder.memo.setText(clothList.get(position).getMemo());
+        // 서버에서 받아온 날짜 데이터 예시
+        // 2020-12-10 00:00:00
+        // 시간 부분을 잘라내어서 view 에 입힌다.
+        String date_time = clothList.get(position).getDate();
+        String date = date_time.substring(0, 10);
+        holder.date.setText(date);
 
         // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
         RequestOptions requestOptions = new RequestOptions();
