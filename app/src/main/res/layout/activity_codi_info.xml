@@ -152,16 +152,16 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
-                android:background="@color/black_de"
+                android:background="@drawable/filter_button"
                 android:text="저장"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+                app:layout_constraintTop_toBottomOf="@+id/cb_feed_agree" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/cb_feed_agree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -188,6 +188,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="태그 적용"
+                android:background="@drawable/filter_button"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="@+id/text_view_codi_tag"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/text_view_codi_tag"
@@ -198,6 +200,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:background="@drawable/filter_button"
+                android:textColor="@color/white"
                 android:text="지우기"
                 app:layout_constraintEnd_toStartOf="@+id/button_tag_test"
                 app:layout_constraintHorizontal_bias="0.0"
