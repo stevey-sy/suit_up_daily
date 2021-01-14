@@ -24,8 +24,8 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
     private List<String> colors;
     private Context context;
 
-    private String[] color_list = { "#000000", "#FFFFFF", "#C0C0C0", "#F5F5DC", "#0000CD", "#FF0000"};
-    private String[] color_names = {"블랙", "화이트", "그레이", "베이지", "블루", "레드"};
+    private String[] color_list = { "#000000", "#FFFFFF", "#C0C0C0", "#F5F5DC", "#0000CD", "#FF0000", "#006400", "#BDB76B", "#FFA500", "#8B4513", "#87CEEB", "#000080", "#EE82EE", "#8A2BE2"};
+    private String[] color_names = {"블랙", "화이트", "그레이", "베이지", "블루", "레드", "그린", "카키", "오렌지", "브라운", "SkyBlue", "Navy", "핑크", "Purple"};
 
     public ColorAdapter(Context context, ArrayList<String> itemList, View.OnClickListener onClickItem) {
         this.context = context;

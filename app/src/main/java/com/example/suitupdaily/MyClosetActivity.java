@@ -338,7 +338,14 @@ public class MyClosetActivity extends AppCompatActivity {
         itemList.add("베이지");
         itemList.add("블루");
         itemList.add("레드");
-
+        itemList.add("그린");
+        itemList.add("카키");
+        itemList.add("오렌지");
+        itemList.add("브라운");
+        itemList.add("SkyBlue");
+        itemList.add("Navy");
+        itemList.add("핑크");
+        itemList.add("Purple");
         color_adapter = new ColorAdapter(this, itemList, onClickItem);
         recycler_color.setAdapter(color_adapter);
     }
