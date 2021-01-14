@@ -22,6 +22,6 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
                 finish();
             }
-        }, 4000);
+        }, 6000);
     }
 }
