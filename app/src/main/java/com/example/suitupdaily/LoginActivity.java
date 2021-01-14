@@ -1,4 +1,5 @@
 package com.example.suitupdaily;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,9 +56,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
 
-//        sessionCallback = new SessionCallback();
-//        Session.getCurrentSession().addCallback(sessionCallback);
-//        Session.getCurrentSession().checkAndImplicitOpen();
+        // Shared Preferences 에 auto login 관련 데이터가 저장되어 있는지 조회
+        // 있다면, 자동로그인
+        // 없다면 현재 페이지 유지
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -101,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View view) {
                 String userID = id_text.getText().toString();
-                String userPass = pass_text.getText().toString();
+                final String userPass = pass_text.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -113,10 +114,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 String userID = jsonObject.getString("userID");
 //                                String userPass = jsonObject.getString("userPass");
                                 // 로그인에 성공한 경우
+                                // 자동 로그인 실행
+                                // Shared Preferences 로그인 정보 저장 필요
+                                // 문자열 저장하기
+                                String saveSharedName = "AutoLogIn"; // 저장할 SharedPreferences 이름 지정.
+                                String saveKeyID = "id"; // 저장할 데이터의 Key값 지정.
+                                String saveUserID = userID; //저장할 데이터의 Content 지정.
+                                String saveKeyPass = "pass";
+                                String savePass = userPass;
+
+                                SharedPreferences saveShared = getSharedPreferences(saveSharedName,MODE_PRIVATE);
+                                SharedPreferences.Editor sharedEditor = saveShared.edit();
+
+                                sharedEditor.putString(saveKeyID, saveUserID);
+                                sharedEditor.putString(saveKeyPass, savePass);
+                                sharedEditor.commit();
+
                                 Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다." , Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, Home.class);
                                 intent.putExtra("userID", userID);
-//                                intent.putExtra("userPass", userPass);
                                 startActivity(intent);
                             } else {
                                 // 로그인에 실패 경우
