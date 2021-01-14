@@ -53,10 +53,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Intent intent = new Intent(this, LoadingActivity.class);
-        startActivity(intent);
-        // Shared Preferences 를 조회하여 사용자의 정보를 조회하는 메소드
-        checkUserInfo();
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -126,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                                 sharedEditor.putString(saveKeyID, saveUserID);
                                 sharedEditor.putString(saveKeyPass, savePass);
-                                sharedEditor.commit();
+                                sharedEditor.apply();
 
                                 Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다." , Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, Home.class);
@@ -149,35 +145,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
     }
 
-    private void RequestAutoLogIn (String userID, final String userPass) {
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    boolean success = jsonObject.getBoolean("success");
-                    if (success) {
-                        String userID = jsonObject.getString("userID");
-                        Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다." , Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, Home.class);
-                        intent.putExtra("userID", userID);
-                        startActivity(intent);
-                    } else {
-                        // 로그인에 실패 경우
-                        Log.d("인증번호 버튼 눌림: ", "사용자 이메일 입력안함");
-                        Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호가 잘못되었습니다." , Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        LoginRequest loginRequest = new LoginRequest(userID, userPass, responseListener);
-        RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-        queue.add(loginRequest);
-
-    }
-
     // 구글 로그인 인증을 요청했을 때 결과값을 되돌려 받는 코드
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -191,26 +158,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 // 로그인 결과 값 출력 수행 메소드
                 resultLogin(account);
             }
-        }
-    }
-
-    private void checkUserInfo () {
-        // Shared Preferences 에 auto login 관련 데이터가 저장되어 있는지 조회
-        // 있다면, 자동로그인
-        // 문자열 불러오기
-        String loadSharedName = "AutoLogIn"; // 가져올 SharedPreferences 이름 지정
-        String loadKeyNameID = "id"; // 가져올 데이터의 Key값 지정
-        String loadKeyNamePass = "pass";
-        String savedID = ""; // 가져올 데이터가 담기는 변수
-        String savedPass = "";
-        String defaultValue = ""; // 가져오는것에 실패 했을 경우 기본 지정 텍스트.
-
-        SharedPreferences loadShared = getSharedPreferences(loadSharedName,MODE_PRIVATE);
-        savedID = loadShared.getString(loadKeyNameID, defaultValue);
-        savedPass = loadShared.getString(loadKeyNamePass, defaultValue);
-        // 만약 savedID, savedPass 가 빈값이라면
-        if (!savedID.isEmpty() && !savedPass.isEmpty()) {
-            RequestAutoLogIn(savedID, savedPass);
         }
     }
 
