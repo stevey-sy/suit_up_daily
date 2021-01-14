@@ -1,4 +1,5 @@
 package com.example.suitupdaily;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -94,6 +95,22 @@ public class Home extends AppCompatActivity {
                     // 공유버튼 클릭했을 때의 이벤트
                     case R.id.logout:
                         // TODO: 2020-12-21 로그아웃 구현 필요
+                        // Shared 에 저장되어 있던 데이터 삭제 필요.
+                        // 문자열 데이터 삭제하기
+                        String delSharedName = "AutoLogIn"; // 저장된 SharedPreferences 이름 지정.
+                        String delKeyID = "id"; // 삭제할 데이터의  Key값 지정.
+                        String delKeyPass = "pass";
+
+                        SharedPreferences pref = getSharedPreferences(delSharedName, MODE_PRIVATE);
+                        SharedPreferences.Editor dleEditor = pref.edit();
+
+                        dleEditor.remove(delKeyID);
+                        dleEditor.remove(delKeyPass);
+                        dleEditor.commit();
+                        // 로그 아웃 후에는 로그인 페이지로 이동
+                        Intent intentToLogin = new Intent(Home.this, LoginActivity.class);
+                        intentToLogin.putExtra("userData", "none");
+                        startActivity(intentToLogin);
                         return true;
                 }
                 return true;
