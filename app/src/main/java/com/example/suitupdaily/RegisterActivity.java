@@ -1,14 +1,21 @@
 package com.example.suitupdaily;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -27,6 +34,9 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText id_text, pass_text, name_text, verify_text;
     private Button register_btn, send_verify_btn, confirm_verify_btn;
     private TextView tv_verify_result;
+
+    private Toolbar toolbar;
+    private ActionBar actionBar;
 
     // 체크박스 체크 여부를 나타낼 변수
     // 체크가 안되어있을 떄 = 0
@@ -49,11 +59,15 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-//        // 메일 보내기 코드
-//        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-//                .permitDiskReads()
-//                .permitDiskWrites()
-//                .permitNetwork().build());
+        // 툴바 세팅
+        // custom toolbar 가져오기
+        toolbar = findViewById(R.id.toolbar_register);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         // xml 파일과 자바 클래스 연결
         id_text = (EditText) findViewById(R.id.et_id);
@@ -288,6 +302,17 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     } // OnCreate 닫기
+    // 툴바 메뉴 클릭 시 이벤트 (설정 버튼)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

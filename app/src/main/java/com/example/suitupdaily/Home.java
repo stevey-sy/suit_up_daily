@@ -94,7 +94,6 @@ public class Home extends AppCompatActivity {
 
                     // 공유버튼 클릭했을 때의 이벤트
                     case R.id.logout:
-                        // TODO: 2020-12-21 로그아웃 구현 필요
                         // Shared 에 저장되어 있던 데이터 삭제 필요.
                         // 문자열 데이터 삭제하기
                         String delSharedName = "AutoLogIn"; // 저장된 SharedPreferences 이름 지정.
