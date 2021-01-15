@@ -43,6 +43,7 @@ public class WeatherFragment extends Fragment {
     private TextView tv_highest_temper, tv_lowest_temper, tv_current_temper, tv_weather_status, tv_codi_guide, tv_location;
     private LottieAnimationView lottie;
     private String city_name;
+    private double latitude, longitude;
 
     // newInstance constructor for creating fragment with arguments
     public static WeatherFragment newInstance(int page, String title) {
@@ -78,9 +79,10 @@ public class WeatherFragment extends Fragment {
         tv_weather_status = (TextView)view.findViewById(R.id.tv_weather_status);
         lottie = (LottieAnimationView)view.findViewById(R.id.animation_view);
 
+        // GPS 사용하여 현재 위치의 좌표 출력
         GpsTracker gpsTracker = new GpsTracker(getActivity());
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
+        latitude = gpsTracker.getLatitude();
+        longitude = gpsTracker.getLongitude();
         String where = getCurrentAddress(latitude, longitude);
 
         Log.d("*** latitude ", String.valueOf(latitude));
@@ -120,8 +122,13 @@ public class WeatherFragment extends Fragment {
     }
 
     private void getCurrentWeather() {
-        String lat = "37.38";
-        String lon = "127.12";
+        // 받아온 위도 경도에서 소수점 2자리 이외는 버린다.
+        double edited_lat = Math.round(latitude*100)/100.0;
+        double edited_lon = Math.round(longitude*100)/100.0;
+        // 편집된 위도 경도 데이터를 api 에 보낸다.
+        String lat = String.valueOf(edited_lat);
+        String lon = String.valueOf(edited_lon);
+        Log.d("위도, 경도: ", String.valueOf(edited_lat) + ", " + String.valueOf(edited_lon));
         String APPID = getString(R.string.APPID);
         String metric = "metric";
 
@@ -144,7 +151,7 @@ public class WeatherFragment extends Fragment {
                 String temper_lowest = String.valueOf(weather_data.main.temp_min);
                 String temper_highest = String.valueOf(weather_data.main.temp_max);
                 String temper_feel = String.valueOf(weather_data.main.temp_feel);
-                // 가져온 데이터에 따라서 애니메이션 바뀌도록 하는 메소드 필요.
+                // TODO: 2021-01-15 받아온 온도 수치에 따라 코디 Tip이 바뀌도록 하는 메소드 필요.
 
                 // 가져온 데이터를 view 에 세팅하는 메소드
                 setWeatherData(location_name, weather_status, temper_current, temper_lowest, temper_highest, temper_feel);
@@ -184,6 +191,9 @@ public class WeatherFragment extends Fragment {
             // 천둥 번개
             tv_weather_status.setText("천둥 번개");
             lottie.setAnimation("weather-storm.json");
+        } else if (status.contains("windy")) {
+            tv_weather_status.setText("강한 바람");
+            lottie.setAnimation("windy.json");
         } else {
             // 그 외에는
             lottie.setAnimation("sunny.json");
@@ -191,6 +201,5 @@ public class WeatherFragment extends Fragment {
         }
         lottie.loop(true);
         lottie.playAnimation();
-
     }
 }
