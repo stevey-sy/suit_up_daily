@@ -1,11 +1,14 @@
 package com.example.suitupdaily;
+import android.Manifest;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -18,11 +21,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,9 +44,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.suitupdaily.Fragment.BestLikeFragment;
+import com.example.suitupdaily.Fragment.GpsTracker;
 import com.example.suitupdaily.Fragment.SuggestionFragment;
 import com.example.suitupdaily.Fragment.WeatherFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.relex.circleindicator.CircleIndicator;
@@ -60,10 +74,21 @@ public class Home extends AppCompatActivity {
     // 뒤로가기 버튼을 눌렀던 시간 저장
     private long backKeyPressedTime = 0;
 
+    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
+    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // 위치 정보 사용 권한 체크
+        if(!checkLocationServicesStatus()) {
+            showDialogForLocationServiceSetting();
+        } else {
+            checkRunTimePermission();
+        }
 
         // custom toolbar 가져오기
         toolbar = findViewById(R.id.toolbar_home);
@@ -171,6 +196,115 @@ public class Home extends AppCompatActivity {
             }
         });
     }
+    // 권한 체크 메소드
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PERMISSIONS_REQUEST_CODE && grantResults.length == REQUIRED_PERMISSIONS.length) {
+            // 요청 코드가 permission request code 이면서,
+            // 요청한 퍼미션 개수 (2) 개 만큼 수신이 되었다면,
+            boolean check_result = true;
+            // 사용자가 모든 퍼미션을 허용했는지 체크
+            for(int result: grantResults) {
+                if(result != PackageManager.PERMISSION_GRANTED) {
+                    check_result = false;
+                    break;
+                }
+            }
+
+            if(check_result) {
+                // 위치 값을 가져오는 메소드 실행
+            } else {
+                // 거부한 퍼미션이 있을 경우,
+                // 어떤 퍼미션이 거부되었는지 표시하고 앱을 종료.
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
+                    || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])) {
+
+                    Toast.makeText(Home.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
+                    finish();
+                } else {
+                    Toast.makeText(Home.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    public void checkRunTimePermission () {
+        // 런타임 퍼미션 처리
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(Home.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(Home.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        // 이미 퍼미션을 모두 허용한 상태태
+       if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
+           // 위치 좌표 데이터를 가져올 수 있음.
+
+        } else {
+           // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
+           if (ActivityCompat.shouldShowRequestPermissionRationale(Home.this, REQUIRED_PERMISSIONS[0])) {
+
+               // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
+               Toast.makeText(Home.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+               // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+               ActivityCompat.requestPermissions(Home.this, REQUIRED_PERMISSIONS,
+                       PERMISSIONS_REQUEST_CODE);
+           } else {
+               // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
+               // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+               ActivityCompat.requestPermissions(Home.this, REQUIRED_PERMISSIONS,
+                       PERMISSIONS_REQUEST_CODE);
+           }
+       }
+    }
+
+    // GPS 활성화 하기 전, 선택한 권한에 따른 결과물 return
+    private void showDialogForLocationServiceSetting() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+        builder.setTitle("위치 서비스 비활성화");
+        builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n" + "위치 설정을 수정하시겠습니까?");
+        builder.setCancelable(true);
+        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent callGPSSettingIntent
+                         = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
+    // GPS 활성화
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case GPS_ENABLE_REQUEST_CODE:
+                if(checkLocationServicesStatus()) {
+                    if(checkLocationServicesStatus()) {
+                        Log.d("***", "onActivityResult : GPS 활성화 되있음");
+                        checkRunTimePermission();
+                        return;
+                    }
+                }
+                break;
+        }
+    }
+
+    public boolean checkLocationServicesStatus () {
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
 
     // 툴바 메뉴 클릭 시 이벤트 (설정 버튼)
     @Override
