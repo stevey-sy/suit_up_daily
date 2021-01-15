@@ -118,6 +118,13 @@ public interface Api {
             @Field("picture") String picture
     );
 
+    // 회원 가입 시, 닉네임 중복여부 체크
+    @FormUrlEncoded
+    @POST("user/check_nick.php")
+    Call<ResponsePOJO> checkNickName(
+            @Field("nick") String nick
+    );
+
     @FormUrlEncoded
     @POST("closet/codi_modify.php")
     Call<ResponsePOJO> modifyCodi(

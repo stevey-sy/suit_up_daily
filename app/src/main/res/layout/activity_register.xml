@@ -39,8 +39,7 @@
                 android:id="@+id/et_id"
                 android:layout_width="wrap_content"
                 android:layout_height="46dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="20dp"
                 android:ems="10"
                 android:hint="이메일"
                 android:inputType="textPersonName"
@@ -50,33 +49,28 @@
 
             <EditText
                 android:id="@+id/et_pass"
-                android:layout_width="300dp"
+                android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:ems="10"
                 android:hint="비밀번호"
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintHorizontal_bias="0.212"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
             <EditText
                 android:id="@+id/et_name"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="217dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
                 android:ems="10"
                 android:hint="닉네임"
                 android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.509"
+                app:layout_constraintEnd_toStartOf="@+id/btn_nick_check"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -95,17 +89,15 @@
 
             <EditText
                 android:id="@+id/editTextTextPassword"
-                android:layout_width="300dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:ems="10"
                 android:hint="비밀번호 재확인"
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.47"
+                app:layout_constraintHorizontal_bias="0.205"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -164,11 +156,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="180dp"
-                android:layout_marginRight="180dp"
-                android:text="  비밀번호 확인"
                 android:drawableLeft="@drawable/ic_check_blue"
+                android:text="  비밀번호 확인"
                 android:textColor="@color/black_de"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -222,13 +213,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <Button
+                android:id="@+id/btn_nick_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/black_round"
+                android:text="중복체크"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/et_name"
+                app:layout_constraintTop_toTopOf="@+id/et_name" />
+
+            <Button
                 android:id="@+id/bt_confirm_verify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
                 android:layout_marginEnd="10dp"
-                android:text="확인"
                 android:background="@drawable/black_round"
+                android:text="확인"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/et_verify_num"
@@ -238,8 +241,7 @@
                 android:id="@+id/et_verify_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="20dp"
                 android:ems="10"
                 android:hint="인증번호 입력"
                 android:inputType="textPersonName"
@@ -267,7 +269,7 @@
                 android:id="@+id/check_app_usage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="36dp"
                 android:text="이용약관동의"
                 app:layout_constraintEnd_toStartOf="@+id/button"
                 app:layout_constraintStart_toStartOf="parent"
@@ -299,6 +301,7 @@
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/black_round"
                 android:text="약관보기"
                 android:textColor="@color/white"
@@ -317,6 +320,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/check_private_info"
                 app:layout_constraintTop_toBottomOf="@+id/check_app_usage" />
+
+            <TextView
+                android:id="@+id/tv_check_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="@+id/et_name"
+                app:layout_constraintStart_toStartOf="@+id/et_name"
+                app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
