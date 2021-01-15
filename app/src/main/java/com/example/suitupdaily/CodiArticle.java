@@ -421,7 +421,7 @@ public class CodiArticle extends AppCompatActivity implements CompoundButton.OnC
                 Log.d("조회수 count: ", "성공");
                 String photo_url = response.body().getPhotoUrl();
                 // photo url이 존재한다면 댓글창 프로필 image view 에 이미지를 출력
-                if(photo_url != null) {
+                if(!photo_url.isEmpty()) {
                     // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.skipMemoryCache(true);
