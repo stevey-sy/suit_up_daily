@@ -2,6 +2,7 @@ package com.example.suitupdaily;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -52,7 +54,7 @@ public class MyProfile extends AppCompatActivity {
     private RadioButton radio_button_male, radio_button_female;
     private FloatingActionButton button_camera;
     private EditText text_nick, text_birth, text_id;
-    private ImageView image_profile;
+    private CircleImageView image_profile;
     private TextView tv_user_id;
     private Menu action;
     private Uri uri;
@@ -131,6 +133,7 @@ public class MyProfile extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -211,16 +214,18 @@ public class MyProfile extends AppCompatActivity {
                     String birth = response.body().getBirth();
                     String sex = response.body().getSex();
                     String photo_url = response.body().getPhotoUrl();
+                    // 프로필 사진이 저장되어 있을 때에만 표시.
+                    if (!photo_url.isEmpty()) {
+                        // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.skipMemoryCache(true);
+                        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+                        requestOptions.placeholder(R.drawable.ic_clothes_hanger);
+                        requestOptions.error(R.drawable.ic_baseline_accessibility_24);
+                        // 서버에서 받아온 데이터를 view 에 뿌려줌
+                        Glide.with(MyProfile.this).load(photo_url).apply(requestOptions).circleCrop().into(image_profile);
+                    }
 
-                    // 이미지 데이터에 문제생겼을 경우 표시될 대체 이미지.
-                    RequestOptions requestOptions = new RequestOptions();
-                    requestOptions.skipMemoryCache(true);
-                    requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
-                    requestOptions.placeholder(R.drawable.ic_clothes_hanger);
-                    requestOptions.error(R.drawable.ic_baseline_accessibility_24);
-
-                    // 서버에서 받아온 데이터를 view 에 뿌려줌
-                    Glide.with(MyProfile.this).load(photo_url).apply(requestOptions).circleCrop().into(image_profile);
                     tv_user_id.setText(nick);
                     text_id.setText(user_id);
                     text_nick.setText(nick);
@@ -283,6 +288,7 @@ public class MyProfile extends AppCompatActivity {
         String color_code = "#000000";
         text_nick.setTextColor(Color.parseColor(color_code));
         text_birth.setTextColor(Color.parseColor(color_code));
+        // edit text 를 클릭할 수 없도록 설정
         text_id.setClickable(false);
         text_id.setFocusable(false);
         text_nick.setClickable(false);
