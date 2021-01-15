@@ -1,5 +1,7 @@
 package com.example.suitupdaily.recycler;
+import android.content.SharedPreferences;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +45,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.ShareViewHolder> {
 
     List<ResponsePOJO> clothList;
@@ -51,14 +55,16 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
     private CodiShareAdapter.ShareViewClickListener mListener;
     private TimeConverter timeConverter;
     private String clicked_idx, response_likes;
+    String mUserId;
 
     private FirebaseAuth mAuth;
     private boolean checked;
 
-    public CodiShareAdapter(List<ResponsePOJO> list, Context context, CodiShareAdapter.ShareViewClickListener listener) {
+    public CodiShareAdapter(List<ResponsePOJO> list, Context context, CodiShareAdapter.ShareViewClickListener listener, String userId) {
         this.clothList = list;
         this.context = context;
         this.mListener = listener;
+        this.mUserId = userId;
     }
     @NonNull
     @Override
@@ -67,6 +73,7 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         return new CodiShareAdapter.ShareViewHolder(mView, mListener);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull final CodiShareAdapter.ShareViewHolder holder, final int position) {
         holder.image_comment.setImageResource(R.drawable.ic_comment_gray);
@@ -103,7 +110,8 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         // 서버로부터 댓글 개수 가져올 명령어
         holder.text_view_comment.setText(comment_count);
 
-        String user_id = "sinsy8989@gmail.com";
+        String user_id = mUserId;
+        // 문자열 불러오기
         // 좋아요 부분
         // 서버에서 해당글을 좋아요 누른 사람 리스트를 받는다.
         String who_liked = clothList.get(position).getWhoLiked();

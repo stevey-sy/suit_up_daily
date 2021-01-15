@@ -284,7 +284,7 @@ public class ShareCodi extends AppCompatActivity {
     }
     // 서버에서 코디 정보 가져오는 메서드
     public void getCodiBoard() {
-        String id = user_id;
+        final String id = user_id;
         Call<List<ResponsePOJO>> call = RetrofitClient.getInstance().getApi().getCodiBoard(id);
         call.enqueue(new Callback<List<ResponsePOJO>>() {
             @Override
@@ -297,7 +297,7 @@ public class ShareCodi extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.VISIBLE);
                     notify_no_codi.setVisibility(View.GONE);
-                    adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener);
+                    adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener, id);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else if (response.body() == null) {
@@ -330,7 +330,7 @@ public class ShareCodi extends AppCompatActivity {
                     // 서버로부터 받아온 데이터 리사이클러뷰에 적용
                     recyclerView.setVisibility(View.VISIBLE);
                     notify_no_codi.setVisibility(View.GONE);
-                    adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener);
+                    adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener, user_id);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else if (response.body() == null) {
@@ -376,7 +376,7 @@ public class ShareCodi extends AppCompatActivity {
                     text_searched_word.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
                     notify_no_codi.setVisibility(View.GONE);
-                    adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener);
+                    adapter = new CodiShareAdapter(clothList, ShareCodi.this, listener, user_id);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else if (response.body() == null) {
