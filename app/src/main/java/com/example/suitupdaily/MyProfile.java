@@ -25,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -49,13 +48,13 @@ public class MyProfile extends AppCompatActivity {
     private String user_id, user_sex, photo_url;
     private Toolbar toolbar;
     private ActionBar actionBar;
-    private Button btn_save;
+    private Button btn_save, btn_nick_check;
     private RadioGroup radio_group_sex;
     private RadioButton radio_button_male, radio_button_female;
     private FloatingActionButton button_camera;
     private EditText text_nick, text_birth, text_id;
     private CircleImageView image_profile;
-    private TextView tv_user_id;
+    private TextView tv_user_id, tv_nick_check_result;
     private Menu action;
     private Uri uri;
     private Bitmap bitmap;
@@ -81,10 +80,12 @@ public class MyProfile extends AppCompatActivity {
 
         // xml 연결
         tv_user_id = (TextView) findViewById(R.id.text_view_user_id);
+        tv_nick_check_result = (TextView) findViewById(R.id.tv_profile_nick_result);
         text_id = (EditText) findViewById(R.id.tv_profile_id);
         text_nick = (EditText) findViewById(R.id.tv_profile_nick);
         text_birth = (EditText) findViewById(R.id.tv_profile_birth);
         btn_save = (Button) findViewById(R.id.btn_profile_confirm);
+        btn_nick_check = (Button) findViewById(R.id.btn_profile_nick_check);
         radio_group_sex = (RadioGroup)findViewById(R.id.rg_profile_sex);
         radio_button_male = (RadioButton)findViewById(R.id.rb_profile_male);
         radio_button_female = (RadioButton)findViewById(R.id.rb_profile_female);
@@ -129,6 +130,52 @@ public class MyProfile extends AppCompatActivity {
                 action.findItem(R.id.confirm).setVisible(false);
                 // 정보 기입란 비활성화 메소드
                 readMode();
+            }
+        });
+        // 닉네임 중복체크 버튼 이벤트
+        btn_nick_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 닉네임 체크 이벤트
+                String new_nick = text_nick.getText().toString();
+                if (!new_nick.isEmpty()) {
+                    checkNickName();
+                }
+            }
+        });
+    }
+    // 닉네임 중복 체크하는 메소드
+    private void checkNickName() {
+        // 서버에 보낼 데이터 정의
+        final String nick = text_nick.getText().toString();
+        // 서버 통신에 사용할 api instance 생성
+        Call<ResponsePOJO> call = RetrofitClient.getInstance().getApi().checkNickName(nick);
+        // 통신 응답
+        call.enqueue(new Callback<ResponsePOJO>() {
+            @Override
+            public void onResponse(Call<ResponsePOJO> call, retrofit2.Response<ResponsePOJO> response) {
+                if(response.body().isStatus()) {
+                    // 서버로부터 true 값을 받았다면, 닉네임 사용 가능
+                    tv_nick_check_result.setText("사용 가능한 닉네임 입니다.");
+                    tv_nick_check_result.setTextColor(Color.BLUE);
+                    tv_nick_check_result.setVisibility(View.VISIBLE);
+                } else {
+                    // 현재 사용자가 사용 중인 닉네임과 같은 값이 들어가 있다면 반응하지 않고
+                    // 다른 값이 입력되어 있을 경우 경고 메세지 표시
+                    String current_nick = tv_user_id.getText().toString();
+                    if(!nick.equals(current_nick)) {
+                        // 서버로부터 false 값을 받았다면, 닉네임 사용 불가능
+                        tv_nick_check_result.setText("이미 사용 중인 닉네임 입니다.");
+                        tv_nick_check_result.setTextColor(Color.RED);
+                        tv_nick_check_result.setVisibility(View.VISIBLE);
+                    } else {
+                        tv_nick_check_result.setVisibility(View.GONE);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponsePOJO> call, Throwable t) {
+                Toast.makeText(MyProfile.this, "Network Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -192,6 +239,7 @@ public class MyProfile extends AppCompatActivity {
                 action.findItem(R.id.confirm).setVisible(false);
                 // 정보 기입란 비활성화 메소드
                 readMode();
+                return true;
             // 툴바 홈 버튼 눌렀을 때의 이벤트
             case android.R.id.home:
                 finish();
@@ -226,10 +274,16 @@ public class MyProfile extends AppCompatActivity {
                         Glide.with(MyProfile.this).load(photo_url).apply(requestOptions).circleCrop().into(image_profile);
                     }
 
+                    if(!birth.isEmpty()) {
+                        text_birth.setText(birth);
+                    } else {
+//                        text_birth.setText("등록해주세요. ex)890104");
+//                        text_birth.setTextColor(Color.GRAY);
+                    }
+
                     tv_user_id.setText(nick);
                     text_id.setText(user_id);
                     text_nick.setText(nick);
-                    text_birth.setText(birth);
                     if (sex.equals("남")) {
                         radio_button_male.setChecked(true);
                     } else if (sex.equals("여")) {
@@ -299,6 +353,8 @@ public class MyProfile extends AppCompatActivity {
         radio_button_female.setEnabled(false);
         btn_save.setVisibility(View.GONE);
         button_camera.setVisibility(View.GONE);
+        btn_nick_check.setVisibility(View.GONE);
+        tv_nick_check_result.setVisibility(View.GONE);
     }
 
     // 정보 기입란이 활성화 됨. (수정 버튼 눌렸을 때 사용)
@@ -312,6 +368,7 @@ public class MyProfile extends AppCompatActivity {
         radio_button_female.setEnabled(true);
         btn_save.setVisibility(View.VISIBLE);
         button_camera.setVisibility(View.VISIBLE);
+        btn_nick_check.setVisibility(View.VISIBLE);
         Toast.makeText(MyProfile.this, "프로필을 수정할 수 있습니다.", Toast.LENGTH_SHORT).show();
     }
 

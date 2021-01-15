@@ -288,7 +288,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     } // OnCreate 닫기
-    // 닉네임 중복 체크하는 메소드 필요
+    // 닉네임 중복 체크하는 메소드
     private void checkNickName() {
         // 서버에 보낼 데이터 정의
         String nick = name_text.getText().toString();
@@ -303,6 +303,7 @@ public class RegisterActivity extends AppCompatActivity {
                     tv_nick_check_result.setText("사용 가능한 닉네임 입니다.");
                     tv_nick_check_result.setTextColor(Color.BLUE);
                 } else {
+
                     // 서버로부터 false 값을 받았다면, 닉네임 사용 불가능
                     tv_nick_check_result.setText("이미 사용 중인 닉네임 입니다.");
                     tv_nick_check_result.setTextColor(Color.RED);

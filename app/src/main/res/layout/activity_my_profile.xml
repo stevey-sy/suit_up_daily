@@ -147,32 +147,34 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <EditText
-                android:gravity="center"
                 android:id="@+id/tv_profile_nick"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="92dp"
                 android:ems="10"
+                android:gravity="center"
                 android:inputType="textPersonName"
                 android:text="Name"
                 app:layout_constraintEnd_toEndOf="@+id/tv_profile_id"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_profile_id"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <EditText
-                android:gravity="center"
                 android:id="@+id/tv_profile_birth"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="172dp"
                 android:ems="10"
-                android:text="Name"
+                android:gravity="center"
+                android:hint="ex) 890104"
                 app:layout_constraintEnd_toEndOf="@+id/tv_profile_nick"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_profile_nick"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <TextView
-                android:id="@+id/textView48"
+                android:id="@+id/tv_profile_nick_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
@@ -184,10 +186,11 @@
                 android:id="@+id/rg_profile_sex"
                 android:layout_width="209dp"
                 android:layout_height="46dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="28dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@+id/tv_profile_birth"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_profile_birth"
                 app:layout_constraintTop_toBottomOf="@+id/tv_profile_birth">
 
@@ -213,9 +216,22 @@
                 android:layout_margin="10dp"
                 android:layout_marginTop="20dp"
                 android:text="수정 완료"
+                android:background="@drawable/filter_button"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rg_profile_sex" />
+
+            <Button
+                android:id="@+id/btn_profile_nick_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="중복검사"
+                android:background="@drawable/filter_button"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_profile_nick"
+                app:layout_constraintTop_toTopOf="@+id/tv_profile_nick" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
