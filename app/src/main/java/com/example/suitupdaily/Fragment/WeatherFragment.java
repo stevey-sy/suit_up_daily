@@ -75,6 +75,8 @@ public class WeatherFragment extends Fragment {
         lottie = (LottieAnimationView)view.findViewById(R.id.animation_view);
         tv_codi_guide = (TextView)view.findViewById(R.id.tv_codi_guide);
         tv_location = (TextView)view.findViewById(R.id.tv_location);
+        tv_weather_status = (TextView)view.findViewById(R.id.tv_weather_status);
+        lottie = (LottieAnimationView)view.findViewById(R.id.animation_view);
 
         GpsTracker gpsTracker = new GpsTracker(getActivity());
         double latitude = gpsTracker.getLatitude();
@@ -133,14 +135,17 @@ public class WeatherFragment extends Fragment {
 
                 assert weather_data != null;
                 String body = String.valueOf(weather_data.name);
-                Log.d("날씨 데이터 test: ", body);
+//                Log.d("날씨 데이터 test: ", body);
                 // 필요한 데이터 = 맑음, 최저, 최고, 현재온도, 위치명, 체감온도
                 String location_name = weather_data.name;
                 String weather_status = weather_data.weather.get(0).description;
+                Log.d("날씨 데이터 test: ", weather_status);
                 String temper_current = String.valueOf(weather_data.main.temp);
                 String temper_lowest = String.valueOf(weather_data.main.temp_min);
                 String temper_highest = String.valueOf(weather_data.main.temp_max);
                 String temper_feel = String.valueOf(weather_data.main.temp_feel);
+                // 가져온 데이터에 따라서 애니메이션 바뀌도록 하는 메소드 필요.
+
                 // 가져온 데이터를 view 에 세팅하는 메소드
                 setWeatherData(location_name, weather_status, temper_current, temper_lowest, temper_highest, temper_feel);
             }
@@ -157,5 +162,35 @@ public class WeatherFragment extends Fragment {
         tv_lowest_temper.setText(temp_max +"°");
         tv_current_temper.setText(feel +"°");
         tv_location.setText(city_name);
+        // 날씨의 상태에 따라 다른 애니매이션이 삽입 됨.
+        if (status.contains("rain")) {
+            // 비올 때
+            tv_weather_status.setText("비");
+            lottie.setAnimation("rain.json");
+        } else if (status.contains("shower")) {
+            // 비올 때
+            tv_weather_status.setText("소나기");
+            lottie.setAnimation("rain.json");
+        } else if (status.contains("snow") || status.contains("sleet")) {
+            // 눈올 때
+            tv_weather_status.setText("눈");
+            lottie.setAnimation("snow.json");
+        } else if (status.contains("haze") || status.contains("cloud") || status.contains("fog")
+                    || status.contains("dust") || status.contains("mist")) {
+            // 흐릴 때
+            tv_weather_status.setText("흐림");
+            lottie.setAnimation("cloud.json");
+        } else if (status.contains("storm") || status.contains("hurricane")) {
+            // 천둥 번개
+            tv_weather_status.setText("천둥 번개");
+            lottie.setAnimation("weather-storm.json");
+        } else {
+            // 그 외에는
+            lottie.setAnimation("sunny.json");
+            tv_weather_status.setText("맑음");
+        }
+        lottie.loop(true);
+        lottie.playAnimation();
+
     }
 }
