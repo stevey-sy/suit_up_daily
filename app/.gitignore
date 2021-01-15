@@ -10,3 +10,4 @@
 /menu
 /values
 .externalNativeBuild
+/src/main/res/values/strings.xml
