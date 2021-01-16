@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,8 +16,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.suitupdaily.R;
-import com.example.suitupdaily.ResponsePOJO;
-import com.example.suitupdaily.TimeConverter;
+import com.example.suitupdaily.api.ResponsePOJO;
+import com.example.suitupdaily.styling.TimeConverter;
 
 import java.util.List;
 

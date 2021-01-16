@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.suitupdaily.R;
-import com.example.suitupdaily.ResponsePOJO;
 
 import java.util.ArrayList;
 import java.util.List;

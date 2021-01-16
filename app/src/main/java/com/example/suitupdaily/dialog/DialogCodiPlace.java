@@ -1,23 +1,10 @@
 package com.example.suitupdaily.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.text.SpannableString;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.suitupdaily.HashTag;
-import com.example.suitupdaily.R;
-
-import java.util.ArrayList;
 
 public class DialogCodiPlace {
 

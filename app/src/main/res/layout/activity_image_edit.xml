@@ -5,7 +5,7 @@
     android:id="@+id/layout_main"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    tools:context=".ImageEditActivity">
+    tools:context=".closet.ImageEditActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_add_cloth"

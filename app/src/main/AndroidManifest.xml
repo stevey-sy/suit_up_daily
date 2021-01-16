@@ -19,40 +19,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoadingActivity">
+        <activity android:name=".login.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CodiArticle" />
-        <activity android:name=".UserBasicInfo" />
-        <activity android:name=".MyProfile" />
-        <activity android:name=".ShareCodi" />
-        <activity android:name=".CodiModify" />
-        <activity android:name=".CodiDetail" />
+        <activity android:name=".styling.CodiArticle" />
+        <activity android:name=".home.UserBasicInfo" />
+        <activity android:name=".home.MyProfile" />
+        <activity android:name=".styling.ShareCodi" />
+        <activity android:name=".styling.CodiModify" />
+        <activity android:name=".styling.CodiDetail" />
         <activity
-            android:name=".CodiInfo"
+            android:name=".styling.CodiInfo"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ShowRoom" />
-        <activity android:name=".SelfCodi" />
-        <activity android:name=".DoNotShowAgain" />
-        <activity android:name=".PickerView" />
-        <activity android:name=".CuttingImage" />
-        <activity android:name=".ItemInfo" />
-        <activity android:name=".RetrofitTodo" />
-        <activity android:name=".GoogleLoginActivity" />
-        <activity android:name=".ImageEditActivity" />
+        <activity android:name=".styling.ShowRoom" />
+        <activity android:name=".styling.SelfCodi" />
+        <activity android:name=".closet.CuttingImage" />
+        <activity android:name=".closet.ItemInfo" />
+        <activity android:name=".closet.ImageEditActivity" />
         <activity
-            android:name=".MyClosetActivity"
+            android:name=".closet.MyClosetActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ClosetActivity" />
-        <activity android:name=".Home" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".home.Home" />
+        <activity android:name=".login.RegisterActivity" />
+        <activity android:name=".login.LoginActivity">
         </activity>
-        <activity android:name=".MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

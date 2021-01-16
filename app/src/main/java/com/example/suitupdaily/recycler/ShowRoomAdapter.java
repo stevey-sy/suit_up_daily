@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.suitupdaily.R;
-import com.example.suitupdaily.ResponsePOJO;
+import com.example.suitupdaily.api.ResponsePOJO;
 
 import java.util.List;
 
