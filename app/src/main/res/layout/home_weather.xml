@@ -201,10 +201,10 @@
                 android:id="@+id/tv_codi_guide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="무조건 따뜻하게 입으세요! "
+                android:gravity="center"
+                android:text="안내문"
                 android:textColor="@color/black_de"
-                android:textSize="16sp"
-                android:gravity="center"/>
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -219,23 +219,29 @@
                     android:text="&lt; 추천 ITEM &gt;"
                     android:textSize="14sp"
                     android:textColor="#F4A460"/>
+
                 <TextView
+                    android:id="@+id/tv_recommend_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="롱패딩"
-                    android:textSize="12sp"
-                    android:textColor="#F4A460"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="두꺼운 코트"
+                    android:text="item 1"
                     android:textColor="#F4A460"
                     android:textSize="12sp" />
+
                 <TextView
+                    android:id="@+id/tv_recommend_second"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="후리스 자켓"
+                    android:text="item 2"
+                    android:textColor="#F4A460"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_third"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="item3"
                     android:textColor="#F4A460"
                     android:textSize="12sp" />
 

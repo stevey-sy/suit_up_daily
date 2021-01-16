@@ -29,6 +29,9 @@ import com.example.suitupdaily.R;
 import com.example.suitupdaily.RetrofitOpenWeather;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -40,7 +43,8 @@ public class WeatherFragment extends Fragment {
     // Store instance variables
     private String title;
     private int page;
-    private TextView tv_highest_temper, tv_lowest_temper, tv_current_temper, tv_weather_status, tv_codi_guide, tv_location;
+    private TextView tv_highest_temper, tv_lowest_temper, tv_current_temper, tv_weather_status, tv_codi_guide, tv_location,
+                    tv_first_recommend, tv_second_recommend, tv_third_recommend;
     private LottieAnimationView lottie;
     private String city_name;
     private double latitude, longitude;
@@ -75,6 +79,9 @@ public class WeatherFragment extends Fragment {
         tv_weather_status = (TextView)view.findViewById(R.id.tv_weather_status);
         lottie = (LottieAnimationView)view.findViewById(R.id.animation_view);
         tv_codi_guide = (TextView)view.findViewById(R.id.tv_codi_guide);
+        tv_first_recommend = (TextView)view.findViewById(R.id.tv_recommend_first);
+        tv_second_recommend = (TextView)view.findViewById(R.id.tv_recommend_second);
+        tv_third_recommend = (TextView)view.findViewById(R.id.tv_recommend_third);
         tv_location = (TextView)view.findViewById(R.id.tv_location);
         tv_weather_status = (TextView)view.findViewById(R.id.tv_weather_status);
         lottie = (LottieAnimationView)view.findViewById(R.id.animation_view);
@@ -94,7 +101,7 @@ public class WeatherFragment extends Fragment {
         return view;
     }
 
-    // 위치 정보를 가져오는 메소드
+    // 현 위치의 주소 정보를 가져오는 메소드 (Geocoder)
     public String getCurrentAddress(double latitude, double longitude) {
         Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
         // 주소 정보를 담을 리스트
@@ -151,8 +158,8 @@ public class WeatherFragment extends Fragment {
                 String temper_lowest = String.valueOf(weather_data.main.temp_min);
                 String temper_highest = String.valueOf(weather_data.main.temp_max);
                 String temper_feel = String.valueOf(weather_data.main.temp_feel);
-                // TODO: 2021-01-15 받아온 온도 수치에 따라 코디 Tip이 바뀌도록 하는 메소드 필요.
-
+                // 체감 온도, 현재 몇 월인지 파악해서 추천아이템이 바뀌도록
+                setDailyCodiTip(temper_feel);
                 // 가져온 데이터를 view 에 세팅하는 메소드
                 setWeatherData(location_name, weather_status, temper_current, temper_lowest, temper_highest, temper_feel);
             }
@@ -162,6 +169,63 @@ public class WeatherFragment extends Fragment {
 //                Toast.makeText(this, "Network Failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    // 온도, 몇 월인지 파악해서 코디 아이템 추천해주는 메세지 세팅하는 메소드
+    private void setDailyCodiTip(String temp) {
+        // 몇월 인지 먼저 파악
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("MM");
+        Calendar time = Calendar.getInstance();
+        String month = format.format(time.getTime());
+        Log.d("몇 월: ", month);
+        // 결과 값에서 0이 있다면 제거.
+        String edit_month = month.replace("0", "");
+        // 제거하고 string --> int 로 변경
+        int month_num = Integer.parseInt(edit_month);
+        // 11월~3월 겨울
+        // 4월~6월 봄
+        // 7월~8월 여름
+        // 9월~10월 가을
+        if(month_num >= 11 || month_num <= 3) {
+            // 겨울
+            ArrayList<String> winterList = new ArrayList<>();
+            winterList.add("롱패딩");
+            winterList.add("두꺼운 코트");
+            winterList.add("후리스 자켓");
+            tv_codi_guide.setText("무조건 따뜻하게 입으세요!");
+            tv_first_recommend.setText(winterList.get(0));
+            tv_second_recommend.setText(winterList.get(1));
+            tv_third_recommend.setText(winterList.get(2));
+        } else if (month_num <=6) {
+            // 봄
+            ArrayList<String> itemList = new ArrayList<>();
+            itemList.add("트렌치 코트");
+            itemList.add("가디건");
+            itemList.add("로퍼");
+            tv_codi_guide.setText("가벼운 겉옷이 필요해요!");
+            tv_first_recommend.setText(itemList.get(0));
+            tv_second_recommend.setText(itemList.get(1));
+            tv_third_recommend.setText(itemList.get(2));
+        } else if (month_num <=8) {
+            // 여름
+            ArrayList<String> itemList = new ArrayList<>();
+            itemList.add("가벼운 반팔티");
+            itemList.add("린넨 바지");
+            itemList.add("플랫 슈즈");
+            tv_codi_guide.setText("많이 덥네요ㅜ 어두운 색은 피하는게 좋을걸요?");
+            tv_first_recommend.setText(itemList.get(0));
+            tv_second_recommend.setText(itemList.get(1));
+            tv_third_recommend.setText(itemList.get(2));
+        } else if (month_num <=10) {
+            // 가을
+            ArrayList<String> itemList = new ArrayList<>();
+            itemList.add("가디건");
+            itemList.add("청자켓");
+            itemList.add("슬렉스 바지");
+            tv_codi_guide.setText("바람이 쌀쌀해요, 겉옷 챙기세요 :)");
+            tv_first_recommend.setText(itemList.get(0));
+            tv_second_recommend.setText(itemList.get(1));
+            tv_third_recommend.setText(itemList.get(2));
+        }
     }
 
     private void setWeatherData(String location, String status, String temp, String temp_min, String temp_max, String feel) {
