@@ -119,17 +119,21 @@ public class CodiShareAdapter extends RecyclerView.Adapter<CodiShareAdapter.Shar
         requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
         requestOptions.placeholder(R.drawable.ic_clothes_hanger);
         requestOptions.error(R.drawable.ic_baseline_accessibility_24);
+        String img_url = clothList.get(position).getImgURL();
         // 서버에서 받아온 코디 이미지 출력.
         Glide.with(context)
                 .load(clothList.get(position).getPicture())
                 .apply(requestOptions)
                 .into(holder.image_codi);
-        // 서버에서 받아온 프로필 이미지 출력
-        Glide.with(context)
-                .load(clothList.get(position).getImgURL())
-                .apply(requestOptions)
-                .circleCrop()
-                .into(holder.circleImageView);
+        // 사용자가 프로필 사진을 저장해놓지 않았을 때의 예외 처리
+        if (!img_url.isEmpty()) {
+            // 서버에서 받아온 프로필 이미지 출력
+            Glide.with(context)
+                    .load(img_url)
+                    .apply(requestOptions)
+                    .circleCrop()
+                    .into(holder.circleImageView);
+        }
     }
 
     // 리사이클러 뷰 안에 들어갈 아이템 개수를 불러오는 메서드
