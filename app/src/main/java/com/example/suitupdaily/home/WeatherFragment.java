@@ -234,7 +234,7 @@ public class WeatherFragment extends Fragment {
         } else if (status.contains("snow") || status.contains("sleet")) {
             // 눈올 때
             tv_weather_status.setText("눈");
-            lottie.setAnimation("snow.json");
+            lottie.setAnimation("snowman.json");
         } else if (status.contains("haze") || status.contains("cloud") || status.contains("fog")
                     || status.contains("dust") || status.contains("mist")) {
             // 흐릴 때
@@ -252,7 +252,7 @@ public class WeatherFragment extends Fragment {
             lottie.setAnimation("sunny.json");
             tv_weather_status.setText("맑음");
         }
-        lottie.loop(true);
+//        lottie.loop(true);
         lottie.playAnimation();
     }
 }
