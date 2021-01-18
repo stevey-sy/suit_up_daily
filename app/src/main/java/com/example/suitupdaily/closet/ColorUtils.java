@@ -12,6 +12,26 @@ public class ColorUtils {
      */
     private ArrayList<ColorName> initColorList() {
         ArrayList<ColorName> colorList = new ArrayList<ColorName>();
+        colorList.add(new ColorName("카키", 127, 138, 121));
+        colorList.add(new ColorName("민트", 196, 239, 230));
+        colorList.add(new ColorName("레드", 136, 32, 31));
+        colorList.add(new ColorName("레드", 198, 122, 126));
+        colorList.add(new ColorName("하늘색", 156, 160, 187));
+        colorList.add(new ColorName("옐로우", 212, 188, 126));
+        colorList.add(new ColorName("블랙", 69, 70, 62));
+        colorList.add(new ColorName("베이지", 231, 215, 192));
+        colorList.add(new ColorName("베이지", 212, 203, 170));
+        colorList.add(new ColorName("베이지", 194, 178, 142));
+        colorList.add(new ColorName("다크그린", 43, 59, 46));
+        colorList.add(new ColorName("블랙", 26, 26, 26));
+        colorList.add(new ColorName("그레이", 131, 114, 98));
+        colorList.add(new ColorName("블랙", 45, 45, 45));
+        colorList.add(new ColorName("네이비", 59, 81, 79));
+        colorList.add(new ColorName("네이비", 45, 72, 67));
+        colorList.add(new ColorName("브라운", 36, 23, 14));
+        colorList.add(new ColorName("브라운", 72, 53, 46));
+        colorList.add(new ColorName("블루", 52, 83, 114));
+        colorList.add(new ColorName("퍼플", 66, 36, 46));
         colorList.add(new ColorName("블루", 0xF0, 0xF8, 0xFF));
         colorList.add(new ColorName("화이트", 0xFA, 0xEB, 0xD7));
         colorList.add(new ColorName("블루", 0x00, 0xFF, 0xFF));
