@@ -26,7 +26,6 @@ public class ColorGridAdapter extends BaseAdapter {
         this.context= activity;
         this.color_name = color_name;
         this.color_code = color_code;
-
     }
 
     public void addItem(String color_name) {

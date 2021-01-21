@@ -309,6 +309,11 @@ public class MyClosetActivity extends AppCompatActivity {
         // 리사이클러뷰에서 사용할 layout = LinearLayout & Horizontal
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recycler_color.setLayoutManager(layoutManager);
+        // 만약 여기서 서버통신을 해서,
+        // 사용자가 가지고 있는 옷 색들을 조회
+        // 있는 만큼 여기서 add 한다면
+        // default 색상 외에도 추가된 색상이 있다면
+        // 알아서 추가하도록 설정
 
         ArrayList<String> itemList = new ArrayList<>();
         itemList.add("블랙");
@@ -324,7 +329,8 @@ public class MyClosetActivity extends AppCompatActivity {
         itemList.add("SkyBlue");
         itemList.add("Navy");
         itemList.add("핑크");
-        itemList.add("Purple");
+        itemList.add("퍼플");
+        itemList.add("민트");
         color_adapter = new ColorAdapter(this, itemList, onClickItem);
         recycler_color.setAdapter(color_adapter);
     }

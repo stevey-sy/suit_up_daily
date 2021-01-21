@@ -248,12 +248,9 @@ public class CuttingImage extends AppCompatActivity {
             } else {
                 exifDegree = 0;
             }
-
                 image_edit.setImageURI(photoUri);
                 mCurrentPhotoPath = createCopyAndReturnRealPath(this, photoUri);
-
                 image_edit.setImageBitmap(rotate(bitmap, exifDegree));
-
                 ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), photoUri);
             try {
                 bitmap = ImageDecoder.decodeBitmap(source);
@@ -346,14 +343,12 @@ public class CuttingImage extends AppCompatActivity {
                 handler.sendMessage(handler.obtainMessage());
             }
         }
-
     }
 
     Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             progressDialog.dismiss();
-
             boolean retry = true;
             while(retry) {
                 try {
@@ -368,7 +363,6 @@ public class CuttingImage extends AppCompatActivity {
 
     public static String createCopyAndReturnRealPath(@NonNull Context context, @NonNull Uri uri) {
         final ContentResolver contentResolver = context.getContentResolver();
-
         if (contentResolver == null) {
             return null;
         }
@@ -376,7 +370,6 @@ public class CuttingImage extends AppCompatActivity {
         File file = new File(filePath);
         try {
             InputStream inputStream = contentResolver.openInputStream(uri);
-
             if (inputStream == null)
                 return null;
             OutputStream outputStream = new FileOutputStream(file);
@@ -386,8 +379,6 @@ public class CuttingImage extends AppCompatActivity {
                 outputStream.write(buf, 0, len);
                 outputStream.close();
                 inputStream.close();
-
-
         } catch (IOException ignore) {
             return null;
         }

@@ -5,8 +5,7 @@ import android.graphics.Color;
 import java.util.ArrayList;
 
 public class ColorUtils {
-
-
+    
     /**
      * Initialize the color list that we have.
      */
