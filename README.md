@@ -2,6 +2,9 @@
 내 옷장을 한눈에! <br>
 옷장 관리, 코디가 가능한 어플 "Suit Up Daily" 의 소스코드 입니다.
 
+# 영상 자료 URL
+https://youtu.be/-c2_yiTvBAk
+
 # 구현한 기능
 
 - 회원가입 & 로그인
