@@ -18,9 +18,6 @@
 - Color Picker View
 - Circle Indicator
 
-# 영상 자료 URL
-https://youtu.be/-c2_yiTvBAk
-
 # 이미지 첨부
 
 ![login](https://user-images.githubusercontent.com/75523999/106121471-f2b8fe80-619a-11eb-8207-6081d0e6def3.JPG)
